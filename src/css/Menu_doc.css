@@ -1,0 +1,51 @@
+.article{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    margin-left: 70px;
+}
+
+.gen{
+    margin: 10px 0 40px 0;
+}
+.text
+{
+    margin: 5px;
+}
+.title
+{
+    text-align: center;
+}
+.num{
+	width: 300px;
+	height: 200px;
+	background-color: #fff;
+	box-shadow: 0 1px 19px rgba(0, 0, 0, .4);
+	cursor: pointer;
+    padding: 5px 15px 20px 5px;
+    display: flex;
+    justify-content: space-between;
+}   
+.icono{
+    position: relative;
+    height: 110px;
+    text-align: center;
+}
+
+.icono img{
+    width: 80px;
+    height: auto;
+    padding-left: 10px;
+    margin-top: 70px;
+}
+.doc
+{
+    
+    line-height: 25px;
+}
+canvas{
+    width: 600px;
+    height: 400px;
+}

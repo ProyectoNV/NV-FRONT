@@ -1,0 +1,98 @@
+.con_agre{
+    width: 800px;
+	max-height: 1000px;
+	background-color: #fff;
+	box-shadow: 0 1px 7px rgba(0, 0, 0, .2);
+    cursor: pointer;
+	margin: 20px 65px 20px 35px;
+    padding: 15px 15px 10px 20px;
+}
+
+.agregar_view{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.agre{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group{
+    display: flex;
+    justify-content: center;
+    
+}
+
+
+.titlle_agre{
+    text-align: center;
+    color:black ;
+    font-size: 32px;
+    margin: 20px 0 40px 0;
+}
+
+.input-group > form{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.label_agre{
+    color: black;
+    font-size: 14px;
+    font-weight: 1000;
+    margin-bottom: 15px;
+    text-align: left;
+
+}
+
+.input_agre{
+    padding: 14px 12px;
+    margin-bottom:22px;
+    border: none;
+    border: 1px solid #fcb900;
+    color: black;
+    outline: none;
+    width: 100%;
+}
+
+.select_agre{
+    background: transparent;
+    margin: 0 0 22px 0;
+    padding: 14px;
+    width: 100%;
+    border: 1px solid #fcb900;
+}
+
+.btn_agre{
+    font-size: 14px;
+    color:rgb(241, 236, 236);
+    border: 0;
+    border-radius: 25px;
+    background:#8b0fff;
+    box-shadow: 0 0 20px rgba(254, 1, 136, 0.132);
+    margin-top: 30px;
+    padding: 15px;
+    cursor: pointer;
+    
+}
+
+.btn_agre:hover {
+    background-color: #fff;
+    color: #8b0fff;
+}
+
+.text-area{
+    border: 2px solid  #fcb900;
+    width: 100%;
+}
+
+.h1_agre{
+    color: #000000
+}

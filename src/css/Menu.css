@@ -1,0 +1,44 @@
+.menu_alum_targe{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contenedor-tarjetas{
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+}
+
+.contenedor-tarjetas .card{
+    width: 300px;
+    height: 320px;
+    border-radius: 8px;
+    box-shadow: 0 2px 2px rgba(0,0, 0, 0.2);
+    overflow: hidden;
+    margin:5px;
+    text-align: center;
+    transition: all 0.25s;
+       }
+
+
+
+.contenedor-tarjetas .card img{
+    width: 150px;
+    height: 180px;
+    border-radius: 25%;
+}
+
+.contenedor-tarjetas .card h4{
+    margin:5px 0 5px 0;
+    font-size: 1em;
+}
+
+.contenedor-tarjetas .card p{
+    font-size: 17px;
+}
+

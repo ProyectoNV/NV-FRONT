@@ -1,0 +1,77 @@
+.container-login, .container_registro{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    margin-top: 20px;
+}
+
+.form_login, .form_registro{
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 3px 3px 18px whitesmoke;
+    padding: 10px;
+    background:rgba(216, 90, 31, 0.212);
+}
+.form_login img{
+    display: block;
+    max-width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    padding: 5px 0;
+}
+.form_login h1, .form_registro h1{
+    text-align: center;
+    font-size: 2em;
+    line-height: 10px;
+}
+.inputLogin, .inputRegistro{
+    display: block;
+    margin: 0 auto;
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border:none;
+    outline: none;
+    background: #c6d9e0;
+}
+.btn-iniciar, .btnRegistro{
+    display: block;
+    height: 30px;
+    width: 40%;
+    margin: 0 auto;
+    border-radius: 15px;
+    background: #b1d5ff;
+    cursor: pointer;
+}
+.links{
+    margin:15px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+.link1{
+    list-style: none;
+    outline: none;
+    cursor: pointer;
+}
+
+/*Etiquetas de la pagina registro*/
+label,a{
+    color: black;
+    text-decoration: none;
+}
+select{
+    width: 70%;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+select, label{
+    margin-left: 20px;
+}
+.label-cursor{
+    cursor: pointer;
+    font-weight: 600;
+}

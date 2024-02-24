@@ -1,0 +1,205 @@
+.opcion_block {
+    pointer-events: none;
+}
+
+.buscar{
+    padding: 5px;
+    margin: 25px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.buscar input{
+    width: 350px;
+    height: 30px;
+    margin-left: 15px;
+    padding: 0 0 0 20px;
+    font-size: 14px;
+    outline: none;
+    border: 2px solid #fcb900;
+    border-radius: 30px;
+}
+
+.info_text{
+    width: 100%;
+}
+
+.buscar_icon{
+    background: #8b0fff;
+    width: 35px;
+    height: 35px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.h3_formu{
+    width: 100%;
+    padding-bottom: 20px;
+    margin: 30px 0 20px 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.reports_info{
+    width: 100%;
+}
+
+.table_horario{
+    width: 100%;
+    max-height: 1000px;
+    font-size: 15px;
+    border: 3px;
+    border-collapse: collapse ;
+    margin:  60px 10px 10px 25px;
+    line-height: 25px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+.activi_tittle_t{
+    background-color: #8b0fff;
+    color: white;
+    text-align: center;
+}
+
+.table_horario td{
+    border: solid 1px #fcb900;
+    padding: 5px;
+}
+
+.th_horario{
+    background-color: #8b0fff;
+    color: white;
+    padding: 5px;
+}
+
+.table_horario tr:nth-child(even){
+    background-color: #eee;
+}
+
+.cont_info{
+    width: 100%;
+	max-height: 1500px;
+	background-color: #fff;
+	box-shadow: 0 1px 7px rgba(0, 0, 0, .2);
+    cursor: pointer;
+	margin: 20px 65px 20px 35px;
+    padding: 15px 15px 10px 20px;
+}
+
+.info_title{
+    padding: 15px 0 15px 10px;
+    border-bottom: 1px solid #fcb900;
+    margin-bottom: 20px;
+}
+
+.info_form{
+    width: 100%;
+    line-height: 70px;
+    font-size: 17px;
+    padding-left: 25px;
+    display: inline-block;
+}
+
+.info_form div{
+    width: 40%;
+    float: left;
+    padding-right: 50px;
+    margin-bottom: 20px;
+}
+
+.info_form label{
+    padding-right: 30px;
+}
+
+.info_form input{
+    width: 100%;
+    padding: 2px 0 2px 20px;
+    border: none;
+    border-bottom: 2px solid #fcb900;
+    display: flex;
+    outline: 0;
+}
+
+.form-genero{
+    display: block;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+    margin: 20px 0 20px 25px;
+}
+
+.generos,
+.form-genero p{
+    margin-bottom: 25px;
+}
+
+.generos input{
+    display: none;
+}
+
+.generos label{
+    display: flex;
+    gap: 15px;
+}
+
+.radio-button{
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    cursor: pointer;
+    position: relative;
+ }
+
+ .radio-button::after{
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #8b0fff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+input:checked + label .radio-button::after{
+    opacity: 1;
+}
+
+.button_formu{
+    background-color: #8b0fff;
+    font-size: 14px;
+    color:rgb(241, 236, 236);
+    border: 0;
+    border-radius: 25px;
+    box-shadow: 0 0 20px rgba(254, 1, 136, 0.132);
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 15px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn_actu{
+    margin-left: 20px;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn button{
+    justify-content: center;
+}
+

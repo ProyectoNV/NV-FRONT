@@ -1,0 +1,120 @@
+.container {
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border: solid 2px black;
+    margin-bottom: 50px;
+}
+  
+.table_lista {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.thead_lista th,
+.body_lista td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+.thead_lista th {
+    background-color:#fcb900;
+    font-weight: bold;
+}
+  
+.body_lista tr:nth-child(even) {
+    background-color:#05bcc1;
+}
+
+.body_lista tr:hover {
+    background-color: #05bcc1;
+}
+
+.modal_cronograma,
+.modal_confir_cro,
+.modal_regis-d,
+.modal_confir_regi{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #111111bd;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal_actualizar-show{
+    opacity: 1;
+    pointer-events: inherit;
+}
+
+.modal_container{
+    width: 70%;
+    max-width: 350px;
+    background-color: #fff;
+    margin: auto;
+    border-radius: 6px;
+    padding: 20px;
+    display: grid;
+    gap: 1em;
+    place-items: center;
+    grid-auto-columns: 100%;
+}
+
+.modal_tittle{
+    font-size: 24px;
+}
+
+.modal_paragraph{
+    margin-bottom: 10px;
+}
+
+.modal_img{
+    width: 55%;
+    max-width: 170px;
+}
+
+.content_modal_b{
+    float: left;
+    gap: 1em;
+}
+
+.modal_close_actu{
+    text-decoration: none;
+    color: #fff;
+    background-color: #8b0fff;
+    padding: 12px 20px;
+    border: 1px solid;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 300;
+    transition: background-color .3s;
+}
+
+.modal_close_actu:hover{
+    color: #8b0fff;
+    background-color: #fff;
+}
+
+#cerrar{
+    display: none;
+}
+
+#cerrar + label{
+    position: relative;
+    font-size: 23px;
+    z-index: 50;
+    left: 145px;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #fcb900 ;
+}
+
+#cerrar + label:hover{
+    background-color: #fcb900;
+    color: white;
+}

@@ -1,0 +1,42 @@
+
+
+.table_reporte {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 20px 20px;
+}
+
+  
+
+.table_reporte th, .table_reporte td {
+  border: 1px solid #fcb900 ;
+  padding: 25px; 
+  text-align: left;
+}
+
+.table_reporte th {
+    background-color: #05bcc1;
+}
+  
+ 
+  .align-middle {
+    vertical-align: middle;
+  }
+  
+
+  .info-text {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .info-text h1 {
+    margin: 0;
+  }
+  
+
+  .text-center {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  
