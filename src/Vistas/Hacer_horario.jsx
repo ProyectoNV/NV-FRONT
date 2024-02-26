@@ -1,5 +1,4 @@
-import React from "react"
-import { useState, useRef, useEffect} from "react";
+import Reac, { useState, useRef, useEffect} from "react"
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
@@ -56,6 +55,7 @@ export const Hacer_crono = () => {
     const [activities, setActivities] = useState([]);
     const [horarioactivies, setHorarioactivies] = useState([]);
     const [listUpdated, setListUpdated] = useState(false);
+    const [validacionH, setValidacionH] = useState(0)
 
     //Renderisado con UseEffect
     useEffect(() => {
@@ -101,6 +101,7 @@ export const Hacer_crono = () => {
         id_actividad: "",
         horario_id : ""
     })
+    // Validacion de cambio de los inputs
 
     //Funciones que controlan y guardan el cambio de valores de los inputs
     const changeregisHoario=(e)=>{
@@ -115,11 +116,12 @@ export const Hacer_crono = () => {
 
     }
     //Funciones que validan las horas
-    var contador = 0;
     const validarHoras = async ()=>{
-        let validador = 0;
+        let parametro1 = `/${horario.Dia_semana}`;
+        let condicion1=true
+        let validar = 0
         try{
-            const po = await fetch('http://localhost:4000/buscarHorarios/Cancha/miercoles');
+            const po = await fetch('http://localhost:4000/buscarHorarios/'+horario.Lugar+parametro1);
             const pe = await po.json();
             console.log(pe);
             let separhorainicioinput = horario.Hora_inicio.split(":")
@@ -128,23 +130,67 @@ export const Hacer_crono = () => {
                 let separhorainicio = pe[i].Hora_inicio.split(":");
                 let separhorafin = pe[i].Hora_fin.split(":");
                 if(separhorafininput[0] > separhorainicio[0] && separhorainicioinput[0] < separhorafin[0]){
-                    validador++;
+                    condicion1 = false
+                    validar++
+                }
+                else if(separhorafininput[0] == separhorainicio[0]){
+                    if(separhorafininput[1] > separhorainicio[1]){
+                        condicion1 = false
+                        validar++
+                    }
+                    else{
+                        condicion1 = true
+                        console.log("funciona")
+                    }
+                }
+                else if(separhorainicioinput[0] == separhorafin[0]){
+                    if(separhorainicioinput[1] < separhorafin[1]){
+                        condicion1 = false
+                        validar++
+                    }
+                    else{
+                        condicion1 = true
+                        console.log("funciona")
+                    }
                 }
                 else{
-                    console.log("funciona")
+                    condicion1 = true
                 }
+                console.log(condicion1)
+                console.log(validar)
             }
-            return(validador)
         }catch(error){
             console.log(error);
         }
-        
+        console.log(validar)
+        setValidacionH(validar)
+        return(validar)
     }
+
+    //Validación completa de valores que entran
+    const Validaciones = (e)=>{
+        validarHoras();
+        console.log(validacionH)
+        horarioSubmit(e);
+    }
+    
     //Funciones post peticion a API
     const horarioSubmit=async (e)=>{
         e.preventDefault();
         console.log(horario)
-        try {
+        let resvali = await validarHoras();
+        console.log(resvali);
+        let{Dia_semana, Hora_inicio, Hora_fin, Lugar} = horario
+        if(Dia_semana=="" || Hora_inicio=="" || Hora_fin=="" || Lugar==""){
+            alert("Todos los campos son obligatorios")
+            Ocultar();
+        }
+        else if(resvali >= 1){
+            alert(`Duplicado`)
+            Ocultar();
+        }
+        else{
+            try {
             const response = await fetch("http://localhost:4000/agregarHorarios",{
                 method:"POST",
                 headers:{
@@ -160,10 +206,11 @@ export const Hacer_crono = () => {
                 throw new Error("Error al agregar horario")
             }
 
-        } catch (error) {
-            console.error("Error al agregar horario: ",error)
+            }catch (error) {
+                console.error("Error al agregar horario: ",error)
+            }
         }
-        console.log(validarHoras());
+        
         setListUpdated(true)
     }
 
