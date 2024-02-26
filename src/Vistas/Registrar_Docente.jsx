@@ -42,6 +42,38 @@ export const Regis_Docente = () => {
 	const move_conte = (e) => {
 		setShowe(!showe)
 	}
+
+    const [informacionDocente, setInformacionDocente] = useState({
+        tipoDoc: "",
+        numeroId: "",
+        nombres: "",
+        apellidos: "",
+        fechaNacimiento: "",
+        genero: "",
+        correo: "",
+        celular: ""
+    });
+    const handleChange = (e) => {
+        console.log(e.target.value)
+        setInformacionDocente({ ...informacionDocente, [e.target.name]: e.target.value })
+    };
+    
+    const handleSubmit =async (e)=>{
+        console.log(informacionDocente)
+        e.preventDefault();
+        try {
+            const response = await fetch("http://localhost:4000/registrar_Docente",{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(informacionDocente)
+            });
+            const data = await response.json()
+        } catch (error) {
+            console.error(`Error al enviar datos: ${error}`)
+        }
+    }
     return(
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAdmi Move={move_conte}/>
@@ -68,69 +100,52 @@ export const Regis_Docente = () => {
             <div className="info-text">
 			  <h1>Registro de Docentes</h1>
               <div>
-                <form className="cont_info">
+                <form className="cont_info" onSubmit={handleSubmit}>
                     <legend className="info_title">Información Docente</legend>
                     <div className="info_form">
                         <div>
                             <label for="pname">Nombres</label>
-                            <input id="pname" type="text" name="p_nombre"/>
+                            <input id="pname" type="text" name="nombres" onChange={handleChange}/>
                         </div>
                         <div>
                             <label for="psurname">Apellidos</label>
-                            <input id="psurname" type="text" name="p_apellido"/>
+                            <input id="psurname" type="text" name="apellidos" onChange={handleChange}/>
                         </div>
                         <div>
                             <label for="tdocument">Tipo de documento</label>
-                            <input list="tdocument"/>
+                            <input list="tdocument" name="tipoDoc"  onChange={handleChange}/>
                             <datalist id="tdocument">
-                                <option selected>T.I</option>
-                                <option>C.C</option>
-                                <option>R.C</option>
-                                <option>C.E</option>
+                                <option selected value={"TI"}>T.I</option>
+                                <option value={"CC"}>C.C</option>
+                                <option value={"RC"}>R.C</option>
+                                <option value={"CE"}>C.E</option>
                             </datalist>
                         </div>
                         <div>
                             <label for="ndocument">Numero de documento</label>
-                            <input id="ndocument" type="text" name="ndocument"/>
+                            <input id="document" type="text" name="numeroId" onChange={handleChange}/>
                         </div>
                         <div>
                             <label for="ncelular">Numero de celular</label>
-                            <input id="ncelular" type="text" name="ncelular"/>
+                            <input id="celular" type="text" name="celular" onChange={handleChange}/>
                         </div>
                         <div>
                             <label for="email">Correo Electronico</label>
-                            <input id="email" type="email" name="email"/>
+                            <input id="correo" type="email" name="correo" onChange={handleChange}/>
                         </div>
                         <div>
                             <label for="date_nacimiento">Fecha de nacimiento</label>
-                            <input id="date_nacimiento" type="date" name="date_nacimiento"/>
-                        </div>
-                        <div>
-                            <label for="opcion_actividad">Actividad correspondiente</label>
-                            <input list="opcion_actividad"/> 
-                            <datalist id="opcion_actividad" name="opcion_actividad">
-                                <option value=""></option>
-                                <option value="Refuerzo_Escolar">Refuerzo Escolar</option>
-                                <option value="Robotica">Robotica</option>
-                                <option value="Fotografia">Fotografias</option>
-                                <option value="Emprendimiento">Emprendimiento</option>
-                                <option value="Futbol_pequeños">Futbol Pequeños</option>
-                                <option value="danza">Danza</option>
-                                <option value="artes">Artes</option>
-                                <option value="Exploración_Musical">Exploración Musical</option>
-                                <option value="futbol_grandes">futbol Grandes</option>
-                                <option value="musica_grandes">Musica Grandes</option>
-                            </datalist>
+                            <input id="fecha_nacimiento" type="date" name="fechaNacimiento" onChange={handleChange}/>
                         </div>
                     </div>
                     <div className="form-genero">
                         <p>Genero</p>
                         <div className="generos">
-                            <input type="radio" name="optionsGenero" id="optionsRadios1"/>
+                            <input type="radio" name="genero" id="optionsRadios1" value="masculino" onChange={handleChange}/>
                             <label for="optionsRadios1"><span className="radio-button"></span>Masculino</label>
                         </div>
                         <div className="generos">
-                            <input type="radio" name="optionsGenero" id="optionsRadios2"/>
+                            <input type="radio" name="genero" id="optionsRadios2" value="femenino" onChange={handleChange}/>
                             <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                         </div>
                     </div>
