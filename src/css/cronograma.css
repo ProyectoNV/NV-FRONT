@@ -71,19 +71,31 @@
     display: inline-block;
 }
 
+.input_horario p {
+    margin: 0 50px 10px 25px;
+    text-align: justify;
+    font-size: 14px;
+    color: red;
+    height: 20px;
+    opacity: 0;
+}
+
 .input_horario_select{
     width: 420px;
     height: 90px;
 }
 
-.info_crono div{
+.info_crono div,
+.info_crono form{
     float: left;
     padding-right: 50px;
     margin-bottom: 20px;
 }
 
 .info_crono div input,
-.info_crono div select{
+.info_crono div select,
+.info_crono form input,
+.info_crono form select{
     width: 400px;
     padding-right: 20px;
     border: none;
@@ -95,7 +107,9 @@
 }
 
 .info_crono div p,
-.info_crono div label{
+.info_crono div label,
+.info_crono form p,
+.info_crono form label{
     padding-right: 30px;
 }
 

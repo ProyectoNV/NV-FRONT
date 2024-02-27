@@ -1,7 +1,8 @@
-import Reac, { useState, useRef, useEffect} from "react"
+import react, { useState, useRef, useEffect} from "react"
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
+import Swal from "sweetalert2";
 import '../css/cronograma.css'
 
 export const Hacer_crono = () => {
@@ -9,6 +10,15 @@ export const Hacer_crono = () => {
     var refModal = useRef();
     var refModal2 = useRef();
     var refModal3 = useRef();
+    var reflugar = useRef();
+    var refhoraF = useRef();
+    var refhoraI = useRef();
+
+    //Expresiones regulares para los inputs
+    const expresiones = {
+        hora: /^([01][0-9]||2[0-3]):[0-5][0-9]:[0-5][0-9]+$/, 
+        lugar: /^\S+$/
+    }
 
     const Mostrar = (e) => {
         const myrefValue = refModal.current;
@@ -53,10 +63,29 @@ export const Hacer_crono = () => {
     //Agrego peticiones
     //Variables de estado
     const [activities, setActivities] = useState([]);
+    const [listhorarios, setListhorarios] = useState([]);
     const [horarioactivies, setHorarioactivies] = useState([]);
     const [listUpdated, setListUpdated] = useState(false);
-    const [validacionH, setValidacionH] = useState(0)
+    const [validadorlugar, setValidadorlugar] = useState(true);
+    const [validadorhoraI, setValidadorhoraI] = useState(true);
+    const [validadorhoraF, setValidadorhoraF] = useState(true);
+    const [actualihorario, setActualihorario]=useState({
+        estadoActu: "",
+        infoActu: ""
+    })
+    const [optionestado, setOptionestado] = useState([]);
+    const [cambioestado, setCambioestado] = useState({
+        estado: ""
+    });
 
+    const changeActualizarHorario=(e)=>{
+        const {name,value}=e.target;
+        console.log(name)
+        console.log(value)
+        setActualihorario({...actualihorario,[name]:value})
+        console.log(actualihorario.estadoActu)
+
+    }
     //Renderisado con UseEffect
     useEffect(() => {
         const optionsacti = async () => {
@@ -69,11 +98,6 @@ export const Hacer_crono = () => {
                 console.log(error);
             }
         }
-        optionsacti()
-        setListUpdated(false);
-    }, [listUpdated])
-
-    useEffect(() => {
         const optionsactihorario = async () => {
             try{
                 const getactihorario = await fetch('http://localhost:4000/filtroHorarios');
@@ -84,7 +108,41 @@ export const Hacer_crono = () => {
                 console.log(error);
             }
         }
+        const Listhorario = async () => {
+            try{
+                const gethorario = await fetch('http://localhost:4000/verHorarios');
+                const datahorario = await gethorario.json();
+                setListhorarios(datahorario);
+                console.log(datahorario);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        const Buscar_id = async () => {
+            console.log(actualihorario.estadoActu);
+            try{
+                const idhorari = await fetch('http://localhost:4000/buscarID/'+actualihorario.estadoActu);
+                const dataidhorari = await idhorari.json();
+                setOptionestado(dataidhorari);
+                console.log(dataidhorari);
+                if(optionestado.estado ==0){
+                    setCambioestado({
+                        ...cambioestado, estado : 1
+                    })
+                }
+                else{
+                    setCambioestado({
+                        ...cambioestado, estado: 0
+                    })
+                }
+            }catch(error){
+                console.log(error);
+            }
+        }
+        optionsacti()
         optionsactihorario()
+        Listhorario()
+        Buscar_id()
         setListUpdated(false);
     }, [listUpdated])
 
@@ -101,13 +159,46 @@ export const Hacer_crono = () => {
         id_actividad: "",
         horario_id : ""
     })
+
     // Validacion de cambio de los inputs
 
     //Funciones que controlan y guardan el cambio de valores de los inputs
     const changeregisHoario=(e)=>{
         const {name,value}=e.target;
         setHorario({...horario,[name]:value})
-
+        const {id}=e.target;
+        switch (id) {
+            case "lugar":
+                const myreflugar = reflugar.current;
+                if(expresiones.lugar.test(horario.Lugar)){
+                    myreflugar.style.opacity= '0';
+                    setValidadorlugar(true);
+                }else{
+                    myreflugar.style.opacity= '1';
+                    setValidadorlugar(false);
+                }
+            break;
+            case "hinicio":
+                const myrefhoraI = refhoraI.current;
+                if(expresiones.hora.test(horario.Hora_inicio)){
+                    myrefhoraI.style.opacity= '0';
+                    setValidadorhoraI(true);
+                }else{
+                    myrefhoraI.style.opacity= '1';
+                    setValidadorhoraI(false);
+                }
+            break;
+            case "hfinal":
+                const myrefhoraF = refhoraF.current;
+                if(expresiones.hora.test(horario.Hora_fin)){
+                    myrefhoraF.style.opacity= '0';
+                    setValidadorhoraF(true);
+                }else{
+                    myrefhoraF.style.opacity= '1';
+                    setValidadorhoraF(false);
+                }
+            break;
+        }
     }
 
     const changeregisHorarioActividad=(e)=>{
@@ -115,6 +206,7 @@ export const Hacer_crono = () => {
         setHorarioActividad({...horarioActividad,[name]:value})
 
     }
+
     //Funciones que validan las horas
     const validarHoras = async ()=>{
         let parametro1 = `/${horario.Dia_semana}`;
@@ -163,15 +255,7 @@ export const Hacer_crono = () => {
             console.log(error);
         }
         console.log(validar)
-        setValidacionH(validar)
         return(validar)
-    }
-
-    //Validación completa de valores que entran
-    const Validaciones = (e)=>{
-        validarHoras();
-        console.log(validacionH)
-        horarioSubmit(e);
     }
     
     //Funciones post peticion a API
@@ -182,16 +266,26 @@ export const Hacer_crono = () => {
         console.log(resvali);
         let{Dia_semana, Hora_inicio, Hora_fin, Lugar} = horario
         if(Dia_semana=="" || Hora_inicio=="" || Hora_fin=="" || Lugar==""){
-            alert("Todos los campos son obligatorios")
+            Swal.fire({
+                text: "Todos los campos son obligatorios"
+            })
             Ocultar();
         }
         else if(resvali >= 1){
-            alert(`Duplicado`)
+            Swal.fire({
+                text: "Este horario se cruza con otro ya existente"
+            })
+            Ocultar();
+        }
+        else if(validadorlugar == false || validadorhoraI== false || validadorhoraF== false){
+            Swal.fire({
+                text: "Algunos campos no son validos"
+            })
             Ocultar();
         }
         else{
             try {
-            const response = await fetch("http://localhost:4000/agregarHorarios",{
+                const response = await fetch("http://localhost:4000/agregarHorarios",{
                 method:"POST",
                 headers:{
                     'Content-Type':"application/json"
@@ -204,6 +298,78 @@ export const Hacer_crono = () => {
                 Mostrar2();
             }else{
                 throw new Error("Error al agregar horario")
+            }
+
+            }catch (error) {
+                console.error("Error al agregar horario: ",error)
+            }
+        }
+        
+        setListUpdated(true)
+    }
+
+    const ActualizarestadoSubmit=async (e)=>{
+        e.preventDefault();
+        try {
+            const responseactu = await fetch("http://localhost:4000/actualizarEstado/"+actualihorario.estadoActu,{
+            method:"PUT",
+            headers:{
+                'Content-Type':"application/json"
+            },
+            body: JSON.stringify(cambioestado)
+        });
+
+        
+        if(responseactu.ok){
+            Mostrar2();
+        }else{
+            throw new Error("Error actualizando horario")
+        }
+
+        }catch (error) {
+            console.error("Error al agregar horario: ",error)
+        }
+    }
+
+    const ActualizarhorarioSubmit=async (e)=>{
+        e.preventDefault();
+        console.log(horario)
+        let resvali = await validarHoras();
+        console.log(resvali);
+        let{Dia_semana, Hora_inicio, Hora_fin, Lugar} = horario
+        if(Dia_semana=="" || Hora_inicio=="" || Hora_fin=="" || Lugar=="" || actualihorario.infoActu==""){
+            Swal.fire({
+                text: "Todos los campos son obligatorios"
+            })
+            Ocultar();
+        }
+        else if(resvali >= 1){
+            Swal.fire({
+                text: "Este horario se cruza con otro ya existente"
+            })
+            Ocultar();
+        }
+        else if(validadorlugar == false || validadorhoraI== false || validadorhoraF== false){
+            Swal.fire({
+                text: "Algunos campos no son validos"
+            })
+            Ocultar();
+        }
+        else{
+            try {
+                const responseactu = await fetch("http://localhost:4000/actualizarHorario/"+actualihorario.infoActu,{
+                method:"PUT",
+                headers:{
+                    'Content-Type':"application/json"
+                },
+                body: JSON.stringify(horario)
+            });
+
+            
+            if(responseactu.ok){
+                Mostrar2();
+            }else{
+                throw new Error("Error actualizando horario")
             }
 
             }catch (error) {
@@ -296,14 +462,17 @@ export const Hacer_crono = () => {
                         <div  className="input_horario">
                             <label htmlFor="lugar">Ingrese el lugar</label>
                             <input onChange={changeregisHoario} id="lugar" type="text" name="Lugar"/>
+                            <p ref={reflugar}>Ingrese el lugar sin espacios</p>
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="hinicio">Ingrese la hora de inicio</label>
                             <input onChange={changeregisHoario} id="hinicio" type="text" name="Hora_inicio"/>
+                            <p ref={refhoraI}>Ingrese el valor en formato 24 horas HH:MM:SS</p>
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="hfinal">Ingrese la hora en la que finaliza</label>
                             <input onChange={changeregisHoario} id="hfinal" type="text" name="Hora_fin"/>
+                            <p ref={refhoraF}>Ingrese el valor en formato 24 horas HH:MM:SS</p>
                         </div>
                     </div>
                     <div className="btn"><a className="button_cronograma" type="submit" id="btn_crono" onClick={Mostrar}>Agregar a horario</a></div>
@@ -332,6 +501,31 @@ export const Hacer_crono = () => {
                     </div>
                     <div className="btn"><a className="button_cronograma" type="submit" id="btn_crono" onClick={Mostrar3}>Agregar horario a actividad</a></div>
                 </form>
+                <div className="form_crono">
+                    <legend className="crono_title">modificar horarios</legend>
+                    <div className="info_crono">
+                        <form onSubmit={ActualizarestadoSubmit}>
+                            <p>Cambiar estado de horario</p> 
+                            <select onChange={changeActualizarHorario} name="estadoActu" id="opcion_actividad">
+                                <option value=""></option>
+                                {horarioactivies.map((listE) => (
+                                    <option key={listE.id_horario} value={listE.id_horario}>{`Dia: ${listE.Dia_semana}/ HI: ${listE.Hora_inicio}/ HF: ${listE.Hora_fin}/ lugar: ${listE.Lugar}/ estado: ${listE.estado}`}</option>
+                                ))}
+                            </select>
+                            <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Cambiar</button></div>
+                        </form>
+                        <form onSubmit={ActualizarhorarioSubmit}>
+                            <p>Actualizar Información de un horario</p> 
+                            <select onChange={changeActualizarHorario} name="infoActu" id="opcion_actividad_horario">
+                                <option value=""></option>
+                                {listhorarios.map((listH) => (
+                                    <option key={listH.id_horario} value={listH.id_horario}>{`Dia: ${listH.Dia_semana}/ HI: ${listH.Hora_inicio}/ HF: ${listH.Hora_fin}/ lugar: ${listH.Lugar}/ estado: ${listH.estado}`}</option>
+                                ))}
+                            </select>
+                            <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Actualizar</button></div>
+                        </form>
+                    </div>
+                </div>
               </div>
 			</div>
         </div>
