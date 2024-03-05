@@ -1,13 +1,42 @@
 import React from "react"
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Cronograma from "../Componentes/cronograma";
 import '../css/cronograma.css'
 
 export const Horario = () => {
 
+    const [filtrocro, setFiltrocro]=useState([])
+    const [listUpdated, setListUpdated] = useState(false);
+    const [listUpdatedRepartir, setListUpdatedRepartir] = useState(false);
+
+    useEffect(() => {
+        const TraeCrono = async () => {
+            try{
+                const getcro = await fetch('http://localhost:4000/VerCronograma');
+                const datacro = await getcro.json();
+                setFiltrocro(datacro);
+                console.log(datacro);
+                setListUpdatedRepartir(true);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        TraeCrono()
+        setListUpdated(false);
+    }, [listUpdated])
+
+    useEffect(() => {
+        const Repartir = async () => {
+            console.log(filtrocro)
+        }
+        Repartir();
+        setListUpdatedRepartir(false);
+    }, [listUpdatedRepartir])
+
+    
+
     let Data_Horario = Cronograma.map((cro) => (
-        <tbody>
             <td>
                 <div className="horario-actividad">
                     <strong>{cro.nombre}</strong>
@@ -23,7 +52,6 @@ export const Horario = () => {
                     <p>Docente:</p><p className="horario-docente">{cro.docente}</p>
                 </div>
             </td>
-        </tbody>
     ));
     
     var refmove = useRef();
@@ -45,25 +73,9 @@ export const Horario = () => {
                         <th>Viernes</th> 
                         <th>Sabado</th>                   
                     </thead>
-                    <tr>
-                        {Cronograma.map((cro) => (
-                            <td>
-                                <div className="horario-actividad">
-                                    <strong>{cro.nombre}</strong>
-                                </div>
-                                <div className="horario-lugar">
-                                    {cro.lugar}
-                                </div>
-                                <div>
-                                    <p>Hora Inicio:</p><p className="horario-inicio">{cro.inicio}</p>
-                                    <p>Hora Final:</p><p className="horario-final">{cro.final}</p>
-                                </div>
-                                <div>
-                                    <p>Docente:</p><p className="horario-docente">{cro.docente}</p>
-                                </div>
-                            </td>
-                        ))} 
-                    </tr>
+                    {Data_Horario.map((prue)=>(
+                        <tr>{Data_Horario}</tr>
+                    ))}
                     <tr>
                         {Cronograma.map((cro) => (
                             <td>

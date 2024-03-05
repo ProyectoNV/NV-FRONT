@@ -3,8 +3,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    width: 3000px;
+    height: 100vh;
     margin-top: 20px;
+}
+
+.fondo{
+    background:linear-gradient(to right, #5c829f,#ffcef5) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form_login, .form_registro{

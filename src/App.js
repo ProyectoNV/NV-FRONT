@@ -29,7 +29,7 @@ function App() {
   return (
     <header>
       <Routes>
-        <Route path="/" element={<Info/>}></Route>
+        <Route path="/Info_Sistem" element={<Info/>}></Route>
         <Route path="/Enviar_Reportes" element={<Enviar_Reporte/>}></Route>
         <Route path="/Menu_Docente" element={<Menudoc/>}></Route>
         <Route path="/Asistencia" element={<Asistencia/>}></Route>
@@ -52,7 +52,7 @@ function App() {
         <Route path="/inscribirse" element={<Inscrip/>}></Route>
         <Route path="/lista" element={<Lis/>}></Route>
         <Route path="/Registro" element={<Registro/>}></Route>
-        <Route path="/Ingreso" element={<Login/>}></Route>
+        <Route path="/" element={<Login/>}></Route>
         <Route path="/Restablecer" element={<RestablecerContra/>}></Route>
       </Routes>
     </header>

@@ -63,7 +63,6 @@ export const Hacer_crono = () => {
     //Agrego peticiones
     //Variables de estado
     const [activities, setActivities] = useState([]);
-    const [listhorarios, setListhorarios] = useState([]);
     const [horarioactivies, setHorarioactivies] = useState([]);
     const [listUpdated, setListUpdated] = useState(false);
     const [validadorlugar, setValidadorlugar] = useState(true);
@@ -73,24 +72,17 @@ export const Hacer_crono = () => {
         estadoActu: "",
         infoActu: ""
     })
-    const [optionestado, setOptionestado] = useState([]);
-    const [cambioestado, setCambioestado] = useState({
-        estado: ""
-    });
 
     const changeActualizarHorario=(e)=>{
         const {name,value}=e.target;
-        console.log(name)
-        console.log(value)
         setActualihorario({...actualihorario,[name]:value})
-        console.log(actualihorario.estadoActu)
 
     }
     //Renderisado con UseEffect
     useEffect(() => {
         const optionsacti = async () => {
             try{
-                const getacti = await fetch('http://localhost:4000/opsionesActividad');
+                const getacti = await fetch('http://localhost:4000/horario/opsionesActividad');
                 const dataacti = await getacti.json();
                 setActivities(dataacti);
                 console.log(dataacti);
@@ -100,7 +92,7 @@ export const Hacer_crono = () => {
         }
         const optionsactihorario = async () => {
             try{
-                const getactihorario = await fetch('http://localhost:4000/filtroHorarios');
+                const getactihorario = await fetch('http://localhost:4000/horario/filtroHorarios');
                 const dataactihorario = await getactihorario.json();
                 setHorarioactivies(dataactihorario);
                 console.log(dataactihorario);
@@ -108,41 +100,8 @@ export const Hacer_crono = () => {
                 console.log(error);
             }
         }
-        const Listhorario = async () => {
-            try{
-                const gethorario = await fetch('http://localhost:4000/verHorarios');
-                const datahorario = await gethorario.json();
-                setListhorarios(datahorario);
-                console.log(datahorario);
-            }catch(error){
-                console.log(error);
-            }
-        }
-        const Buscar_id = async () => {
-            console.log(actualihorario.estadoActu);
-            try{
-                const idhorari = await fetch('http://localhost:4000/buscarID/'+actualihorario.estadoActu);
-                const dataidhorari = await idhorari.json();
-                setOptionestado(dataidhorari);
-                console.log(dataidhorari);
-                if(optionestado.estado ==0){
-                    setCambioestado({
-                        ...cambioestado, estado : 1
-                    })
-                }
-                else{
-                    setCambioestado({
-                        ...cambioestado, estado: 0
-                    })
-                }
-            }catch(error){
-                console.log(error);
-            }
-        }
         optionsacti()
         optionsactihorario()
-        Listhorario()
-        Buscar_id()
         setListUpdated(false);
     }, [listUpdated])
 
@@ -151,8 +110,7 @@ export const Hacer_crono = () => {
         Dia_semana: "",
         Hora_inicio: "",
         Hora_fin: "",
-        Lugar: "",
-        estado: true
+        Lugar: ""
     })
 
     const [horarioActividad, setHorarioActividad]=useState({
@@ -213,7 +171,7 @@ export const Hacer_crono = () => {
         let condicion1=true
         let validar = 0
         try{
-            const po = await fetch('http://localhost:4000/buscarHorarios/'+horario.Lugar+parametro1);
+            const po = await fetch('http://localhost:4000/horario/buscarHorarios/'+horario.Lugar+parametro1);
             const pe = await po.json();
             console.log(pe);
             let separhorainicioinput = horario.Hora_inicio.split(":")
@@ -285,7 +243,7 @@ export const Hacer_crono = () => {
         }
         else{
             try {
-                const response = await fetch("http://localhost:4000/agregarHorarios",{
+                const response = await fetch("http://localhost:4000/horario/agregarHorarios",{
                 method:"POST",
                 headers:{
                     'Content-Type':"application/json"
@@ -300,6 +258,13 @@ export const Hacer_crono = () => {
                 throw new Error("Error al agregar horario")
             }
 
+            setHorario({
+                Dia_semana: "",
+                Hora_inicio: "",
+                Hora_fin: "",
+                Lugar: ""
+            })
+
             }catch (error) {
                 console.error("Error al agregar horario: ",error)
             }
@@ -308,27 +273,25 @@ export const Hacer_crono = () => {
         setListUpdated(true)
     }
 
-    const ActualizarestadoSubmit=async (e)=>{
+    const EliminarHorarioSubmit=async (e)=>{
         e.preventDefault();
         try {
-            const responseactu = await fetch("http://localhost:4000/actualizarEstado/"+actualihorario.estadoActu,{
-            method:"PUT",
-            headers:{
-                'Content-Type':"application/json"
-            },
-            body: JSON.stringify(cambioestado)
-        });
+            const responseactu = await fetch("http://localhost:4000/horario/eliminarHorario/"+actualihorario.estadoActu,{
+                method: 'DELETE'
+            });
 
         
-        if(responseactu.ok){
-            Mostrar2();
-        }else{
-            throw new Error("Error actualizando horario")
-        }
+            if(responseactu.ok){
+                Mostrar2();
+            }else{
+                throw new Error("Error eliminar")
+            }
 
         }catch (error) {
-            console.error("Error al agregar horario: ",error)
+            console.error("Error al eliminar horario: ",error)
         }
+
+        setListUpdated(true)
     }
 
     const ActualizarhorarioSubmit=async (e)=>{
@@ -357,7 +320,7 @@ export const Hacer_crono = () => {
         }
         else{
             try {
-                const responseactu = await fetch("http://localhost:4000/actualizarHorario/"+actualihorario.infoActu,{
+                const responseactu = await fetch("http://localhost:4000/horario/actualizarHorario/"+actualihorario.infoActu,{
                 method:"PUT",
                 headers:{
                     'Content-Type':"application/json"
@@ -384,7 +347,7 @@ export const Hacer_crono = () => {
         e.preventDefault();
         console.log(horarioActividad)
         try {
-            const response = await fetch("http://localhost:4000/agregarHorariosActividad",{
+            const response = await fetch("http://localhost:4000/horario/agregarHorariosActividad",{
                 method:"POST",
                 headers:{
                     'Content-Type':"application/json"
@@ -400,7 +363,7 @@ export const Hacer_crono = () => {
             }
 
         } catch (error) {
-            console.error("Error al agregar pieza: ",error)
+            console.error("Error al agregar horario: ",error)
 
         }
         setListUpdated(true)
@@ -449,7 +412,7 @@ export const Hacer_crono = () => {
                     <div className="info_crono">
                         <div className="input_horario_select">
                             <p style={{ height: "50px"}}>Seleccione el dia de la semana</p>
-                            <select onChange={changeregisHoario} name="Dia_semana" id="opcion_dia">
+                            <select value={horario.Dia_semana} onChange={changeregisHoario} name="Dia_semana" id="opcion_dia">
                                 <option value=""></option>
                                 <option value="lunes">Lunes</option>
                                 <option value="martes">Martes</option>
@@ -461,17 +424,17 @@ export const Hacer_crono = () => {
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="lugar">Ingrese el lugar</label>
-                            <input onChange={changeregisHoario} id="lugar" type="text" name="Lugar"/>
+                            <input value={horario.Lugar} onChange={changeregisHoario} id="lugar" type="text" name="Lugar"/>
                             <p ref={reflugar}>Ingrese el lugar sin espacios</p>
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="hinicio">Ingrese la hora de inicio</label>
-                            <input onChange={changeregisHoario} id="hinicio" type="text" name="Hora_inicio"/>
+                            <input value={horario.Hora_inicio} onChange={changeregisHoario} id="hinicio" type="text" name="Hora_inicio"/>
                             <p ref={refhoraI}>Ingrese el valor en formato 24 horas HH:MM:SS</p>
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="hfinal">Ingrese la hora en la que finaliza</label>
-                            <input onChange={changeregisHoario} id="hfinal" type="text" name="Hora_fin"/>
+                            <input value={horario.Hora_fin} onChange={changeregisHoario} id="hfinal" type="text" name="Hora_fin"/>
                             <p ref={refhoraF}>Ingrese el valor en formato 24 horas HH:MM:SS</p>
                         </div>
                     </div>
@@ -504,12 +467,12 @@ export const Hacer_crono = () => {
                 <div className="form_crono">
                     <legend className="crono_title">modificar horarios</legend>
                     <div className="info_crono">
-                        <form onSubmit={ActualizarestadoSubmit}>
+                        <form onSubmit={EliminarHorarioSubmit}>
                             <p>Cambiar estado de horario</p> 
                             <select onChange={changeActualizarHorario} name="estadoActu" id="opcion_actividad">
                                 <option value=""></option>
                                 {horarioactivies.map((listE) => (
-                                    <option key={listE.id_horario} value={listE.id_horario}>{`Dia: ${listE.Dia_semana}/ HI: ${listE.Hora_inicio}/ HF: ${listE.Hora_fin}/ lugar: ${listE.Lugar}/ estado: ${listE.estado}`}</option>
+                                    <option key={listE.id_horario} value={listE.id_horario}>{`Dia: ${listE.Dia_semana}/ HI: ${listE.Hora_inicio}/ HF: ${listE.Hora_fin}/ lugar: ${listE.Lugar}`}</option>
                                 ))}
                             </select>
                             <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Cambiar</button></div>
@@ -518,8 +481,8 @@ export const Hacer_crono = () => {
                             <p>Actualizar Información de un horario</p> 
                             <select onChange={changeActualizarHorario} name="infoActu" id="opcion_actividad_horario">
                                 <option value=""></option>
-                                {listhorarios.map((listH) => (
-                                    <option key={listH.id_horario} value={listH.id_horario}>{`Dia: ${listH.Dia_semana}/ HI: ${listH.Hora_inicio}/ HF: ${listH.Hora_fin}/ lugar: ${listH.Lugar}/ estado: ${listH.estado}`}</option>
+                                {horarioactivies.map((listH) => (
+                                    <option key={listH.id_horario} value={listH.id_horario}>{`Dia: ${listH.Dia_semana}/ HI: ${listH.Hora_inicio}/ HF: ${listH.Hora_fin}/ lugar: ${listH.Lugar}`}</option>
                                 ))}
                             </select>
                             <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Actualizar</button></div>
