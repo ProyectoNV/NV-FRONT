@@ -1,0 +1,43 @@
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilos para las filas pares */
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilos para los botones de acción */
+  button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Estilos específicos para los botones de editar y eliminar */
+  .editar {
+    background-color: #4caf50;
+    color: white;
+    margin-bottom: 5px; /* Agregar un margen entre los botones */
+  }
+  
+  .eliminar {
+    background-color: #f44336;
+    color: white;
+  }
+  

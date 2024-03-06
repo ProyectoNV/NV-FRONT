@@ -1,121 +1,152 @@
-import React, {useEffect}from "react"
-import { useState, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
-import Verifi  from "../Imagenes/Quality Check_Outline.svg"
-import Check from "../Imagenes/Checklist_Line.svg";
-import '../css/Formularios.css'
+import axios from "axios";
+import '../css/ListasAdmin.css';
 
-export const AdminListaDocentes = () => {
-  var refModal = useRef();
-  var refModal2 = useRef();
+const AdminListaDocentes = () => {
 
-  const Mostrar = (e) => {
-    const myrefValue = refModal.current;
-    myrefValue.style.opacity= "1";
-    myrefValue.style.pointerEvents= "inherit";
-  };
-
-  const Mostrar2 = (e) => {
-    const myrefValue = refModal2.current;
-    myrefValue.style.opacity= "1";
-    myrefValue.style.pointerEvents= "inherit";
-  };
-
-  const Ocultar = (e) =>{
-    const myrefocultar = refModal.current;
-    myrefocultar.style.opacity= "0";
-    myrefocultar.style.pointerEvents= "none";
+  //Mostrar y ocultar el sidebar
+  var refmove = useRef();
+  const [showe, setShowe] = useState(false);
+  const move_conte = (e) => {
+    setShowe(!showe)
   }
 
-  const Ocultar2 = (e) =>{
-    const myrefocultar = refModal.current;
-    myrefocultar.style.opacity= "0";
-    myrefocultar.style.pointerEvents= "none";
-    const myrefocultar2 = refModal2.current;
-    myrefocultar2.style.opacity= "0";
-    myrefocultar2.style.pointerEvents= "none";
-    }
-    
-  var refmove = useRef();
-	const [showe, setShowe]= useState(false);
-	const move_conte = (e) => {
-		setShowe(!showe)
-	}
-
-  const [docentes, setDocentes] = useState([]);
+  //Logica del componente, se definen las variables con sus useSate
+  const [tabladocentes, setTablaDocentes] = useState([]);
+  const [profesorSeleccionado, setProfesorSeleccionado] = useState(null);
+  const [nuevosDatos, setNuevosDatos] = useState({
+    tipoDoc: "",
+    Nombres: "",
+    Apellidos: "",
+    correo: "",
+    celular: ""
+  });
 
   useEffect(() => {
-    const fetchDocentes = async () => {
-      try {
-        const resul = await fetch('http://localhost:4000/ver_docentes');
-        const data = await resul.json();
-        console.log(resul)
-        if (!resul.ok) {
-          throw new Error('Error al obtener la lista de docentes');
-        }
-        setDocentes(data);
-        console.log(`Docentesss ${docentes}`)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchDocentes();
+    VerDocentes()
   }, []);
-    return(
-      <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
-          <SidebarAdmi Move={move_conte}/>
-          <section className="modal_regis-d" ref={refModal}>
-              <div className="modal_container">
-                  <img src={Verifi} class="modal_img"/>
-                  <h2 className="modal_tittle">¿Estas seguro de actualizar tus datos</h2>
-                  <p className="modal_paragraph">Una vez aceptes la información se guardara automaticamente</p>
-                  <div className="content_modal_b">
-                      <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                      <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Actualizar</a>
-                  </div>
-              </div>
-          </section>
-          <section className="modal_confir_regi" ref={refModal2}>
-              <div className="modal_container">
-                  <input type="checkbox" id="cerrar"/>
-                  <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
-                  <img src={Check} className="modal_img"/>
-                  <h2 className="modal_tittle">¡Felicidades!</h2>
-                  <p className="modal_paragraph">La información se ha actualizado con exito</p>
-              </div>
-            </section>
-            <div className="Info-text">
-              <h1>Listado de Docentes</h1>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tipo de Documento</th>
-                      <th>Número de ID</th>
-                      <th>Nombres</th>
-                      <th>Apellidos</th>
-                      <th>Celular</th>
-                      <th>Correo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {docentes.map(docente => (
-                      <tr key={`${docente.pkfk_tdoc}-${docente.numero_id}`}>
-                        <td>{docente.pkfk_tdoc}</td>
-                        <td>{docente.numero_id}</td>
-                        <td>{docente.Nombres}</td>
-                        <td>{docente.Apellidos}</td>
-                        <td>{docente.celular}</td>
-                        <td>{docente.correo}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-            </div>
-        </div>
-        
 
-    )}
+  //Mostrar Todos los docentes de la base de datos con axios
+  const VerDocentes = async (req, res) => {
+    try {
+      const response = await axios.get("http://localhost:4000/ver_docentes")
+      setTablaDocentes(response.data)
+    } catch (error) {
+      console.log('Hay un errror que es: ', error)
+    }
+  };
 
+  //Funcion de eliminar que va por axios
+  const Eliminar = async (id) => {
+    try {
+      console.log(id)
+      await axios.delete(`http://localhost:4000/ver_docentes/${id}`);
+      setTablaDocentes(tabladocentes.filter(item => item.id_usuario !== id));
+      console.log("Producto eliminado exitosamente.");
+      window.alert("Producto Eliminado ")
+      await VerDocentes();
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+    }
+  }
+
+  //Esta funcion nombrada se le pasa un profesor y con base en el profesor que se ha seleccionado podemos obtener
+  //toda la informacion de ese docente
+  const Editar = async (profesor) => {
+    setProfesorSeleccionado(profesor);
+    setNuevosDatos({
+      tipoDoc: profesor.pkfk_tdoc,
+      Nombres: profesor.Nombres,
+      Apellidos: profesor.Apellidos,
+      correo: profesor.correo,
+      celular: profesor.celular
+    })
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNuevosDatos({ ...nuevosDatos, [name]: value });
+  };
+
+  //Se ejecuta cuando le damos clic en actualizar
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(profesorSeleccionado.id_usuario)
+      const response = await axios.put(`http://localhost:4000/ver_docentes/${profesorSeleccionado.id_usuario}`, nuevosDatos);
+      console.log("Producto actualizado exitosamente:", response.data);
+      window.alert("Docente Actualizado correctamente")
+      setTablaDocentes(tabladocentes.map(item =>
+        (item.id_usuario === profesorSeleccionado.id_usuario ? response.data : item)
+      ));
+      setProfesorSeleccionado(null);
+      setNuevosDatos({
+        tipoDoc: "",
+        Nombres: "",
+        Apellidos: "",
+        correo: "",
+        celular: ""
+      });
+      await VerDocentes()
+    } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+    }
+  };
+
+  return (
+    <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
+      <SidebarAdmi Move={move_conte} />
+      
+      <div className="info-text">
+        <h1>Listado de Docentes</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>ID Registro</th>
+              <th>Documento</th>
+              <th>Numero Documento</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Celular</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tabladocentes.map((docente) => (
+              <tr key={docente.id}>
+                <td>{docente.id_usuario}</td>
+                <td>{docente.pkfk_tdoc}</td>
+                <td>{docente.numero_id}</td>
+                <td>{docente.Nombres}</td>
+                <td>{docente.Apellidos}</td>
+                <td>{docente.celular}</td>
+                <td>{docente.correo}</td>
+                <td>
+                  <button className="editar" onClick={() => Editar(docente)}>Actualizar</button>
+                  <button className="eliminar" onClick={() => Eliminar(docente.id_usuario)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {profesorSeleccionado && (
+          <div>
+            <h2>Editar Docentes</h2>
+            <form className="form-container" onSubmit={handleSubmit}>
+              <input type="text" name="tipoDoc" value={nuevosDatos.tipoDoc} onChange={handleChange} />
+              <input type="text" name="Nombres" value={nuevosDatos.Nombres} onChange={handleChange} />
+              <input type="text" name="Apellidos" value={nuevosDatos.Apellidos} onChange={handleChange} />
+              <input type="email" name="correo" value={nuevosDatos.correo} onChange={handleChange} />
+              <input type="text" name="celular" value={nuevosDatos.celular} onChange={handleChange} />
+              <button type="submit">Guardar Cambios</button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default AdminListaDocentes;

@@ -54,8 +54,8 @@ export const Regis_Docente = () => {
         celular: ""
     });
     const handleChange = (e) => {
-        console.log(e.target.value)
-        setInformacionDocente({ ...informacionDocente, [e.target.name]: e.target.value })
+        const { name, value } = e.target;
+        setInformacionDocente({ ...informacionDocente, [name]: value });
     };
     
     const handleSubmit =async (e)=>{
@@ -70,7 +70,17 @@ export const Regis_Docente = () => {
                 body:JSON.stringify(informacionDocente)
             });
             const data = await response.json()
-        } catch (error) {
+            setInformacionDocente({
+                tipoDoc: "",
+                numeroId: "",
+                nombres: "",
+                apellidos: "",
+                fechaNacimiento: "",
+                genero: "",
+                correo: "",
+                celular: ""
+            });
+        } catch (error) {  
             console.error(`Error al enviar datos: ${error}`)
         }
     }
@@ -105,15 +115,15 @@ export const Regis_Docente = () => {
                     <div className="info_form">
                         <div>
                             <label for="pname">Nombres</label>
-                            <input id="pname" type="text" name="nombres" onChange={handleChange}/>
+                            <input id="pname" type="text" name="nombres" onChange={handleChange} required/>
                         </div>
                         <div>
                             <label for="psurname">Apellidos</label>
-                            <input id="psurname" type="text" name="apellidos" onChange={handleChange}/>
+                            <input id="psurname" type="text" name="apellidos" onChange={handleChange} required/>
                         </div>
                         <div>
                             <label for="tdocument">Tipo de documento</label>
-                            <input list="tdocument" name="tipoDoc"  onChange={handleChange}/>
+                            <input list="tdocument" name="tipoDoc"  onChange={handleChange} required/>
                             <datalist id="tdocument">
                                 <option selected value={"TI"}>T.I</option>
                                 <option value={"CC"}>C.C</option>
@@ -123,19 +133,19 @@ export const Regis_Docente = () => {
                         </div>
                         <div>
                             <label for="ndocument">Numero de documento</label>
-                            <input id="document" type="text" name="numeroId" onChange={handleChange}/>
+                            <input id="document" type="text" name="numeroId" onChange={handleChange} required/>
                         </div>
                         <div>
                             <label for="ncelular">Numero de celular</label>
-                            <input id="celular" type="text" name="celular" onChange={handleChange}/>
+                            <input id="celular" type="text" name="celular" onChange={handleChange} required/>
                         </div>
                         <div>
                             <label for="email">Correo Electronico</label>
-                            <input id="correo" type="email" name="correo" onChange={handleChange}/>
+                            <input id="correo" type="email" name="correo" onChange={handleChange} required/>
                         </div>
                         <div>
                             <label for="date_nacimiento">Fecha de nacimiento</label>
-                            <input id="fecha_nacimiento" type="date" name="fechaNacimiento" onChange={handleChange}/>
+                            <input id="fecha_nacimiento" type="date" name="fechaNacimiento" onChange={handleChange} required/>
                         </div>
                     </div>
                     <div className="form-genero">
