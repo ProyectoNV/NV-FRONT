@@ -3,6 +3,7 @@ import { useState, useRef} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
+import axios from 'axios'
 import '../css/Formularios.css'
 
 export const Regis_Docente = () => {
@@ -62,14 +63,7 @@ export const Regis_Docente = () => {
         console.log(informacionDocente)
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:4000/registrar_Docente",{
-                method:"POST",
-                headers:{
-                    "Content-Type": "application/json"
-                },
-                body:JSON.stringify(informacionDocente)
-            });
-            const data = await response.json()
+            const response = await axios.post("http://localhost:4000/admin/registrar_Docente",informacionDocente)
             setInformacionDocente({
                 tipoDoc: "",
                 numeroId: "",
@@ -80,6 +74,8 @@ export const Regis_Docente = () => {
                 correo: "",
                 celular: ""
             });
+            console.log("Estado informacion" ,informacionDocente)
+            window.alert("Docente registrado correctamente")
         } catch (error) {  
             console.error(`Error al enviar datos: ${error}`)
         }

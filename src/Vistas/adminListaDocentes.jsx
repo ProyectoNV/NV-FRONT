@@ -30,7 +30,7 @@ const AdminListaDocentes = () => {
   //Mostrar Todos los docentes de la base de datos con axios
   const VerDocentes = async (req, res) => {
     try {
-      const response = await axios.get("http://localhost:4000/ver_docentes")
+      const response = await axios.get("http://localhost:4000/admin/ver_docentes")
       setTablaDocentes(response.data)
     } catch (error) {
       console.log('Hay un errror que es: ', error)
@@ -41,7 +41,7 @@ const AdminListaDocentes = () => {
   const Eliminar = async (id) => {
     try {
       console.log(id)
-      await axios.delete(`http://localhost:4000/ver_docentes/${id}`);
+      await axios.delete(`http://localhost:4000/admin/ver_docentes/${id}`);
       setTablaDocentes(tabladocentes.filter(item => item.id_usuario !== id));
       console.log("Producto eliminado exitosamente.");
       window.alert("Producto Eliminado ")
@@ -74,7 +74,7 @@ const AdminListaDocentes = () => {
     e.preventDefault();
     try {
       console.log(profesorSeleccionado.id_usuario)
-      const response = await axios.put(`http://localhost:4000/ver_docentes/${profesorSeleccionado.id_usuario}`, nuevosDatos);
+      const response = await axios.put(`http://localhost:4000/admin/ver_docentes/${profesorSeleccionado.id_usuario}`, nuevosDatos);
       console.log("Producto actualizado exitosamente:", response.data);
       window.alert("Docente Actualizado correctamente")
       setTablaDocentes(tabladocentes.map(item =>

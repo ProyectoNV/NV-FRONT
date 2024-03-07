@@ -43,8 +43,8 @@ function App() {
         <Route path="/Informacion_Personal_Alumno" element={<Info_alumno/>}></Route>
         <Route path="/Historial_De_Usuario" element={<Historial_user/>}></Route>
         <Route path="/Agregar_cronograma" element={<Hacer_crono/>}></Route>
-        <Route path="/registrar_Docente" element={<Regis_Docente/>}></Route>
-        <Route path="/ver_docentes" element={<AdminListaDocentes/>}></Route>
+        <Route path="/admin/registrar_Docente" element={<Regis_Docente/>}></Route>
+        <Route path="/admin/ver_docentes" element={<AdminListaDocentes/>}></Route>
         <Route path="/registrar_alumno" element={<Regis_alum/>}></Route>
         <Route path="/verlista" element={<Listas/>}></Route>
         <Route path="/agregar" element={<Agregar/>}></Route>
