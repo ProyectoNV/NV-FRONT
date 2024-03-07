@@ -1,71 +1,28 @@
 import React from "react"
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect } from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import '../css/Formularios.css'
-import Verifi  from "../Imagenes/Quality Check_Outline.svg"
-import Check from "../Imagenes/Checklist_Line.svg";
 import Swal from "sweetalert2";
+import '../css/Lista.css';
+import '../css/Formularios.css';
+import axios from "axios";
+
+
+
 
 export const Regis_alum = () => {
 
-    const [validador, setValidador] = useState(false)
 
     var refModal = useRef();
     var refModal2 = useRef();
 
-    const Mostrar = (e) => {
-        if(validador==false){
-            Swal.fire({
-                text: "Algunos datos son invalidos"
-            })
-        }
-        else if(datos.Nombre.length==0 || datos.Apellido.length==0 || datos.Num_Doc.length==0 || datos.Correo.length==0 || datos.Celular.length==0 || datos.Fecha.length==0){
-            Swal.fire({
-                text: "Formulario incompleto"
-            })
-        }else{
-            const myrefValue = refModal.current;
-            myrefValue.style.opacity= "1";
-            myrefValue.style.pointerEvents= "inherit";
-        }
-        
-    };
 
-    const Mostrar2 = (e) => {
-        const myrefValue = refModal2.current;
-        myrefValue.style.opacity= "1";
-        myrefValue.style.pointerEvents= "inherit";
-    };
-
-    const Ocultar = (e) =>{
-        const myrefocultar = refModal.current;
-        myrefocultar.style.opacity= "0";
-        myrefocultar.style.pointerEvents= "none";
-    }
-
-    const Ocultar2 = (e) =>{
-        const myrefocultar = refModal.current;
-        myrefocultar.style.opacity= "0";
-        myrefocultar.style.pointerEvents= "none";
-        const myrefocultar2 = refModal2.current;
-        myrefocultar2.style.opacity= "0";
-        myrefocultar2.style.pointerEvents= "none";
-    }
-    
     var refmove = useRef();
-	const [showe, setShowe]= useState(false);
-	const move_conte = (e) => {
-		setShowe(!showe)
-	}
-
-    const expresiones = {
-        usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-        nombre: /^[a-zA-ZÀ-ÿ\s]{1,10}$/, // Letras y espacios, pueden llevar acentos.
-        password: /^.{8,25}$/, // 8 a 25 digitos.
-        correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-        telefono: /^\d{7,14}$/, // 7 a 14 numeros.
-        id: /^.{0,12}$/
+    const [showe, setShowe] = useState(false);
+    const move_conte = (e) => {
+        setShowe(!showe)
     }
+
 
     var refnombre = useRef();
     var refapellido = useRef();
@@ -76,229 +33,283 @@ export const Regis_alum = () => {
     var reffecha = useRef();
 
 
-    const [datos, setDatos] = useState({
-        Nombre: '',
-        Apellido: '',
-        Tipo_Doc: '',
-        Num_Doc: '',
-        Correo: '',
-        Celular: '',
-        Fecha: '',
-        Nombre_a: '',
-        Apellido_a: '',
-        Num_Doc_a: '',
-        Correo_a: '',
-    })
+    const [alumnos, setAlumnos] = useState({
+        pkfk_tdoc: '',
+        numero_id: '',
+        Nombres: '',
+        Apellidos: '',
+        fecha_nacimiento: '',
+        genero: '',
+        correo: '',
+        celular: '',
+        contrasena: '',
+        nombre_acudiente: '',
+        correo_acudiente: '',
+        celular_acudiente: ''
+    });
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
-    function cambio (e) {
-        switch (e.target.id) {
-            case "pname":
-                const myrefnombre = refnombre.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Nombre : e.target.value,
-                }))
-                if(expresiones.nombre.test(datos.Nombre)){
-                    myrefnombre.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefnombre.style.borderColor= ' #bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "psurname":
-                const myrefapellido = refapellido.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Apellido : e.target.value,
-                }))
-                if(expresiones.nombre.test(datos.Apellido)){
-                    myrefapellido.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefapellido.style.borderColor= ' #bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "ncelular":
-                const myrefcelular = refcelular.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Celular : e.target.value,
-                }))
-                if(expresiones.telefono.test(datos.Celular)){
-                    myrefcelular.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefcelular.style.borderColor= ' #bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "email":
-                const myrefcorreo = refcorreo.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Correo : e.target.value,
-                }))
-                if(expresiones.correo.test(datos.Correo)){
-                    myrefcorreo.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefcorreo.style.borderColor= ' #bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "ndocument":
-                const myrefnum = refnumc.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Num_Doc : e.target.value,
-                }))
-                if(expresiones.id.test(datos.Num_Doc)){
-                    myrefnum.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefnum.style.borderColor= ' #bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "date_nacimiento":
-                const myrefecha = reffecha.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Fecha : e.target.value,
-                }))
-                if(datos.Fecha.length===0){
-                    myrefecha.style.borderColor= '#1ed12d';
-                    setValidador(true);
-                }else{
-                    myrefecha.style.borderColor= '#bb2929';
-                    setValidador(false);
-                }
-            break;
-            case "tdocument":
-                const myreftipo = reftipo.current;
-                setDatos((valores) => ({
-                    ...valores,
-                    Tipo_Doc : e.target.value,
-                }))
-                    myreftipo.style.borderColor= '#1ed12d';
-                    setValidador(true);
-            break;
+        // Validación para el campo "numero_id", "celular" y "celular_acudiente" (solo números)
+        if (name === 'numero_id' || name === 'celular' || name === 'celular_acudiente') {
+            // Si el valor no es vacío y no contiene solo números, no se actualiza el estado
+            if (value !== '' && !/^\d+$/.test(value)) {
+                return;
+            }
         }
-    }
 
+        // Validación para los campos que no deben contener números
+        if (name === 'Nombres' || name === 'Apellidos' || name === 'nombre_acudiente' || name === 'apellido_acudiente') {
+            // Si el valor contiene números, no se actualiza el estado
+            if (/\d/.test(value)) {
+                return;
+            }
+        }
 
+        // Si pasa la validación, se actualiza el estado
+        setAlumnos(prevAlumnos => ({
+            ...prevAlumnos,
+            [name]: value
+        }));    };
 
-    return(
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Comprueba si el número de identificación ya existe
+        const existingStudent = lisalumno.find(student => student.numero_id === alumnos.numero_id);
+        if (existingStudent) {
+            Swal.fire({
+                title: "Número de identificación duplicado",
+                text: "El número de identificación ingresado ya está registrado.",
+                icon: "error"
+            });
+            return;
+        }
+
+        // Validación de campos requeridos
+        if (!alumnos.Nombres || !alumnos.Apellidos || !alumnos.correo || !alumnos.celular || !alumnos.fecha_nacimiento || !alumnos.contrasena || !alumnos.genero || !alumnos.nombre_acudiente || !alumnos.correo_acudiente) {
+            Swal.fire({
+                title: "Campos requeridos",
+                text: "Por favor, completa todos los campos.",
+                icon: "error"
+            });
+            return;
+        }
+        if (alumnos.numero_id.length < 7) {
+            Swal.fire({
+                title: "Número de identificación inválido",
+                text: "El número de identificación debe tener al menos 7 caracteres.",
+                icon: "error"
+            });
+            return;
+        }
+
+        try {
+            const respuesta = await axios.post("http://localhost:4000/alumno/registraralumno", alumnos);
+            if (respuesta.status === 200) {
+                setAlumnos({
+                    pkfk_tdoc: '',
+                    numero_id: '',
+                    Nombres: '',
+                    Apellidos: '',
+                    fecha_nacimiento: '',
+                    genero: '',
+                    correo: '',
+                    celular: '',
+                    contrasena: '',
+                    genero: '',
+                    nombre_acudiente: '',
+                    correo_acudiente: '',
+                    celular_acudiente: ''
+                });
+
+                // Agregar el nuevo alumno al estado lisalumno
+                setlisalumno([...lisalumno, alumnos]);
+                Swal.fire({
+                    text: "Registro exitoso",
+                    icon: "success"
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "Error al registrar alumno",
+                icon: "error"
+            });
+            console.error(`Error al registrar alumno, ${error}`);
+        }
+    };
+    /*const handleUpdate = async (id_usuario) => {
+        try {
+            // Realizar solicitud GET al servidor para obtener los datos del alumno a actualizar
+            const response = await axios.get(`http://localhost:4000/alumno/datos`);
+            const alumnoActualiza = response.data;
+
+            // Después de actualizar los datos y cerrar el modal, realizar la solicitud PUT al servidor con los nuevos datos
+            await axios.put(`http://localhost:4000/alumno/actualizaralumno/${id_usuario}`, alumnoActualiza);
+
+            Swal.fire({
+                text: "Alumno actualizado",
+                icon: "success"
+            });
+
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "Error al actualizar el alumno",
+                icon: "error"
+            });
+            console.error(`Error al actualizar el alumno, ${error}`);
+        }
+    };*/
+
+    const [lisalumno, setlisalumno] = useState([]);
+
+    useEffect(() => {
+        // Hacer una solicitud GET al servidor para obtener los datos de los alumnos
+        axios.get('http://localhost:4000/alumno/datos')
+            .then(response => {
+                // Asignar los datos obtenidos del backend al estado
+                setlisalumno(response.data);
+            })
+            .catch(error => {
+                // Capturar y manejar errores
+                console.error('Error:', error);
+            });
+    }, []);
+
+    return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
-            <SidebarAdmi Move={move_conte}/>
-            <section className="modal_regis-d" ref={refModal}>
-                <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
-                    <h2 className="modal_tittle">¿Estas seguro de Registrar a esta persona</h2>
-                    <p className="modal_paragraph">Los Datos de la persona se guardaran en el sistema</p>
-                    <div className="content_modal_b">
-                        <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Registrar</a>
-                    </div>
-                </div>
-            </section>
-            <section className="modal_confir_regi" ref={refModal2}>
-                <div className="modal_container">
-                    <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
-                    <img src={Check} className="modal_img"/>
-                    <h2 className="modal_tittle">¡Felicidades!</h2>
-                    <p className="modal_paragraph">La persona se ha registrado con exito</p>
-                </div>
-            </section>
+            <SidebarAdmi Move={move_conte} />
+
+
+            {/* Informacion Alumno */}
             <div className="info-text">
-			  <h1>Registro de alumnos</h1>
-              <div>
-                <form className="cont_info">
-                    <legend className="info_title">Información Alumno</legend>
-                    <div className="info_form">
-                        <div>
-                            <label for="pname">Nombres</label>
-                            <input id="pname" type="text" name="p_nombre" ref={refnombre} onChange={cambio}/>
+                <h1>Registro de alumnos</h1>
+
+                <div>
+                    <form className="cont_info" onSubmit={handleSubmit}>
+                        <legend className="info_title">Información Alumno</legend>
+                        <div className="info_form">
+                            <div>
+                                <label htmlFor="pname">Nombres</label>
+                                <input id="pname" type="text" name="Nombres" value={alumnos.Nombres} onChange={handleChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="psurname">Apellidos</label>
+                                <input id="psurname" type="text" name="Apellidos" value={alumnos.Apellidos} onChange={handleChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="tdocument">Tipo de documento</label>
+                                <input list="tdocument" name="pkfk_tdoc" value={alumnos.pkfk_tdoc} onChange={handleChange} />
+                                <datalist id="tdocument">
+                                    <option value="TI">T.I</option>
+                                    <option value="CC">C.C</option>
+                                    <option value="RC"> R.C</option>
+                                    <option value="CE">C.E</option>
+                                </datalist>
+                            </div>
+
+                            <div>
+                                <label htmlFor="ndocument">Numero de documento</label>
+                                <input id="ndocument" type="text" name="numero_id" value={alumnos.numero_id} onChange={handleChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="ncelular">Numero de celular</label>
+                                <input id="ncelular" type="text" name="celular" value={alumnos.celular} onChange={handleChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="email">Correo Electronico</label>
+                                <input id="email" type="email" name="correo" value={alumnos.correo} onChange={handleChange} />
+                            </div>
+                            <div>
+                                <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
+                                <input id="date_nacimiento" type="date" name="fecha_nacimiento" value={alumnos.fecha_nacimiento} onChange={handleChange} />
+                            </div>
+                            <div className="pname">
+                                <label htmlFor="contrasena">Contraseña</label>
+                                <input id="contrasena" name="contrasena" type="text" value={alumnos.contrasena} onChange={handleChange} />
+                            </div>
                         </div>
-                        <div>
-                            <label for="psurname">Apellidos</label>
-                            <input id="psurname" type="text" name="p_apellido" ref={refapellido} onChange={cambio}/>
+                        <div className="form-genero">
+                            <p>Genero</p>
+                            <div className="generos" >
+                                <input type="radio" name="genero" id="optionsRadios1" value="masculino" onChange={handleChange} />
+                                <label htmlFor="optionsRadios1"><span className="radio-button"></span>Masculino</label>
+                            </div>
+                            <div className="generos">
+                                <input type="radio" name="genero" id="optionsRadios2" value="femenino" onChange={handleChange} />
+                                <label htmlFor="optionsRadios2"><span className="radio-button"></span>Femenino</label>
+                            </div>
                         </div>
+
+
+                        {/* Informacion Acudiente */}
                         <div>
-                            <label for="tdocument">Tipo de documento</label>
-                            <input list="tdocument"  ref={reftipo}/>
-                            <datalist id="tdocument" onChange={cambio}>
-                                <option selected>T.I</option>
-                                <option>C.C</option>
-                                <option>R.C</option>
-                                <option>C.E</option>
-                            </datalist>
+                            {/* <form className="cont_info" > */}
+                            <legend className="info_title">Información Acudiente</legend>
+                            <div className="info_form">
+                                <div>
+                                    <label htmlFor="pname-a">Nombre acudiente</label>
+                                    <input id="pname-a" type="text" name="nombre_acudiente" value={alumnos.nombre_acudiente} onChange={handleChange} />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="email-a">Correo Electronico</label>
+                                    <input id="email-a" type="email" name="correo_acudiente" value={alumnos.correo_acudiente} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <label htmlFor="ncelular-a">Numero de celular</label>
+                                    <input id="ncelular-a" type="text" name="celular_acudiente" value={alumnos.celular_acudiente} onChange={handleChange} />
+                                </div>
+                            </div>
+
+                            {/* <div className="btn"><button className="button_formu" type="submit" onClick={Mostrar}>Registrar</button></div> */}
+                            <div className="btn"><button className="button_formu" type="submit" >Registar</button></div>
+
                         </div>
-                        <div>
-                            <label for="ndocument">Numero de documento</label>
-                            <input id="ndocument" type="text" name="ndocument" ref={refnumc} onChange={cambio}/>
-                        </div>
-                        <div>
-                            <label for="ncelular">Numero de celular</label>
-                            <input id="ncelular" type="text" name="ncelular" ref={refcelular} onChange={cambio}/>
-                        </div>
-                        <div>
-                            <label for="email">Correo Electronico</label>
-                            <input id="email" type="email" name="email" ref={refcorreo} onChange={cambio}/>
-                        </div>
-                        <div>
-                            <label for="date_nacimiento">Fecha de nacimiento</label>
-                            <input id="date_nacimiento" type="date" name="date_nacimiento" ref={reffecha} onChange={cambio}/>
+
+                    </form>
+                    <div style={{ width: '100%' }}>
+                        <h1 style={{ textAlign: 'center' }}> Listado de Estudiantes</h1><br></br>
+                        <div className="container">
+                            <table className='table_lista'>
+                                <thead className='thead_lista'>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
+                                        <th>Fecha de nacimiento</th>
+                                        <th>Celular</th>
+                                        <th>Correo</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody className='body_lista'>
+                                    {lisalumno.map((lisalumno) => (
+                                        <tr key={lisalumno.id_usuario}>
+                                            <td>{lisalumno.id_usuario}</td>
+                                            <td>{lisalumno.Nombres}</td>
+                                            <td>{lisalumno.Apellidos}</td>
+                                            <td>{lisalumno.fecha_nacimiento.split('T')[0]}</td>
+                                            <td>{lisalumno.celular}</td>
+                                            <td>{lisalumno.correo}</td>
+                                            <td>{/*<button onClick={() => handleUpdate(lisalumno.id_usuario)}>Actualizar</button>*/}</td>
+
+                                        </tr>
+
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div className="form-genero">
-                        <p>Genero</p>
-                        <div className="generos">
-                            <input type="radio" name="optionsGenero" id="optionsRadios1"/>
-                            <label for="optionsRadios1"><span className="radio-button"></span>Masculino</label>
-                        </div>
-                        <div className="generos">
-                            <input type="radio" name="optionsGenero" id="optionsRadios2"/>
-                            <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
-                        </div>
-                    </div>
-                </form>
-              </div>
-              <div>
-                <form className="cont_info">
-                    <legend className="info_title">Información Acudiente</legend>
-                    <div className="info_form">
-                        <div>
-                            <label for="pname-a">Nombres</label>
-                            <input id="pname-a" type="text" name="p_nombre-a"/>
-                        </div>
-                        <div>
-                            <label for="psurname-a">Apellidos</label>
-                            <input id="psurname-a" type="text" name="p_apellido-a"/>
-                        </div>
-                        <div>
-                            <label for="ncelular">Numero de celular</label>
-                            <input id="ncelular" type="text" name="ncelular"/>
-                        </div>
-                        <div>
-                            <label for="email">Correo Electronico</label>
-                            <input id="email" type="email" name="email"/>
-                        </div>
-                        <div>
-                            <label for="date_nacimiento">Fecha de nacimiento</label>
-                            <input id="date_nacimiento" type="date" name="date_nacimiento"/>
-                        </div>
-                    </div>
-                    <div class="btn"><a className="button_formu" type="submit" id="btn_regis" onClick={Mostrar}>Registrar</a></div>
-                </form>
-              </div>
-			</div>
+
+                </div>
+            </div>
         </div>
     )
+
 }
 
 export default Regis_alum
