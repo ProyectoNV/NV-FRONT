@@ -13,9 +13,6 @@ import axios from "axios";
 export const Regis_alum = () => {
 
 
-    var refModal = useRef();
-    var refModal2 = useRef();
-
 
     var refmove = useRef();
     const [showe, setShowe] = useState(false);
@@ -24,13 +21,6 @@ export const Regis_alum = () => {
     }
 
 
-    var refnombre = useRef();
-    var refapellido = useRef();
-    var refcelular = useRef();
-    var refcorreo = useRef();
-    var reftipo = useRef();
-    var refnumc = useRef();
-    var reffecha = useRef();
 
 
     const [alumnos, setAlumnos] = useState({
@@ -123,9 +113,8 @@ export const Regis_alum = () => {
                     correo_acudiente: '',
                     celular_acudiente: ''
                 });
-
-                // Agregar el nuevo alumno al estado lisalumno
-                setlisalumno([...lisalumno, alumnos]);
+                
+                setActualizartabla(!actualizartabla)
                 Swal.fire({
                     text: "Registro exitoso",
                     icon: "success"
@@ -140,31 +129,9 @@ export const Regis_alum = () => {
             console.error(`Error al registrar alumno, ${error}`);
         }
     };
-    /*const handleUpdate = async (id_usuario) => {
-        try {
-            // Realizar solicitud GET al servidor para obtener los datos del alumno a actualizar
-            const response = await axios.get(`http://localhost:4000/alumno/datos`);
-            const alumnoActualiza = response.data;
-
-            // Después de actualizar los datos y cerrar el modal, realizar la solicitud PUT al servidor con los nuevos datos
-            await axios.put(`http://localhost:4000/alumno/actualizaralumno/${id_usuario}`, alumnoActualiza);
-
-            Swal.fire({
-                text: "Alumno actualizado",
-                icon: "success"
-            });
-
-        } catch (error) {
-            Swal.fire({
-                title: "Error",
-                text: "Error al actualizar el alumno",
-                icon: "error"
-            });
-            console.error(`Error al actualizar el alumno, ${error}`);
-        }
-    };*/
-
     const [lisalumno, setlisalumno] = useState([]);
+
+    const [actualizartabla,setActualizartabla]= useState (true)
 
     useEffect(() => {
         // Hacer una solicitud GET al servidor para obtener los datos de los alumnos
@@ -177,13 +144,11 @@ export const Regis_alum = () => {
                 // Capturar y manejar errores
                 console.error('Error:', error);
             });
-    }, []);
+    }, [actualizartabla]);
 
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAdmi Move={move_conte} />
-
-
             {/* Informacion Alumno */}
             <div className="info-text">
                 <h1>Registro de alumnos</h1>
@@ -295,8 +260,6 @@ export const Regis_alum = () => {
                                             <td>{lisalumno.fecha_nacimiento.split('T')[0]}</td>
                                             <td>{lisalumno.celular}</td>
                                             <td>{lisalumno.correo}</td>
-                                            <td>{/*<button onClick={() => handleUpdate(lisalumno.id_usuario)}>Actualizar</button>*/}</td>
-
                                         </tr>
 
                                     ))}
