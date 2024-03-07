@@ -83,7 +83,7 @@ export const SidebarAdmi = ({Move}) => {
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <img src={Menu} className="Barra-lateral_img"/>
-                                <i className="Barra-lateral_link"><Link to="/">Menu</Link></i>
+                                <i className="Barra-lateral_link"><Link to="/Info_Sistem">Menu</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item Barra-lateral_item-click">
