@@ -26,6 +26,10 @@ const Agregar = () => {
         setShowe(!showe);
     }
 
+    const [docenteActividad, setDocenteActividad]=useState({
+        id_docente : "",
+        Actividad_id : ""
+    })
     const [listUpdated, setListUpdated] = useState(false)
     const [formactividad, setformActividad] = useState ([])
     const [formadocente, setformadocente] = useState ([])
@@ -65,6 +69,12 @@ const Agregar = () => {
         descripcion: "",
         Estadoactividad: true
     });
+
+    const changeregisDocenteActividad=(e)=>{
+        const {name,value}=e.target;
+        setDocenteActividad({...docenteActividad,[name]:value})
+
+    }
 
     const changeregisformulario = (e) => {
         const { name, value } = e.target;
@@ -210,7 +220,35 @@ const Agregar = () => {
         setListUpdated(true);
     };
 
+    const docenteactividadSubmit=async (e)=>{
+        e.preventDefault();
+        console.log(docenteActividad)
+        try {
+            const response = await fetch("http://localhost:4000/actividades/insertarDocente",{
+                method:"POST",
+                headers:{
+                    'Content-Type':"application/json"
+                },
+                body: JSON.stringify(docenteActividad)
+            });
 
+            
+            if(response.ok){
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Felicidades!',
+                    text: 'La actividad ha asignado con éxito'
+                });
+            }else{
+                throw new Error("Error al asignar actividad")
+            }
+
+        } catch (error) {
+            console.error("Error al asignar actividad: ",error)
+
+        }
+        setListUpdated(true)
+    }
 
 
     return (
@@ -305,23 +343,23 @@ const Agregar = () => {
                 <div className="con_agre">
                     <h2 className="titlle_agre">Escoge actividad </h2>
                     <div className="input-group">
-                        <form onSubmit={fomulariSubmit}>
+                        <form onSubmit={docenteactividadSubmit}>
                             <label htmlFor="acti" className="label_agre">Actividades</label>
-                            <select onChange={changeselect} id="actividad" name="acti" className="select_agre">
+                            <select onChange={changeregisDocenteActividad} id="actividad" name="Actividad_id" className="select_agre">
                                 <option value="">Seleccione la actividad</option>
                                 {formactividad.map((actNum) =>(
                                     <option key={actNum.id_actividad} value={actNum.id_actividad}> {actNum.Nombre_actividad}</option>
                                 ))}
                             </select>
                             <label htmlFor="acti" className="label_agre">Docentes</label>
-                            <select onChange={changeselect} id="actividad" name="acti" className="select_agre">
+                            <select onChange={changeregisDocenteActividad} id="actividad" name="id_docente" className="select_agre">
                                 <option value="">Seleccione la actividad</option>
                                 {formadocente.map((docNum) =>(
                                     <option key={docNum.id_usuario} value={docNum.id_usuario}>{docNum.Nombres} {docNum.Apellidos}</option>
                                 ))}
                             </select>
                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                <button type="submit" className="btn_agre" id="btn_regis">Actualizar actividad</button>
+                                <button type="submit" className="btn_agre" id="btn_regis">Asignar actividad</button>
                             </div>
                         </form>
                     </div>
