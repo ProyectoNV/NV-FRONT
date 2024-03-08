@@ -53,7 +53,7 @@ const MisActividades = () => {
       </tr>
 
       <tr>
-        <td>3</td>
+        <td>5</td>
         <td>Panaderia</td>
         <td>Leonardo</td>
         <td>Mañana</td>

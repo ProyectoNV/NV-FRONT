@@ -11,18 +11,7 @@ const Lis = () => {
 		setShowe(!showe)
 	}
 
-  const data = [
-    { id: 1, nombre: 'Maria', apellidos: 'Alvarado Tapia', asistencias: 7, inasistencias: 3 },
-    { id: 2, nombre: 'Pedro', apellidos: 'Arenas Fuentes', asistencias: 6, inasistencias: 4 },
-    { id: 3, nombre: 'Clara', apellidos: 'Ballesteros Camacho', asistencias: 9, inasistencias: 1 },
-    { id: 4, nombre: 'Chintia', apellidos: 'Cervantes Morales', asistencias: 10, inasistencias: 0 },
-    { id: 5, nombre: 'Alberto', apellidos: 'Diaz Sanchez', asistencias: 8, inasistencias: 2 },
-    { id: 6, nombre: 'Marlen', apellidos: 'Feria Alvarez', asistencias: 5, inasistencias: 5 },
-    { id: 7, nombre: 'Hector', apellidos: 'Garcia Molina', asistencias: 6, inasistencias: 4 },
-    { id: 8, nombre: 'Raquel', apellidos: 'Lopez Garduño', asistencias: 10, inasistencias: 0 },
-    { id: 9, nombre: 'Claudia', apellidos: 'Medina Vidal', asistencias: 7, inasistencias: 3 },
-    { id: 10, nombre: 'Victor', apellidos: 'Zamora Guerrero', asistencias: 8, inasistencias: 2 },
-  ];
+  const data = [];
 
   return (
     <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>

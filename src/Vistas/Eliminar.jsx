@@ -1,6 +1,6 @@
 import React from "react";
 import Actividad from "../Componentes/List_actividades";
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
@@ -44,6 +44,46 @@ export const Eliminar = () => {
 	const move_conte = (e) => {
 		setShowe(!showe)
 	}
+// funcion get
+    const [listUpdated, setListUpdated] = useState(false)
+    const [actuaEstado, setActuaEstado] = useState ([])
+    
+    useEffect(() => {
+        const actuaactividad = async () => {
+            try{
+                const getActualizar = await fetch('http://localhost:4000/actividades/mostrar');
+                const dataActualizar= await getActualizar.json();
+                setActuaEstado(dataActualizar);
+                console.log(dataActualizar);
+            }catch(error){
+                console.log(error);
+            }       
+        }
+        actuaactividad()
+        setListUpdated(false);
+    }, [listUpdated])
+
+//Funcion put
+
+const actualizarActividad = async (e) => {
+    let estadoAct = e.target.id
+    try {
+      const response = await fetch('http://localhost:4000/actividades/actualizaract/'+ estadoAct, {
+        method: 'PUT',
+      });
+  
+      if (response.ok) {
+        console.log('La actividad actualizo exitosamente');
+    
+      
+      }
+    } catch (error) {
+      console.error('Error al actualizar la activida', error.message);
+      
+    }setListUpdated(true)
+  };
+
+
 
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
@@ -55,7 +95,7 @@ export const Eliminar = () => {
                     <p className="modal_paragraph">Una vez eliminada esta actividad no habra la posivilidad de inscribirse</p>
                     <div className="content_modal_b">
                         <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Eliminar</a>
+                        <a href="#" class="modal_close_actu" id="Regis" onClick={actualizarActividad}>Eliminar</a>
                     </div>
                 </div>
             </section>
@@ -71,20 +111,18 @@ export const Eliminar = () => {
             <div className="cont_card">
                 <h1> Eliminar actividades</h1><br></br>
                 <div className="cont_eliminar">
-                    {Actividad.map((act) => {
-                        return (
+                    {actuaEstado.map((actua) => (   
+                       
                             <div class="card_d">
-                                <figure style={{backgroundColor:(act.color)}}>
-                                    <img src={act.img}/>
-                                </figure>
+                             
                                 <div class="contenido">
-                                    <h3><strong>{act.nombre}</strong></h3>
-                                    <p>{act.descripción}  </p>
-                                    <a onClick={Mostrar}>Eliminar actividad</a>
+                                    <h3><strong>{actua.Nombre_actividad}</strong></h3>
+                                    <p>{actua.descripcion}  </p>
+                                    <a id={actua.id_actividad} onClick={actualizarActividad}>Eliminar actividad</a>
                                 </div>
                             </div>
-                        )
-                    })}
+                        
+                    ))}
                 </div>
             </div>
         </div> 

@@ -23,9 +23,7 @@ export const Listas = () => {
                     {Actividad.map((act) => {
                         return (
                             <div class="card_d">
-                                <figure style={{backgroundColor:(act.color)}}>
-                                    <img src={act.img}  />
-                                </figure>
+                               
                                 <div class="contenido">
                                     <h3>{act.nombre} </h3>
                                     <p>{act.descripción}  </p>
