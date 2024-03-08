@@ -258,12 +258,6 @@ export const Hacer_crono = () => {
                 throw new Error("Error al agregar horario")
             }
 
-            setHorario({
-                Dia_semana: "",
-                Hora_inicio: "",
-                Hora_fin: "",
-                Lugar: ""
-            })
 
             }catch (error) {
                 console.error("Error al agregar horario: ",error)
@@ -401,7 +395,7 @@ export const Hacer_crono = () => {
                     <label htmlFor="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
-                    <p className="modal_paragraph">Se agrego al horario</p>
+                    <p className="modal_paragraph">Accion realizada con exito</p>
                 </div>
             </section>
             <div className="info-text">
@@ -475,7 +469,7 @@ export const Hacer_crono = () => {
                                     <option key={listE.id_horario} value={listE.id_horario}>{`Dia: ${listE.Dia_semana}/ HI: ${listE.Hora_inicio}/ HF: ${listE.Hora_fin}/ lugar: ${listE.Lugar}`}</option>
                                 ))}
                             </select>
-                            <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Cambiar</button></div>
+                            <div className="btn"><button className="button_cronograma" type="submit" id="btn_crono">Eliminar</button></div>
                         </form>
                         <form onSubmit={ActualizarhorarioSubmit}>
                             <p>Actualizar Información de un horario</p> 

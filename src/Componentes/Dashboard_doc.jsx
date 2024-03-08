@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import Menu from "../Imagenes/iconos/bx-menu.svg";
 import User from "../Imagenes/user.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,14 @@ import { faUserPen, faRightFromBracket,faClipboardCheck,faRectangleList } from "
 import '../css/sidebar.css';
 
 export const SidebarDocente = ({ Move }) => {
+    const navigate = useNavigate();
+
+    const username = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).nombre;
+
+    const cerrarsession = () =>{
+        sessionStorage.removeItem('pruebasesion')
+        navigate("/");
+    }
 
     const [show, setShow] = useState(false);
 
@@ -34,9 +42,9 @@ export const SidebarDocente = ({ Move }) => {
                     <div className="sideBar-UserInfo">
                         <figure className="sidebar-photo">
                             <img src={User} alt="Userphoto" /><br></br>
-                            <p>User Name</p>
+                            <p>{!!username ? username : 'null'}</p>
                             <a className="btn_img"><i className="fa-solid icons_side"><Link to="/Informacion_Personal_Docente"><FontAwesomeIcon icon={faUserPen} /></Link></i></a>
-                            <a className="btn_img"><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket} /></Link></i></a>
+                            <a className="btn_img" onClick={cerrarsession}><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket} /></Link></i></a>
                         </figure>
                     </div>
 

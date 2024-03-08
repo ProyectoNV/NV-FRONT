@@ -23,13 +23,41 @@ import Historial_user from "./Vistas/Historial_Usuario";
 import Enviar_Reporte from "./Vistas/Enviar_Reporte";
 import Horario from "./Vistas/Horario";
 import RestablecerContra from "./Vistas/RestablecerContra";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
+
+  const SessionAbierta = ({ element }) => {  
+    const isAuthenticated = !!sessionStorage.getItem('pruebasesion'); // !! convierte el valor a booleano
+    //return isAuthenticated ? <Navigate to="/Info_Sistem" /> : element ;
+    if(isAuthenticated){
+      const rolauten = JSON.parse(sessionStorage.getItem('pruebasesion')).rol;
+      console.log(rolauten)
+      if(rolauten==12){
+        return <Navigate to="/menu_Alumno" />;
+      }
+      else if(rolauten==11){
+        return <Navigate to="/Menu_Docente" />;
+      }
+      else if(rolauten==10){
+        return <Navigate to="/Info_Sistem" />;
+      }
+    }
+    else{
+      return element 
+    }
+    
+  };
+
+  const SessionCerrada = ({ element }) => {  
+    const isAuthenticated = !!sessionStorage.getItem('pruebasesion'); // !! convierte el valor a booleano
+    return isAuthenticated ? element : <Navigate to="/" />;
+  };
+
   return (
     <header>
       <Routes>
-        <Route path="/Info_Sistem" element={<Info/>}></Route>
+        <Route path="/Info_Sistem" element={<SessionCerrada element={<Info/>}/>}></Route>
         <Route path="/Enviar_Reportes" element={<Enviar_Reporte/>}></Route>
         <Route path="/Menu_Docente" element={<Menudoc/>}></Route>
         <Route path="/Asistencia" element={<Asistencia/>}></Route>
@@ -52,7 +80,7 @@ function App() {
         <Route path="/inscribirse" element={<Inscrip/>}></Route>
         <Route path="/lista" element={<Lis/>}></Route>
         <Route path="/Registro" element={<Registro/>}></Route>
-        <Route path="/" element={<Login/>}></Route>
+        <Route path="/" element={<SessionAbierta element={<Login/>}/>}></Route>
         <Route path="/Restablecer" element={<RestablecerContra/>}></Route>
       </Routes>
     </header>

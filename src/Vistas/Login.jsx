@@ -8,7 +8,7 @@ import '../css/Login.css';
 
 export const Login = () => {
     //Creacion de un objeto con 2 propiedades 
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ correo: "", contrasena: "" });
     const navigate = useNavigate();
 
     const Alerta=(icono,titulo,descripcion)=>{
@@ -21,7 +21,7 @@ export const Login = () => {
 
     const verificarForm=(e)=>{
         e.preventDefault();
-        if(formData.password.length<=7){
+        if(formData.contrasena.length<=2){
             Alerta("error","Error en la contraseña","Debe tener minimo 8 caracteres");
         }else{
             //console.log(formData);
@@ -34,10 +34,21 @@ export const Login = () => {
             })
                 .then(response=>response.json())
                 .then(result=>{
-                    if(result.length>0){
+                    console.log(result)
+                    if(result.success){
+                        const datausuario = JSON.stringify(result.usuario)
+                        sessionStorage.setItem('pruebasesion', datausuario)
                         Alerta("success","Inicio de sesion exitoso","")
                         setTimeout(() => {
-                            navigate("/Menu_alumno");
+                            if(result.usuario.rol==12){
+                                navigate("/menu_Alumno");
+                              }
+                              else if(result.usuario.rol==11){
+                                navigate("/Menu_Docente") ;
+                              }
+                              else if(result.usuario.rol==10){
+                                navigate("/Info_Sistem");
+                              }
                         }, 1500);
                     }else{
                         Alerta("error","Usuario no encontrado","verifique los datos");
@@ -55,28 +66,8 @@ export const Login = () => {
         setFormData({ ...formData, [name]: value });
       };
 
-    const [datos, setDatos] = useState({
-        Usuario: '',
-        Contraseña: ''
-    })
+    const [ruta, setRuta] = useState("/Info_Sistem");
 
-    const [ruta, setRuta] = useState("/");
-
-    function cambio_usuario (e) {
-        setDatos((valores) => ({
-            ...valores,
-            Usuario: e.target.value,
-        }))
-        if(datos.Usuario=="daniel@gmail.com"){
-            setRuta("/menu_Alumno");
-        }
-        if(datos.Usuario=="Profe@gmail.com"){
-            setRuta("/Menu_Docente");
-        }
-        else if(datos.Usuario=="admi@gmail.com"){
-            setRuta("/Info_Sistem");
-        }
-    }
     
     return (
         <div className="fondo">
@@ -84,9 +75,9 @@ export const Login = () => {
                 <form className="form_login" onSubmit={verificarForm}>
                     <img src={login_img} alt="logo" />
                     <h1>Bienvenidos</h1>
-                    <input className="inputLogin" type="email" name="email" onChange={cambio_usuario} placeholder="Ingrese su correo" required/>
-                    <input className="inputLogin" type="password" name="password"  placeholder="Ingrese su contraseña" required/> 
-                    <li className="btn-iniciar"><Link to={ruta}>Ingreso</Link></li><br></br>
+                    <input value={formData.correo} className="inputLogin" type="email" name="correo" onChange={handleInput} placeholder="Ingrese su correo" required/>
+                    <input value={formData.contrasena} className="inputLogin" type="password" name="contrasena" onChange={handleInput}  placeholder="Ingrese su contraseña" required/> 
+                    <button type="submit" className="btn-iniciar">Ingreso</button><br></br>
                     <div className="links">
                         <Link to="/RecuperarContraseña">
                             <label className="label-cursor">Olvido su contraseña</label>

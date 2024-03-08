@@ -28,7 +28,8 @@ const Agregar = () => {
 
     const [listUpdated, setListUpdated] = useState(false)
     const [formactividad, setformActividad] = useState ([])
-    
+    const [formadocente, setformadocente] = useState ([])
+
     useEffect(() => {
         const mosAct = async () => {
             try{
@@ -40,7 +41,18 @@ const Agregar = () => {
                 console.log(error);
             }       
         }
-        mosAct()
+        const mosDoce = async () => {
+            try{
+                const getdoce = await fetch('http://localhost:4000/admin/ver_docentes');
+                const datadoce= await getdoce.json();
+                setformadocente(datadoce);
+                console.log(datadoce);
+            }catch(error){
+                console.log(error);
+            }       
+        }
+        mosAct();
+        mosDoce();
         setListUpdated(false);
     }, [listUpdated])
 
@@ -282,6 +294,39 @@ const Agregar = () => {
                         </form>
                     </div>
                 </div>
+                
+            </div>
+            <div className="agregar_view">
+                <div className="agre">
+                    <div className="info-text">
+                        <h1 className="h1_agre">Asignar actividad</h1><br></br>
+                    </div>
+                </div>
+                <div className="con_agre">
+                    <h2 className="titlle_agre">Escoge actividad </h2>
+                    <div className="input-group">
+                        <form onSubmit={fomulariSubmit}>
+                            <label htmlFor="acti" className="label_agre">Actividades</label>
+                            <select onChange={changeselect} id="actividad" name="acti" className="select_agre">
+                                <option value="">Seleccione la actividad</option>
+                                {formactividad.map((actNum) =>(
+                                    <option key={actNum.id_actividad} value={actNum.id_actividad}> {actNum.Nombre_actividad}</option>
+                                ))}
+                            </select>
+                            <label htmlFor="acti" className="label_agre">Docentes</label>
+                            <select onChange={changeselect} id="actividad" name="acti" className="select_agre">
+                                <option value="">Seleccione la actividad</option>
+                                {formadocente.map((docNum) =>(
+                                    <option key={docNum.id_usuario} value={docNum.id_usuario}>{docNum.Nombres} {docNum.Apellidos}</option>
+                                ))}
+                            </select>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                                <button type="submit" className="btn_agre" id="btn_regis">Actualizar actividad</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         </div>
     );

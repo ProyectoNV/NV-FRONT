@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Menu from "../Imagenes/iconos/bx-menu.svg";
 import Arrow from "../Imagenes/iconos/arrow.svg";
 import User from "../Imagenes/user.jpg";
@@ -22,6 +22,14 @@ export const SidebarAdmi = ({Move}) => {
     var refarrow3 = useRef();
     var refHorario= useRef();
     var refActividades= useRef();
+    const navigate = useNavigate();
+
+    const username = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).nombre;
+
+    const cerrarsession = () =>{
+        sessionStorage.removeItem('pruebasesion')
+        navigate("/");
+    }
 
     const Desplegar = (e) =>{
         switch (e.target.id){
@@ -74,9 +82,9 @@ export const SidebarAdmi = ({Move}) => {
                     <div className="sideBar-UserInfo">
                         <figure className="sidebar-photo">
                             <img src={User} alt="Userphoto"/><br></br>
-                            <p>User Name</p>
+                            <p>{!!username ? username : 'null'}</p>
                             <i className="btn_img"><i className="fa-solid"><Link to="/Informacion_Personal_Administrador"><FontAwesomeIcon icon={faUserPen}/></Link></i></i>
-                            <i className="btn_img"><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket}/></Link></i></i>
+                            <i className="btn_img" onClick={cerrarsession}><i className="fa-solid"><FontAwesomeIcon icon={faRightFromBracket}/></i></i>
                         </figure>
                     </div>
                     <ul className="Barra-lateral">
@@ -97,7 +105,7 @@ export const SidebarAdmi = ({Move}) => {
                                     <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/registrar_alumno">Registro Alumno</Link></i>
                                 </li>
                                 <li className="Barra-lateral_inside">
-                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/registrar_Docente">Registro Docente</Link></i>
+                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/admin/registrar_Docente">Registro Docente</Link></i>
                                 </li>
                             </ul>
                         </li>
