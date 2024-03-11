@@ -111,6 +111,15 @@
     margin-bottom: 20px;
 }
 
+.info_form div p,
+.mensajeblock{
+    margin: 0 50px 10px 25px;
+    text-align: justify;
+    font-size: 14px;
+    color: #fcb900;
+    height: 20px;
+}
+
 .info_form label{
     padding-right: 30px;
 }

@@ -1,5 +1,7 @@
 import React from "react"
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect} from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 import SidebarAlum from "../Componentes/Dashboard_alum";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
@@ -42,6 +44,98 @@ export const Info_alumno = () => {
 	const move_conte = (e) => {
 		setShowe(!showe)
 	}
+
+    // Estado para almacenar los datos del alumno
+    const iduser = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).id;
+    const [listUpdated, setListUpdated] = useState(false);
+    const [Historial, setHistorial] = useState({
+        pkfk_tdoc: '',
+        numero_id: '',
+        Nombres: '',
+        Apellidos: '',
+        fecha_nacimiento: '',
+        genero: '',
+        correo: '',
+        celular: '',
+        estado:'',
+        nombre_acudiente: '',
+        correo_acudiente: '',
+        celular_acudiente: ''
+    });
+
+    useEffect(() => {
+        const RenderInfo = async () => {
+            try{
+                const respuesta = await axios.get(`http://localhost:4000/alumno/RenderizadoAlumUser/${iduser}`);
+                setHistorial(respuesta.data);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        
+        RenderInfo()
+        setListUpdated(false);
+    }, [listUpdated])
+
+    // Función para manejar cambios en los campos del formulario
+    const handleChange = (e) => {
+        
+        const { name, value } = e.target;
+
+        // Validación para el campo "numero_id", "celular" y "celular_acudiente" (solo números)
+        if (name === 'numero_id' || name === 'celular' || name === 'celular_acudiente') {
+            // Si el valor no es vacío y no contiene solo números, no se actualiza el estado
+            if (value !== '' && !/^\d+$/.test(value)) {
+                return;
+            }
+        }
+
+        // Validación para los campos que no deben contener números
+        if (name === 'Nombres' || name === 'Apellidos' || name === 'nombre_acudiente' || name === 'apellido_acudiente') {
+            // Si el valor contiene números, no se actualiza el estado
+            if (/\d/.test(value)) {
+                return;
+            }
+        }
+        setHistorial({ ...Historial, [e.target.name]: e.target.value });
+    };
+
+    // Función para enviar los datos actualizados del alumno al servidor
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!Historial.Nombres || !Historial.Apellidos || !Historial.correo || !Historial.celular || !Historial.fecha_nacimiento || !Historial.contrasena || !Historial.genero || !Historial.nombre_acudiente || !Historial.correo_acudiente) {
+            Swal.fire({
+                title: "Campos requeridos",
+                text: "Por favor, completa todos los campos.",
+                icon: "error"
+            });
+            return;
+        }
+        if (Historial.numero_id.length < 7) {
+            Swal.fire({
+                title: "Número de identificación inválido",
+                text: "El número de identificación debe tener al menos 7 caracteres.",
+                icon: "error"
+            });
+            return;
+        }
+
+
+        try {
+            const respuesta = await axios.put(`http://localhost:4000/alumno/actualizaralumno`, Historial);
+            if (respuesta.status === 200) {
+                Mostrar2();
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "Error al actualizar alumno",
+                icon: "error"
+            });
+            console.error(`Error al actualizar alumno, ${error}`);
+        }
+    };
+
     return(
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAlum Move={move_conte}/>
@@ -50,10 +144,10 @@ export const Info_alumno = () => {
                     <img src={Verifi} class="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de actualizar tus datos</h2>
                     <p className="modal_paragraph">Una vez aceptes la información se guardara automaticamente</p>
-                    <div className="content_modal_b">
-                        <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Actualizar</a>
-                    </div>
+                    <form onSubmit={handleSubmit} className="content_modal_b">
+                        <a className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
+                        <button type="submit" className="modal_close_actu" id="Regis">Actualizar</button>
+                    </form>
                 </div>
             </section>
             <section className="modal_confir_regi" ref={refModal2}>
@@ -66,89 +160,100 @@ export const Info_alumno = () => {
                 </div>
             </section>
             <div className="info-text">
-			    <h1>Información Personal</h1>
+                <h1>Historial de Usuario</h1>
+                <div>
+                    <h3 className="h3_formu">Datos Básicos</h3>
+                </div>
                 <div>
                     <form className="cont_info">
                         <legend className="info_title">Información Alumno</legend>
                         <div className="info_form">
-                            <div class="opcion_block">
-                                <label for="pname">Nombres</label>
-                                <input id="pname" type="text" name="p_nombre" value="Valery"/>
+                            <div>
+                                <label htmlFor="pname">Nombres</label>
+                                <input id="pname" type="text" name="Nombres" value={Historial.Nombres} onChange={handleChange} readOnly/>
+                                <p>Este dato no se puede actualizar</p>
                             </div>
-                            <div class="opcion_block">
-                                <label for="psurname">Apellidos</label>
-                                <input id="psurname" type="text" name="p_apellido" value="Montaña"/>
+                            <div>
+                                <label htmlFor="psurname">Apellidos</label>
+                                <input id="psurname" type="text" name="Apellidos" value={Historial.Apellidos} onChange={handleChange} readOnly/>
+                                <p>Este dato no se puede actualizar</p>
                             </div>
-                            <div class="opcion_block">
-                                <label for="tdocument">Tipo de documento</label>
-                                <input list="tdocument" value="T.I"/>
+                            <div>
+                                <label htmlFor="tdocument">Tipo de documento</label>
+                                <input list="tdocument" name="pkfk_tdoc" value={Historial.pkfk_tdoc} onChange={handleChange} readOnly/>
+                                <p>Este dato no se puede actualizar</p>
                                 <datalist id="tdocument">
-                                    <option selected>T.I</option>
-                                    <option>C.C</option>
-                                    <option>R.C</option>
-                                    <option>C.E</option>
+                                    <option value="TI">T.I</option>
+                                    <option value="CC">C.C</option>
+                                    <option value="RC"> R.C</option>
+                                    <option value="CE">C.E</option>
                                 </datalist>
                             </div>
-                            <div class="opcion_block">
-                                <label for="ndocument">Numero de documento</label>
-                                <input id="ndocument" type="text" name="ndocument" value="1035692486"/>
+
+                            <div>
+                                <label htmlFor="ndocument">Numero de documento</label>
+                                <input id="ndocument" type="text" name="numero_id" value={Historial.numero_id} onChange={handleChange} readOnly/>
+                                <p>Este dato no se puede actualizar</p>
                             </div>
                             <div>
-                                <label for="ncelular">Numero de celular</label>
-                                <input id="ncelular" type="text" name="ncelular" value="3153135796"/>
+                                <label htmlFor="ncelular">Numero de celular</label>
+                                <input id="ncelular" type="text" name="celular" value={Historial.celular} onChange={handleChange} />
                             </div>
                             <div>
-                                <label for="email">Correo Electronico</label>
-                                <input id="email" type="email" name="email" value="vlili08@gmail.com"/>
+                                <label htmlFor="email">Correo Electronico</label>
+                                <input id="email" type="email" name="correo" value={Historial.correo} onChange={handleChange} />
                             </div>
-                            <div class="opcion_block">
-                                <label for="date_nacimiento">Fecha de nacimiento</label>
-                                <input id="date_nacimiento" type="date" name="date_nacimiento" value="2008-06-08"/>
+                            <div>
+                                <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
+                                <input id="date_nacimiento" type="date" name="fecha_nacimiento" value={Historial.fecha_nacimiento.split('T')[0]} onChange={handleChange} readOnly/>
+                                <p>Este dato no se puede actualizar</p>
                             </div>
                         </div>
                         <div className="form-genero">
                             <p>Genero</p>
-                            <div className="generos">
-                                <input type="radio" name="optionsGenero" id="optionsRadios1"/>
-                                <label for="optionsRadios1"><span className="radio-button"></span>Masculino</label>
+                            <p className="mensajeblock">Este dato no se puede actualizar</p>
+                            <div className="generos" >
+                                <input checked={Historial.genero === 'masculino'} type="radio" name="genero" id="optionsRadios1" value="masculino" onChange={handleChange} disabled/>
+                                <label htmlFor="optionsRadios1"><span className="radio-button"></span>Masculino</label>
                             </div>
                             <div className="generos">
-                                <input type="radio" name="optionsGenero" id="optionsRadios2"/>
-                                <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
+                                <input checked={Historial.genero === 'femenino'} type="radio" name="genero" id="optionsRadios2" value="femenino" onChange={handleChange} disabled/>
+                                <label htmlFor="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                             </div>
                         </div>
-                        <div class="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
+
+
+                        {/* Informacion Acudiente */}
+                        <div>
+                            {/* <form className="cont_info" > */}
+                            <legend className="info_title">Información Acudiente</legend>
+                            <div className="info_form">
+                                <div>
+                                    <label htmlFor="pname-a">Nombre acudiente</label>
+                                    <input id="pname-a" type="text" name="nombre_acudiente" value={Historial.nombre_acudiente} onChange={handleChange} />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="email-a">Correo Electronico</label>
+                                    <input id="email-a" type="email" name="correo_acudiente" value={Historial.correo_acudiente} onChange={handleChange} />
+                                </div>
+                                <div>
+                                    <label htmlFor="ncelular-a">Numero de celular</label>
+                                    <input id="ncelular-a" type="text" name="celular_acudiente" value={Historial.celular_acudiente} onChange={handleChange} />
+                                </div>
+
+                            </div>
+                            <div className="botones">
+                                <div class="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div>
-                    <form class="cont_info">
-                        <legend class="info_title">Información Acudiente</legend>
-                        <div class="info_form">
-                            <div class="opcion_block">
-                                <label for="pname-a">Nombres</label>
-                                <input id="pname-a" type="text" name="p_nombre-a" value="Rogelio"/>
-                            </div>
-                            <div class="opcion_block">
-                                <label for="psurname-a">Apellidos</label>
-                                <input id="psurname-a" type="text" name="p_apellido-a" value="Montaña"/>
-                            </div>
-                            <div>
-                                <label for="ncelular">Numero de celular</label>
-                                <input id="ncelular" type="text" name="ncelular" value="3153135796"/>
-                            </div>
-                            <div>
-                                <label for="email">Correo Electronico</label>
-                                <input id="email" type="email" name="email" value="vlili08@gmail.com"/>
-                            </div>
-                            <div class="opcion_block">
-                                <label for="date_nacimiento">Fecha de nacimiento</label>
-                                <input id="date_nacimiento" type="date" name="date_nacimiento" value="2008-06-08"/>
-                            </div>
-                        </div>
-                        <div class="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
-                    </form>
-                </div>    
-			</div>
+
+                </div>
+            </div>
         </div>
     )
 }
