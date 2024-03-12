@@ -27,10 +27,10 @@ export const SidebarAlum = ({Move}) => {
 
     return (
         <main>
-            <header class={`Barra-nav ${show ? 'barra-nav-show' : null}`}>
+            <header className={`Barra-nav ${show ? 'barra-nav-show' : null}`}>
                 <ul>
                     <li>
-                        <a href="#!" class="toggle-btn" id="btn_open" onClick={con_mov}><img src={Menu}/></a>
+                        <a href="#!" className="toggle-btn" id="btn_open" onClick={con_mov}><img src={Menu}/></a>
                     </li>
                 </ul>
             </header> 
@@ -43,39 +43,39 @@ export const SidebarAlum = ({Move}) => {
                         <figure className="sidebar-photo">
                             <img src={User} alt="Userphoto"/><br></br>
                             <p>{!!username ? username : 'null'}</p>
-                            <a className="btn_img"><i className="fa-solid icons_side"><Link to="/Informacion_Personal_Alumno"><FontAwesomeIcon icon={faUserPen}/></Link></i></a>
-                            <a className="btn_img" onClick={cerrarsession}><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket}/></Link></i></a>
+                            <i className="btn_img"><i className="fa-solid icons_side"><Link to="/Informacion_Personal_Alumno"><FontAwesomeIcon icon={faUserPen}/></Link></i></i>
+                            <i className="btn_img" onClick={cerrarsession}><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket}/></Link></i></i>
                         </figure>
                     </div>
                     <ul className="Barra-lateral">
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <img src={Menu} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/menu_Alumno">Menu</Link></a>
+                                <i className="Barra-lateral_link"><Link to="/menu_Alumno">Menu</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faCalendar} className="Barra-lateral_img"/> 
-                                <a className="Barra-lateral_link"><Link to="/horario">Ver Horario</Link></a>
+                                <i className="Barra-lateral_link"><Link to="/horario">Ver Horario</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faBookOpen} className="Barra-lateral_img"/> 
-                                <a className="Barra-lateral_link"><Link to="/Mis_Actividades">Mis Actividades</Link></a>
+                                <i className="Barra-lateral_link"><Link to="/Mis_Actividades">Mis Actividades</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faPenToSquare} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/inscribirse">Inscripciones</Link></a>
+                                <i className="Barra-lateral_link"><Link to="/inscribirse">Inscripciones</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faFile} className="Barra-lateral_img"/> 
-                                <a className="Barra-lateral_link"><Link to="/reporte">Reportes</Link></a>
+                                <i className="Barra-lateral_link"><Link to="/reporte">Reportes</Link></i>
                             </div>   
                         </li>
                     </ul>

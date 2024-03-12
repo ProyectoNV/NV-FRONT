@@ -1,6 +1,8 @@
 import React from "react";
-import Actividad from "../Componentes/List_actividades";
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect} from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import Futbol_pequeños from '../Imagenes/futbol_pequeños.png';
 import SidebarAlum from "../Componentes/Dashboard_alum";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
@@ -45,24 +47,121 @@ export const Inscrip = () => {
 		setShowe(!showe)
 	}
 
+    const iduser = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).id;
+    const [alumnoActividad, setAlumnoActividad]=useState({
+        Actividad_id: "",
+        id_alumno: iduser
+    })
+    const [listUpdated, setListUpdated] = useState(false)
+    const [listActu, setListActu] = useState ([])
+    
+    useEffect(() => {
+        const Actividadlist = async () => {
+            try{
+                const respuesta = await axios.get('http://localhost:4000/actividades/mostrar');
+                setListActu(respuesta.data);
+            }catch(error){
+                console.log(error);
+            }       
+        }
+        Actividadlist()
+        setListUpdated(false);
+    }, [listUpdated])
+
+
+    const changeActivity = async (acti_id) => {
+        console.log(acti_id)
+        const hacer = await setAlumnoActividad({
+            Actividad_id: acti_id,
+            id_alumno: iduser
+        });
+        Mostrar();
+        console.log(alumnoActividad)
+    }
+
+    const ContarAlumnos = async ()=>{
+        try{
+            const conteo = await fetch('http://localhost:4000/actividades/BuscarAlumnosActi/'+alumnoActividad.Actividad_id);    
+            const resultcon = await conteo.json();
+            return(resultcon[0].cantidad_alumnos);
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const Contaractividades = async ()=>{
+        let fechaactual = new Date();
+        let parametro1 = `/${fechaactual.getFullYear()}`;
+        try{
+            const conteoacty = await fetch('http://localhost:4000/actividades/BuscarActividadesAlumno/'+iduser+parametro1);    
+            const resultconacty = await conteoacty.json();
+            return(resultconacty[0].cantidad_actividades);
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const alumactividadSubmit=async (e)=>{
+        e.preventDefault();
+        let convali = await ContarAlumnos();
+        let activali = await Contaractividades();
+        if(convali>=20){
+            Swal.fire({
+                title: "Lo sentimos",
+                text: "Esta actividad ya se encuentra al limite de cupos",
+                icon: "error"
+            });
+            Ocultar();
+        }
+        else if(activali>=5){
+            Swal.fire({
+                title: "Lo sentimos",
+                text: "Ya formas parte de 5 acctividades actualmente",
+                icon: "error"
+            });
+            Ocultar();
+        }
+        else{
+            try {
+                const response = await fetch("http://localhost:4000/actividades/inscribirse",{
+                    method:"POST",
+                    headers:{
+                        'Content-Type':"application/json"
+                    },
+                    body: JSON.stringify(alumnoActividad)
+                });
+                if(response.ok){
+                    Mostrar2();
+                }else{
+                    throw new Error("Error al asignar actividad")
+                }
+
+            } catch (error) {
+                console.error("Error al asignar actividad: ",error)
+            }
+        }
+        
+        setListUpdated(true)
+    }
+
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAlum Move={move_conte}/>
             <section className="modal_regis-d" ref={refModal}>
                 <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
+                    <img src={Verifi} className="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de inscribirte a esta actividad?</h2>
                     <p className="modal_paragraph">Una vez aceptes se enviara la solicitud para inscribirse</p>
-                    <div className="content_modal_b">
-                        <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Inscribirse</a>
-                    </div>
+                    <form onSubmit={alumactividadSubmit} className="content_modal_b">
+                        <a className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
+                        <button type="submit" className="modal_close_actu" id="Regis">Inscribir</button>
+                    </form>
                 </div>
             </section>
             <section className="modal_confir_regi" ref={refModal2}>
                 <div className="modal_container">
                     <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
+                    <label htmlFor="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
                     <p className="modal_paragraph">La solicitud se ha enviado con exito</p>
@@ -71,16 +170,16 @@ export const Inscrip = () => {
             <div className="cont_card">
                 <h1> Inscribirse actividades</h1>
                 <div className="cont_eliminar">
-                    {Actividad.map((act) => {
+                    {listActu.map((act) => {
                         return (
-                            <div class="card_d">
-                                <figure style={{backgroundColor:(act.color)}}>
-                                    <img src={act.img}  />
+                            <div className="card_d" key={act.id_actividad}>
+                                <figure style={{backgroundColor:('#fcb900')}}>
+                                    <img src={Futbol_pequeños}/>
                                 </figure>
-                                <div class="contenido">
-                                    <h3>{act.nombre} </h3>
-                                    <p>{act.descripción}  </p>
-                                    <a onClick={Mostrar}>Inscribirse actividad</a>
+                                <div className="contenido">
+                                    <h3>{act.Nombre_actividad} </h3>
+                                    <p>{act.descripcion} </p>
+                                    <a id={act.id_actividad} onClick={() => changeActivity(act.id_actividad)}>Inscribirse actividad</a>
                                 </div>
                             </div>
                         )
