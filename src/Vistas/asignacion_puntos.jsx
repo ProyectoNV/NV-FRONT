@@ -1,110 +1,138 @@
-import React from "react"
-import { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SidebarDocente from "../Componentes/Dashboard_doc";
-import DataTable from "react-data-table-component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../css/Registro_asistencia.css"
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export const Puntos = () => {
-    const alumnos = [
-        { id:1, nombre: 'Maria',apellidos:'Alvarado Tapia', puntos:"10" , Observaciones: "NA"},
-        { id:2, nombre: 'Pedro',apellidos:'Arenas Fuentes',puntos:"9" , Observaciones:"NA" },
-        { id:3, nombre: 'Clara',apellidos:'Ballesteros Camacho',puntos:"7", Observaciones:"NA"  },
-        { id:4, nombre: 'Chintia',apellidos:'Cervantes Morales', puntos:"6", Observaciones:"NA" },
-        { id:5, nombre: 'Alberto',apellidos:'Diaz Sanchez',  puntos:"9", Observaciones:"NA"},
-        { id:6, nombre: 'Marlen',apellidos:'Feria Alvarez', puntos:"5" , Observaciones:"NA"},
-        { id:7, nombre: 'Hector',apellidos:'Garcia Molina', puntos:"6", Observaciones:"NA" },
-        { id:8, nombre: 'Raquel',apellidos:'Lopez Garduño', puntos:"8" , Observaciones:"NA"},
-        { id:9, nombre: 'Claudia',apellidos:'Medina Vidal', puntos:"10" , Observaciones:"NA"},
-        { id:10, nombre: 'Victor',apellidos:'Zamora Guerrero',puntos:"6" , Observaciones:"NA"},
-        { id:11, nombre: 'Angie',apellidos:'Arias Rodriguez' ,puntos:"10", Observaciones:"NA"},
-        { id:12, nombre: 'Carlos',apellidos:'Tunajano Valencia',puntos:"10", Observaciones:"NA"},
-        { id:13, nombre: 'Veronica',apellidos:'Negro Cnator ' ,puntos:"10", Observaciones:"NA"},
-        { id:14, nombre: 'Juan',apellidos:'Baquero Orozco' ,puntos:"9" , Observaciones:"NA"},
-        { id:15, nombre: 'Erick',apellidos:'Ardila Peña',puntos:"7" , Observaciones:"NA"},
-        { id:16, nombre: 'Sara',apellidos:'Bermudez Lopez' ,puntos:"4", Observaciones:"NA"},
-        { id:17, nombre: 'Esteban',apellidos:'Castaño Ortiz',puntos:"6" , Observaciones:"NA"},
-        { id:18, nombre: 'Wilson',apellidos:'Contreras Páez',puntos:"8" , Observaciones:"NA"},
-
-
-    ];
-    const columnas = [
-        {
-            name: 'ID',
-            selector: 'id',
-            sortable: true
-        },
-        {
-            name: 'Nombre',
-            selector: 'nombre',
-            sortable: true
-        },
-        {
-            name: 'Apellidos',
-            selector: 'apellidos',
-            sortable: true,
-            
-        },
-        {
-            name: 'Puntos',
-            selector: 'puntos',
-            sortable: true,
-            
-        },
-        {
-            name: 'Observaciones',
-            selector: 'Observaciones',
-            sortable: true,
-            
-        }
-        
-
-    ]
-    const paginacionOpciones = {
-        rowPerPageText: 'Filas por pagina',
-        rangeSeparatorText: 'de',
-        selectAllRowsItem: true,
-        selectAllRowsItemText: 'Todos'
-    }
-
     var refmove = useRef();
     const [showe, setShowe] = useState(false);
     const move_conte = (e) => {
         setShowe(!showe)
-        
     }
+    const iduser = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).id;
+
+    const [asignacion, setAsignacion] = useState([]);
+    const [puntosActividad, setpuntosActividad] = useState([]);
+    const [ActividadDocencte, setActividadDocente] = useState([]);
+
+
+    useEffect(() => {
+        const actividad_docente = async () => {
+            try {
+                const respuesta = await axios.get('http://localhost:4000/docente/docenteactividad/'+iduser)
+                console.log(respuesta.data)
+                setActividadDocente(respuesta.data);
+            } catch (error) {
+                console.log(error);
+            };
+        }
+        actividad_docente()
+    }, []);
+
+    useEffect(() => {
+        console.log(ActividadDocencte)
+        axios.get('http://localhost:4000/docente/listado/' +1)
+            .then(response => {
+                setAsignacion(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    }, []);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/docente/puntosactividad')
+            .then(response => {
+                setpuntosActividad(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    const [selectedPuntos, setSelectedPuntos] = useState({});
+
+    const handleChange = (event, estudianteId) => {
+        const { value } = event.target;
+        setSelectedPuntos(prevState => ({
+            ...prevState,
+            [estudianteId]: value
+        }));
+    };
+
+    const handleSubmitpuntos = async (id_alumno) => {
+        const envio = { id_actividad: 1, id_alumno, puntos_id: selectedPuntos[id_alumno] }
+        console.log(envio)
+        //validar si existe el dato puntos_id
+        if (envio.puntos_id) {
+            axios.post('http://localhost:4000/docente/puntos', envio)
+                .then(response => {
+                    Swal.fire({
+                        text: "Puntos registrados",
+                        icon: "success"
+                    })
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            Swal.fire({
+                text: "No ha seleccionado una cantidad de puntos",
+                icon: "error"
+            })
+        }
+
+
+    }
+
+
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarDocente Move={move_conte} />
-            <div className="table-responsive">
-                <div className="barraBusqueda">
-                    <input
-                    type="text"
-                    placeholder="Buscar"
-                    className="textField"
-                    name="busqueda"
-                    />
-                    <button type="button" className="btnBuscar">
-                        {""}
-                        <FontAwesomeIcon icon={faSearch}/>
-                    </button>
+            <div style={{ width: '100%' }}>
+                <h1 style={{ textAlign: 'center' }}> Listado de Estudiantes</h1><br />
+                <div className="container">
+                    <table className='table_lista'>
+                        <thead className='thead_lista'>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Puntos</th>
+                                <th>Guardar</th>
+                            </tr>
+                        </thead>
+                        <tbody className='body_lista'>
+                            {asignacion.map((estudiante, index) => (
+                                <tr key={index}>
+                                    <td>{estudiante.Nombres}</td>
+                                    <td>{estudiante.Apellidos}</td>
+                                    <td>
+                                        <select onChange={(e) => handleChange(e, estudiante.id_alumno)}>
+                                            <option>Seleccionar</option>
+                                            {puntosActividad.map((puntos, index) => (
+                                                <option key={index} value={puntos.id_puntos}>
+                                                    {puntos.valor_puntos}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div className="btn">
+                                            <button className="button_formu" type="button" onClick={() => handleSubmitpuntos(estudiante.id_alumno)}>Guardar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
 
+                    </table>
                 </div>
-
-                <DataTable
-                    columns={columnas}
-                    data={alumnos}
-                    title="Gestione las asistencia de su curso"
-                    pagination
-                    paginationComponentOptions={paginacionOpciones}
-                    fixedHeader
-                    fixedHeaderScrollHeight="600px"
-                />
             </div>
         </div>
-
-    )
+    );
 }
 
-export default Puntos
+export default Puntos;

@@ -27,10 +27,10 @@ export const SidebarDocente = ({ Move }) => {
 
     return (
         <main>
-            <header class={`Barra-nav ${show ? 'barra-nav-show' : null}`}>
+            <header className={`Barra-nav ${show ? 'barra-nav-show' : null}`}>
                 <ul>
                     <li>
-                        <a href="#!" class="toggle-btn" id="btn_open" onClick={con_mov}><img src={Menu} /></a>
+                        <a href="#!" className="toggle-btn" id="btn_open" onClick={con_mov}><img src={Menu} /></a>
                     </li>
                 </ul>
             </header>

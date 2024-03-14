@@ -77,10 +77,18 @@ export const Regis_alum = () => {
         }
 
         // Validación de campos requeridos
-        if (!alumnos.Nombres || !alumnos.Apellidos || !alumnos.correo || !alumnos.celular || !alumnos.fecha_nacimiento || !alumnos.contrasena || !alumnos.genero || !alumnos.nombre_acudiente || !alumnos.correo_acudiente) {
+        if (!alumnos.Nombres || !alumnos.Apellidos || !alumnos.correo || !alumnos.celular || !alumnos.fecha_nacimiento || !alumnos.contrasena || !alumnos.genero || !alumnos.nombre_acudiente || !alumnos.correo_acudiente)  {
             Swal.fire({
                 title: "Campos requeridos",
                 text: "Por favor, completa todos los campos.",
+                icon: "error"
+            });
+            return;
+        }
+        if (alumnos.Nombres.split(" ").length < 1 || alumnos.Apellidos.split(" ").length < 2 || alumnos.nombre_acudiente.split(" ").length < 3)  {
+            Swal.fire({
+                title: "Caracteres insuficientes",
+                text: "Por favor, ingresa los nombres completos.",
                 icon: "error"
             });
             return;

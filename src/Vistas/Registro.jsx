@@ -105,7 +105,7 @@ export const Registro = () => {
                     </div>
                 </div>
                 <button className="btnRegistro" type="submit">Registrar</button>
-                <Link to="/ingreso" className="label-cursor">Iniciar sesión</Link>
+                <Link to="/" className="label-cursor">Iniciar sesión</Link>
             </form>
         </div>
     )

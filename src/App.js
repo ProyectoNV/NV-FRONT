@@ -13,6 +13,7 @@ import Reporte from "./Vistas/Reportes";
 import Menudoc from "./Vistas/Menu_doc";
 import Asistencia from "./Vistas/Registro_asistencia";
 import Puntos from "./Vistas/asignacion_puntos";
+import Observaciones from "./Vistas/Observaciones";
 import Lis from "./Vistas/Listado";
 import Listas from "./Vistas/Ver_listas";
 import Regis_alum from "./Vistas/Registro_Alumno";
@@ -64,6 +65,7 @@ function App() {
         <Route path="/Menu_Docente" element={<Menudoc/>}></Route>
         <Route path="/Asistencia" element={<Asistencia/>}></Route>
         <Route path="/Puntos" element={<Puntos/>}></Route>
+        <Route path="/Observaciones" element={<Observaciones/>}></Route>
         <Route path="/Mis_Actividades" element={<MisActividades/>}></Route>
         <Route path="/menu_Alumno" element={<Menu_alum/>}></Route>
         <Route path="/reporte" element={<Reporte/>}></Route>
