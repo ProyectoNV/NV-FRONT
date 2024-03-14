@@ -57,7 +57,7 @@ export const SidebarAlum = ({Move}) => {
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faCalendar} className="Barra-lateral_img"/> 
-                                <i className="Barra-lateral_link"><Link to="/horario">Ver Horario</Link></i>
+                                <i className="Barra-lateral_link"><Link to="/CronogramaAlumno">Ver Horario</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">

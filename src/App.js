@@ -22,6 +22,8 @@ import Hacer_crono from "./Vistas/Hacer_horario";
 import Historial_user from "./Vistas/Historial_Usuario";
 import Enviar_Reporte from "./Vistas/Enviar_Reporte";
 import Horario from "./Vistas/Horario";
+import CronoAlum from "./Vistas/Horario_alum";
+import CronoDoc from "./Vistas/Horario_docente";
 import RestablecerContra from "./Vistas/RestablecerContra";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -82,6 +84,8 @@ function App() {
         <Route path="/Registro" element={<Registro/>}></Route>
         <Route path="/" element={<SessionAbierta element={<Login/>}/>}></Route>
         <Route path="/Restablecer" element={<RestablecerContra/>}></Route>
+        <Route path="/CronogramaAlumno" element={<CronoAlum/>}></Route>
+        <Route path="/CronogramaDocente" element={<CronoDoc/>}></Route>
       </Routes>
     </header>
     
