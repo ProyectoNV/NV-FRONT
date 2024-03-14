@@ -1,7 +1,6 @@
 import React from "react"
 import { useState, useRef, useEffect} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
-import Cronograma from "../Componentes/cronograma";
 import '../css/cronograma.css'
 
 export const Horario = () => {

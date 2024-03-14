@@ -1,48 +1,221 @@
-import React from "react";
+import React from "react"
+import { useState, useEffect} from "react";
+import '../css/cronograma.css'
 
-export let Cronograma=[
-    {
-        nombre: "Refuerzo escolar",
-        lugar: "FNVPT", 
-        ininio: "8:00 am",
-        final: "10:00 am",
-        docente: "por asignar",
-    },
-    {
-        nombre: "Refuerzo escolar",
-        lugar: "FNVPT", 
-        ininio: "8:00 am",
-        final: "10:00 am",
-        docente: "por asignar",
-    },
-    {
-        nombre: "Refuerzo escolar",
-        lugar: "FNVPT", 
-        ininio: "8:00 am",
-        final: "10:00 am",
-        docente: "por asignar",
-    },
-    {
-        nombre: "Refuerzo escolar",
-        lugar: "FNVPT", 
-        inicio: "8:00 am",
-        final: "10:00 am",
-        docente: "por asignar",
-    },
-    {
-        nombre: "Refuerzo escolar",
-        lugar: "FNVPT", 
-        inicio: "8:00 am",
-        final: "10:00 am",
-        docente: "por asignar",
-    },
-    {
-        nombre: "Robotica",
-        lugar: "Tercer piso fundación",
-        inicio: "10:00 am", 
-        final: "12:00 am",
-        docente: "Didier Garcia",
-    },
-];
+export const Horarios = () => {
 
-export default Cronograma
+    const [listUpdated, setListUpdated] = useState(false);
+    const [Lunes, setLunes] = useState([])
+    const [Martes, setMartes] = useState([])
+    const [Miercoles, setMiercoles] = useState([])
+    const [Jueves, setJueves] = useState([])
+    const [Viernes, setViernes] = useState([])
+    const [Sabado, setSabado] = useState([])
+
+    function compararHoras(a, b){
+        const [horaA, minutoA] = a.Hora_inicio.split(":");
+        const [horaB, minutoB] = b.Hora_inicio.split(":");
+
+        if(horaA !== horaB){
+            return horaA - horaB;
+        }
+        else{
+            return minutoA - minutoB;
+        }
+    }
+
+    useEffect(() => {
+        const TraeCrono = async () => {
+            try{
+                const getlunes = await fetch('http://localhost:4000/horario/VerCronograma/lunes');
+                const datalunes = await getlunes.json();
+                datalunes.sort(compararHoras);
+                setLunes(datalunes)
+                const getmartes = await fetch('http://localhost:4000/horario/VerCronograma/martes');
+                const datamartes = await getmartes.json();
+                datamartes.sort(compararHoras);
+                setMartes(datamartes)
+                const getmiercoles = await fetch('http://localhost:4000/horario/VerCronograma/miercoles');
+                const datamiercoles = await getmiercoles.json();
+                datamiercoles.sort(compararHoras);
+                setMiercoles(datamiercoles)
+                const getjueves = await fetch('http://localhost:4000/horario/VerCronograma/jueves');
+                const datajueves = await getjueves.json();
+                datajueves.sort(compararHoras);
+                setJueves(datajueves)
+                const getviernes = await fetch('http://localhost:4000/horario/VerCronograma/viernes');
+                const dataviernes = await getviernes.json();
+                dataviernes.sort(compararHoras);
+                setViernes(dataviernes)
+                const getsabado = await fetch('http://localhost:4000/horario/VerCronograma/sabado');
+                const datasabado = await getsabado.json();
+                datasabado.sort(compararHoras);
+                setSabado(datasabado)
+            }catch(error){
+                console.log(error);
+            }
+        }
+        TraeCrono()
+        setListUpdated(false);
+    }, [listUpdated])
+
+    return(
+        <div>
+            <div className="cronogramas_info">
+			    <h1 className="titulo_horario">Horario</h1>
+                <table className="table_horario">
+                    <thead>
+                        <tr>
+                            <th colSpan="6">Lunes</th>
+                        </tr>
+                        <tr >
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Lunes.map((lun , indice) => (
+                            <tr key={indice}>
+                                <td>{lun.Nombre_actividad}</td>
+                                <td>{lun.Lugar}</td>
+                                <td>{lun.Hora_inicio}</td>
+                                <td>{lun.Hora_fin}</td>
+                                <td>{`${lun.Nombres} ${lun.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <table className="table_horario">
+                    <thead>
+                        <tr className="th_horario">
+                            <th colSpan="6">Martes</th>
+                        </tr>
+                        <tr className="th_horario">
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Martes.map((mar , indice) => (
+                            <tr key={indice}>
+                                <td>{mar.Nombre_actividad}</td>
+                                <td>{mar.Lugar}</td>
+                                <td>{mar.Hora_inicio}</td>
+                                <td>{mar.Hora_fin}</td>
+                                <td>{`${mar.Nombres} ${mar.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <table className="table_horario">
+                    <thead>
+                        <tr className="th_horario">
+                            <th colSpan="6">Miercoles</th>
+                        </tr>
+                        <tr className="th_horario">
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Miercoles.map((mie , indice) => (
+                            <tr key={indice}>
+                                <td>{mie.Nombre_actividad}</td>
+                                <td>{mie.Lugar}</td>
+                                <td>{mie.Hora_inicio}</td>
+                                <td>{mie.Hora_fin}</td>
+                                <td>{`${mie.Nombres} ${mie.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <table className="table_horario">
+                    <thead>
+                        <tr className="th_horario">
+                            <th colSpan="6">Jueves</th>
+                        </tr>
+                        <tr className="th_horario">
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Jueves.map((jue , indice) => (
+                            <tr key={indice}>
+                                <td>{jue.Nombre_actividad}</td>
+                                <td>{jue.Lugar}</td>
+                                <td>{jue.Hora_inicio}</td>
+                                <td>{jue.Hora_fin}</td>
+                                <td>{`${jue.Nombres} ${jue.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <table className="table_horario">
+                    <thead>
+                        <tr className="th_horario">
+                            <th colSpan="6">Viernes</th>
+                        </tr>
+                        <tr className="th_horario">
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Viernes.map((vie , indice) => (
+                            <tr key={indice}>
+                                <td>{vie.Nombre_actividad}</td>
+                                <td>{vie.Lugar}</td>
+                                <td>{vie.Hora_inicio}</td>
+                                <td>{vie.Hora_fin}</td>
+                                <td>{`${vie.Nombres} ${vie.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <table className="table_horario">
+                    <thead>
+                        <tr className="th_horario">
+                            <th colSpan="6">Sabado</th>
+                        </tr>
+                        <tr className="th_horario">
+                            <th>Actividad</th>
+                            <th>Lugar</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Docente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Sabado.map((sab , indice) => (
+                            <tr key={indice}>
+                                <td>{sab.Nombre_actividad}</td>
+                                <td>{sab.Lugar}</td>
+                                <td>{sab.Hora_inicio}</td>
+                                <td>{sab.Hora_fin}</td>
+                                <td>{`${sab.Nombres} ${sab.Apellidos}`}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+			</div>
+        </div>
+    )
+}
+
+export default Horarios

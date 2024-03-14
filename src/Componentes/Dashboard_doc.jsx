@@ -4,7 +4,7 @@ import { Link , useNavigate} from "react-router-dom";
 import Menu from "../Imagenes/iconos/bx-menu.svg";
 import User from "../Imagenes/user.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen, faRightFromBracket,faClipboardCheck,faRectangleList } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen, faRightFromBracket,faClipboardCheck,faRectangleList, faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 import '../css/sidebar.css';
 
@@ -54,6 +54,12 @@ export const SidebarDocente = ({ Move }) => {
                                 <img src={Menu} className="Barra-lateral_img" />
                                 <a href="#!" className="Barra-lateral_link"><Link to="/Menu_Docente">Menu</Link></a>
                             </div>
+                        </li>
+                        <li className="Barra-lateral_item">
+                            <div className="Barra-lateral_button">
+                                <FontAwesomeIcon icon={faCalendar} className="Barra-lateral_img"/> 
+                                <i className="Barra-lateral_link"><Link to="/CronogramaDocente">Ver Horario</Link></i>
+                            </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
