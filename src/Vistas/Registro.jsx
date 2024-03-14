@@ -1,90 +1,114 @@
-import React from "react"
-import {Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
 import '../css/Login.css';
 
 export const Registro = () => {
-    const[tipoId,setTipoId]=useState("");
-    const[numeroId,setNumeroId]=useState("");
-    const[nombres,setNombres]=useState("");
-    const[apellidos,setApellidos]=useState("");
-    const[fecha,setFecha]=useState("");
-    const[genero,setGenero]=useState("");
-    const[correo,setCorreo]=useState("");
-    const[telefono,setTelefono]=useState("");
-    const[contraseña,setContraseña]=useState("");
-    const[confirmarContraseña,setConfirmarContraseña]=useState("");
+    const [datosRegistros, setDatosRegistros] = useState({
+        tipoId:"",
+        numeroId:"",
+        nombres:"",
+        apellidos:"",
+        fecha:"",
+        genero:"",
+        correo:"",
+        telefono:""
+    })
 
-
-    const Alerta=(icono,titulo,descripcion)=>{
-        Swal.fire({
-            icon:icono,
-            title:titulo,
-            text:descripcion
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setDatosRegistros({
+          ...datosRegistros,
+          [name]: value
         });
     };
 
-    const VerificarCampos=(e)=>{
+    const Alerta = (icono, titulo, descripcion) => {
+        Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: descripcion
+        });
+    };
+
+    const VerificarCampos = async (e) => {
         e.preventDefault();
 
-        if(nombres.length<3 || apellidos.length<3){
-            Alerta("error","Error","Ingrese un nombre o apellido valido")
-            return false;
+        try {
+            const response = await axios.post('http://localhost:4000/preRegistro', datosRegistros);
+    
+            if (response.data.success) {
+                Alerta("success", "Pre Registro Exitoso", "Tu Pre registro se ha enviado correctamente");
+            } else {
+                Alerta("error", "Error", response.data.message || "No se pudo completar el pre registro");
+            }
+        } catch (error) {
+            console.error('Error al enviar la solicitud:', error);
+            Alerta("error", "Error", "Ocurrió un error al enviar la solicitud");
         }
-        
-        if((contraseña.length === confirmarContraseña.length)){
-            if(contraseña === confirmarContraseña){
-                console.log("Correcto");
-            }else{
-                console.log("Deben ser iguales");
-                return false;
-            }            
-        }else{
-            Alerta("error","Error en la contraseña","La contraseña y su confirmacion deben ser iguales");
-            return false;
-        }
-
-        Alerta("sucess","Pre Registro Exitoso","Tu Pre registro se ha enviado correctamente")
     }
 
     return (
-        <div className="container_registro">
-            <form className="form_registro" onSubmit={VerificarCampos}>
+        <div className="contenedorregistro">
+            <form className="formulario_registro" onSubmit={VerificarCampos}>
                 <h1>Pre-Registro</h1>
-                <label htmlFor="tipo_identificación">Tipo ID</label>
-                <select value={tipoId} onChange={(e)=>setTipoId(e.target.value)} required>
-                    <option value="" disabled selected>Seleccione su tipo de documento</option>
-                    <option value="RC">RC</option>
-                    <option value="TI">TI</option>
-                    <option value="CC">CC</option>
-                    <option value="CE">CE</option>
-                    <option value="PEP">PEP</option>
-                </select>
-                <input  className="inputRegistro" type="text" placeholder="Ingrese su numero de identificación" pattern="[0-9]{6,}" title="Ingrese solo numeros sin puntos ni comas" value={numeroId} onChange={(e)=>setNumeroId(e.target.value)} required/>
-                <input className="inputRegistro" type="text" placeholder="Ingrese sus nombres" value={nombres} onChange={(e)=>setNombres(e.target.value)} required/>
-                <input className="inputRegistro" type="text" placeholder="Ingrese sus apellidos" value={apellidos} onChange={(e)=>setApellidos(e.target.value)} required/>
-                <label htmlFor="inputRegistro">Fecha de Nacimiento</label>
-                <input className="inputRegistro" type="date" value={fecha} onChange={(e)=>setFecha(e.target.value)} required/>
-                <label htmlFor="genero">Genero</label>
-                <select value={genero} onChange={(e)=>setGenero(e.target.value)} required>
-                    <option value="" disabled selected>Seleccione su genero</option>
-                    <option value="Femenino" defaultValue={"Femenino"}>Femenino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Otro">Otro</option>
-                </select>
-                <input className="inputRegistro" type="email" placeholder="Ingrese su correo" value={correo} onChange={(e)=>setCorreo(e.target.value)} required/>
-                <input className="inputRegistro" type="tel" placeholder="Ingrese su telefono" pattern="[0-9]*" value={telefono} onChange={(e)=>setTelefono(e.target.value)} required/>
-                <input className="inputRegistro" type="password" placeholder="Ingrese su contraseña" pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!*@#$%&]).{8,}" value={contraseña} onChange={(e)=>setContraseña(e.target.value)} required/> 
-                <input className="inputRegistro" type="password" placeholder="Confirme su contraseña" value={confirmarContraseña} onChange={(e)=>setConfirmarContraseña(e.target.value)} required/>  
+                <div className="registro-row">
+                    <div className="registro-col">
+                        <label htmlFor="tipo_identificación">Tipo ID</label>
+                        <select name="tipoId" className="RegistroInput" value={datosRegistros.tipoId} onChange={handleInputChange} required>
+                            <option value="" disabled selected>Seleccione su tipo de documento</option>
+                            <option value="RC">RC</option>
+                            <option value="TI">TI</option>
+                            <option value="CC">CC</option>
+                            <option value="CE">CE</option>
+                        </select>
+                    </div>
+                    <div className="registro-col">
+                        <label htmlFor="numeroId">Número de Identificación</label>
+                        <input className="RegistroInput" name="numeroId" type="text" placeholder="Ingrese su numero de identificación" pattern="[0-9]{6,}" title="Ingrese solo numeros sin puntos ni comas" value={datosRegistros.numeroId} onChange={handleInputChange} required/>
+                    </div>
+                </div>
+                <div className="registro-row">
+                    <div className="registro-col">
+                        <label htmlFor="nombres">Nombres</label>
+                        <input className="RegistroInput" type="text" name="nombres" placeholder="Ingrese sus nombres" value={datosRegistros.nombres} onChange={handleInputChange} required/>
+                    </div>
+                    <div className="registro-col">
+                        <label htmlFor="apellidos">Apellidos</label>
+                        <input className="RegistroInput" type="text" name="apellidos" placeholder="Ingrese sus apellidos" value={datosRegistros.apellidos} onChange={handleInputChange} required/>
+                    </div>
+                </div>
+                <div className="registro-row">
+                    <div className="registro-col">
+                        <label htmlFor="fecha">Fecha de Nacimiento</label>
+                        <input className="RegistroInput" name="fecha" type="date" value={datosRegistros.fecha} onChange={handleInputChange} required/>
+                    </div>
+                    <div className="registro-col">
+                        <label htmlFor="genero">Género</label>
+                        <select name="genero" className="RegistroInput" value={datosRegistros.genero} onChange={handleInputChange} required>
+                            <option value="" disabled selected>Seleccione su género</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="registro-row">
+                    <div className="registro-col">
+                        <label htmlFor="correo">Correo Electrónico</label>
+                        <input className="RegistroInput" type="email" name="correo" placeholder="Ingrese su correo" value={datosRegistros.correo} onChange={handleInputChange} required/>
+                    </div>
+                    <div className="registro-col">
+                        <label htmlFor="telefono">Teléfono</label>
+                        <input className="RegistroInput" type="tel" name="telefono" placeholder="Ingrese su teléfono" pattern="[0-9]*" value={datosRegistros.telefono} onChange={handleInputChange} required/>
+                    </div>
+                </div>
                 <button className="btnRegistro" type="submit">Registrar</button>
-                <Link to="/ingreso">
-                    <label className="label-cursor">Iniciar sesion</label>
-                </Link>
+                <Link to="/ingreso" className="label-cursor">Iniciar sesión</Link>
             </form>
         </div>
-        
     )
 }
 
-export default Registro
+export default Registro;

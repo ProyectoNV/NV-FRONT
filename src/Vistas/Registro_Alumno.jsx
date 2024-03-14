@@ -1,10 +1,9 @@
 import React from "react"
 import { useState, useRef, useEffect } from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
-import '../css/Formularios.css'
+import '../css/Formularios.css';
 import Swal from "sweetalert2";
 import '../css/Lista.css';
-import '../css/Formularios.css';
 import axios from "axios";
 
 

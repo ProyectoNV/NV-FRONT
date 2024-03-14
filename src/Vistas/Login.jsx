@@ -79,12 +79,12 @@ export const Login = () => {
                     <input value={formData.contrasena} className="inputLogin" type="password" name="contrasena" onChange={handleInput}  placeholder="Ingrese su contraseña" required/> 
                     <button type="submit" className="btn-iniciar">Ingreso</button><br></br>
                     <div className="links">
-                        <Link to="/RecuperarContraseña">
+                        <Link to="/Restablecer">
                             <label className="label-cursor">Olvido su contraseña</label>
                         </Link>
                         <Link to="/registro">
+                            <label className="label-cursor">Pre-Registro</label>
                         </Link>
-                        <label className="label-cursor">Pre-Registro</label>
                     </div>
                 </form>
             </div>

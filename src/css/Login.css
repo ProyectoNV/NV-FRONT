@@ -1,5 +1,4 @@
-.container-login, .container_registro{
-    
+.container-login{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +19,7 @@
     align-items: center;
 }
 
-.form_login, .form_registro{
+.form_login{
     width: 350px;
     height: auto;
     border-radius: 10px;
@@ -35,12 +34,12 @@
     margin: 0 auto;
     padding: 5px 0;
 }
-.form_login h1, .form_registro h1{
+.form_login h1{
     text-align: center;
     font-size: 2em;
     line-height: 10px;
 }
-.inputLogin, .inputRegistro{
+.inputLogin{
     display: block;
     margin: 0 auto;
     width: 85%;
@@ -51,7 +50,7 @@
     outline: none;
     background: #c6d9e0;
 }
-.btn-iniciar, .btnRegistro{
+.btn-iniciar{
     display: block;
     height: 30px;
     width: 40%;
@@ -72,19 +71,64 @@
 }
 
 /*Etiquetas de la pagina registro*/
-label,a{
-    color: black;
-    text-decoration: none;
+.contenedorregistro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
-select{
-    width: 70%;
-    padding: 5px;
-    margin-bottom: 5px;
+
+.formulario_registro {
+    width: 650px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
 }
-select, label{
-    margin-left: 20px;
+
+.registro-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
 }
-.label-cursor{
+
+.registro-col {
+    width: 48%;
+}
+
+.RegistroInput {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.btnRegistro {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-weight: 600;
+}
+
+.btnRegistro:hover {
+    background-color: #0056b3;
+}
+
+.label-cursor {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.label-cursor:hover {
+    text-decoration: underline;
 }
