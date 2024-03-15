@@ -1,5 +1,4 @@
 import React from "react";
-import Actividad from "../Componentes/List_actividades";
 import { useState, useRef, useEffect} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
@@ -47,6 +46,7 @@ export const Eliminar = () => {
 // funcion get
     const [listUpdated, setListUpdated] = useState(false)
     const [actuaEstado, setActuaEstado] = useState ([])
+    const [actuaEstadoi, setActuaEstadoi] = useState ([])
     
     useEffect(() => {
         const actuaactividad = async () => {
@@ -59,30 +59,38 @@ export const Eliminar = () => {
                 console.log(error);
             }       
         }
+        const actuaactividadI = async () => {
+            try{
+                const getActui = await fetch('http://localhost:4000/actividades/mostrarInactivas');
+                const dataActui= await getActui.json();
+                setActuaEstadoi(dataActui);
+                console.log(dataActui);
+            }catch(error){
+                console.log(error);
+            }       
+        }
         actuaactividad()
+        actuaactividadI()
         setListUpdated(false);
     }, [listUpdated])
 
 //Funcion put
 
-const actualizarActividad = async (e) => {
-    let estadoAct = e.target.id
-    try {
-      const response = await fetch('http://localhost:4000/actividades/actualizaract/'+ estadoAct, {
-        method: 'PUT',
-      });
+    const actualizarActividad = async (e) => {
+        let estadoAct = e.target.id
+        try {
+            const response = await fetch('http://localhost:4000/actividades/actualizaract/'+ estadoAct, {
+            method: 'PUT',
+        });
   
-      if (response.ok) {
-        console.log('La actividad actualizo exitosamente');
-    
+        if (response.ok) {
+            console.log('La actividad actualizo exitosamente');
       
-      }
-    } catch (error) {
-      console.error('Error al actualizar la activida', error.message);
-      
-    }setListUpdated(true)
-  };
-
+        }
+        } catch (error) {
+            console.error('Error al actualizar la activida', error.message);
+        }setListUpdated(true)
+    };
 
 
     return (
@@ -90,39 +98,60 @@ const actualizarActividad = async (e) => {
             <SidebarAdmi Move={move_conte}/>
             <section className="modal_regis-d" ref={refModal}>
                 <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
+                    <img src={Verifi} className="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de eliminar esta actividad</h2>
                     <p className="modal_paragraph">Una vez eliminada esta actividad no habra la posivilidad de inscribirse</p>
                     <div className="content_modal_b">
-                        <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={actualizarActividad}>Eliminar</a>
+                        <a href="#" className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
+                        <a href="#" className="modal_close_actu" id="Regis" onClick={actualizarActividad}>Eliminar</a>
                     </div>
                 </div>
             </section>
             <section className="modal_confir_regi" ref={refModal2}>
                 <div className="modal_container">
                     <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
+                    <label htmlFor="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
                     <p className="modal_paragraph">La actividad ha sido eliminada</p>
                 </div>
             </section>
             <div className="cont_card">
-                <h1> Eliminar actividades</h1><br></br>
+                <h1>Actividades Actuales Activas</h1><br></br>
                 <div className="cont_eliminar">
-                    {actuaEstado.map((actua) => (   
-                       
-                            <div class="card_d">
-                             
-                                <div class="contenido">
-                                    <h3><strong>{actua.Nombre_actividad}</strong></h3>
-                                    <p>{actua.descripcion}  </p>
-                                    <a id={actua.id_actividad} onClick={actualizarActividad}>Eliminar actividad</a>
+                    {actuaEstado.map((actua) => {
+                        return (
+                            <div className="card_d" key={actua.id_actividad}>
+                                <figure style={{backgroundColor:('#8b0fff')}}>
+                                    <img src={require(`../Imagenes/Biblioteca_Imagenes/${actua.foto}.png`)}/>
+                                </figure>
+                                <div className="contenido">
+                                    <h3>{actua.Nombre_actividad} </h3>
+                                    <p>{actua.descripcion} </p>
+                                    <a id={actua.id_actividad} onClick={actualizarActividad}>Desactivar actividad</a>
                                 </div>
                             </div>
-                        
-                    ))}
+                        )
+                    })}
+                </div>
+            </div>
+            <div className="cont_card">
+                <h1>Actividades Actuales Inactivas</h1><br></br>
+                <div className="cont_eliminar">
+                    {actuaEstadoi.map((actuai) => {
+                        return (
+                            <div className="card_d" key={actuai.id_actividad}>
+                                <figure style={{backgroundColor:('#fcb900')}}>
+                                    <img src={require(`../Imagenes/Biblioteca_Imagenes/${actuai.foto}.png`)}/>
+                                </figure>
+                                <div className="contenido">
+                                    <h3>{actuai.Nombre_actividad} </h3>
+                                    <p>{actuai.descripcion} </p>
+                                    <a id={actuai.id_actividad} onClick={actualizarActividad}>Activar actividad</a>
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div> 

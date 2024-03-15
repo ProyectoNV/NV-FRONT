@@ -52,42 +52,88 @@ function App() {
     
   };
 
-  const SessionCerrada = ({ element }) => {  
-    const isAuthenticated = !!sessionStorage.getItem('pruebasesion'); // !! convierte el valor a booleano
-    return isAuthenticated ? element : <Navigate to="/" />;
+  const SessionCerrada = ({ element }) => {
+    const isAuthenticated = !!sessionStorage.getItem('pruebasesion');
+    
+    if (isAuthenticated) {
+      const rolauten = JSON.parse(sessionStorage.getItem('pruebasesion')).rol;
+
+      if (rolauten === 10) { // Si el rol es 10 (administrador), permitir el acceso a todas las rutas
+        return element;
+      } else if (rolauten === 11) { // Si el rol es 11 (docente), permitir acceso solo a ciertas rutas
+
+        const allowedRoutes = [
+          '/Menu_Docente',
+          '/Asistencia',
+          '/Puntos',
+          '/Observaciones',
+          '/Informacion_Personal_Docente',
+          '/CronogramaDocente'
+        ];
+        
+        // Verifica si la ruta actual está permitida para el docente
+        if (allowedRoutes.includes(window.location.pathname)) {
+          return element;
+        } else {
+          return <Navigate to="/" />; // Redirige a la página de inicio si la ruta no está permitida
+        }
+      } else if (rolauten === 12) { // Si el rol es 12 (alumno), permitir acceso solo a ciertas rutas
+        const allowedRoutes = [
+          '/menu_Alumno',
+          '/Mis_Actividades',
+          '/Informacion_Personal_Alumno',
+          '/inscribirse',
+          '/CronogramaAlumno',
+          '/reporte'
+        ];
+        
+        if (allowedRoutes.includes(window.location.pathname)) {
+          return element;
+        } else {
+          return <Navigate to="/" />; // Redirige a la página de inicio si la ruta no está permitida
+        }
+      } else {
+        return <Navigate to="/" />;
+      }
+    } else {
+      return <Navigate to="/" />;
+    }
   };
 
   return (
     <header>
       <Routes>
-        <Route path="/Info_Sistem" element={<SessionCerrada element={<Info/>}/>}></Route>
-        <Route path="/Enviar_Reportes" element={<Enviar_Reporte/>}></Route>
-        <Route path="/Menu_Docente" element={<Menudoc/>}></Route>
-        <Route path="/Asistencia" element={<Asistencia/>}></Route>
-        <Route path="/Puntos" element={<Puntos/>}></Route>
-        <Route path="/Observaciones" element={<Observaciones/>}></Route>
-        <Route path="/Mis_Actividades" element={<MisActividades/>}></Route>
-        <Route path="/menu_Alumno" element={<Menu_alum/>}></Route>
-        <Route path="/reporte" element={<Reporte/>}></Route>
-        <Route path="/horario" element={<Horario/>}></Route>
-        <Route path="/Informacion_Personal_Docente" element={<Info_Docente/>}></Route>
-        <Route path="/Informacion_Personal_Administrador" element={<Info_admin/>}></Route>
-        <Route path="/Informacion_Personal_Alumno" element={<Info_alumno/>}></Route>
-        <Route path="/Historial_De_Usuario" element={<Historial_user/>}></Route>
-        <Route path="/Agregar_cronograma" element={<Hacer_crono/>}></Route>
-        <Route path="/admin/registrar_Docente" element={<Regis_Docente/>}></Route>
-        <Route path="/admin/ver_docentes" element={<AdminListaDocentes/>}></Route>
-        <Route path="/registrar_alumno" element={<Regis_alum/>}></Route>
-        <Route path="/verlista" element={<Listas/>}></Route>
-        <Route path="/agregar" element={<Agregar/>}></Route>
-        <Route path="/Eliminar" element={<Eliminar/>}></Route>
-        <Route path="/inscribirse" element={<Inscrip/>}></Route>
-        <Route path="/lista" element={<Lis/>}></Route>
-        <Route path="/Registro" element={<Registro/>}></Route>
         <Route path="/" element={<SessionAbierta element={<Login/>}/>}></Route>
-        <Route path="/Restablecer" element={<RestablecerContra/>}></Route>
-        <Route path="/CronogramaAlumno" element={<CronoAlum/>}></Route>
-        <Route path="/CronogramaDocente" element={<CronoDoc/>}></Route>
+        <Route path="/Restablecer" element={<SessionAbierta element={<RestablecerContra/>}/>}></Route>
+        <Route path="/Registro" element={<SessionAbierta element={<Registro/>}/>}></Route>
+
+        <Route path="/Info_Sistem" element={<SessionCerrada element={<Info/>}/>}></Route>
+        <Route path="/verlista" element={<SessionCerrada element={<Listas/>}/>}></Route>
+        <Route path="/lista" element={<SessionCerrada element={<Lis/>}/>}></Route>
+        <Route path="/agregar" element={<SessionCerrada element={<Agregar/>}/>}></Route>
+        <Route path="/Eliminar" element={<SessionCerrada element={<Eliminar/>}/>}></Route>
+        <Route path="/horario" element={<SessionCerrada element={<Horario/>}/>}></Route>
+        <Route path="/Agregar_cronograma" element={<SessionCerrada element={<Hacer_crono/>}/>}></Route>
+        <Route path="/registrar_alumno" element={<SessionCerrada element={<Regis_alum/>}/>}></Route>
+        <Route path="/admin/registrar_Docente" element={<SessionCerrada element={<Regis_Docente/>}/>}></Route>
+        <Route path="/admin/ver_docentes" element={<SessionCerrada element={<AdminListaDocentes/>}/>}></Route>
+        <Route path="/Enviar_Reportes" element={<SessionCerrada element={<Enviar_Reporte/>}/>}></Route>
+        <Route path="/Informacion_Personal_Administrador" element={<SessionCerrada element={<Info_admin/>}/>}></Route>
+        <Route path="/Historial_De_Usuario" element={<SessionCerrada element={<Historial_user/>}/>}></Route>
+
+        <Route path="/Menu_Docente" element={<SessionCerrada element={<Menudoc/>}/>}></Route>
+        <Route path="/Asistencia" element={<SessionCerrada element={<Asistencia/>}/>}></Route>
+        <Route path="/Puntos" element={<SessionCerrada element={<Puntos/>}/>}></Route>
+        <Route path="/Observaciones" element={<SessionCerrada element={<Observaciones/>}/>}></Route>
+        <Route path="/Informacion_Personal_Docente" element={<SessionCerrada element={<Info_Docente/>}/>}></Route>
+        <Route path="/CronogramaDocente" element={<SessionCerrada element={<CronoDoc/>}/>}></Route>
+
+        <Route path="/menu_Alumno" element={<SessionCerrada element={<Menu_alum/>}/>}></Route>
+        <Route path="/Mis_Actividades" element={<SessionCerrada element={<MisActividades/>}/>}></Route>
+        <Route path="/Informacion_Personal_Alumno" element={<SessionCerrada element={<Info_alumno/>}/>}></Route>
+        <Route path="/inscribirse" element={<SessionCerrada element={<Inscrip/>}/>}></Route>
+        <Route path="/CronogramaAlumno" element={<SessionCerrada element={<CronoAlum/>}/>}></Route>
+        <Route path="/reporte" element={<SessionCerrada element={<Reporte/>}/>}></Route>
       </Routes>
     </header>
     

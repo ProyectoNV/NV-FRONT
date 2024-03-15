@@ -120,7 +120,7 @@ export const SidebarAdmi = ({Move}) => {
                                     <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/agregar">Agregar</Link></i>
                                 </li>
                                 <li className="Barra-lateral_inside">
-                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/Eliminar">Eliminar</Link></i>
+                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/Eliminar">Estado</Link></i>
                                 </li>
                                 <li className="Barra-lateral_inside">
                                     <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/verlista">Listas</Link></i>

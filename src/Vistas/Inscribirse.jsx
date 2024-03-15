@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useRef, useEffect} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Futbol_pequeños from '../Imagenes/futbol_pequeños.png';
 import SidebarAlum from "../Componentes/Dashboard_alum";
 import Verifi  from "../Imagenes/Quality Check_Outline.svg"
 import Check from "../Imagenes/Checklist_Line.svg";
@@ -174,7 +173,7 @@ export const Inscrip = () => {
                         return (
                             <div className="card_d" key={act.id_actividad}>
                                 <figure style={{backgroundColor:('#fcb900')}}>
-                                    <img src={Futbol_pequeños}/>
+                                    <img src={require(`../Imagenes/Biblioteca_Imagenes/${act.foto}.png`)}/>
                                 </figure>
                                 <div className="contenido">
                                     <h3>{act.Nombre_actividad} </h3>

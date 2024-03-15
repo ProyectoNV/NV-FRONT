@@ -230,16 +230,19 @@ export const Info_alumno = () => {
                             <div className="info_form">
                                 <div>
                                     <label htmlFor="pname-a">Nombre acudiente</label>
-                                    <input id="pname-a" type="text" name="nombre_acudiente" value={Historial.nombre_acudiente} onChange={handleChange} />
+                                    <input id="pname-a" type="text" name="nombre_acudiente" value={Historial.nombre_acudiente} onChange={handleChange} readOnly/>
+                                    <p>Este dato no se puede actualizar</p>
                                 </div>
 
                                 <div>
                                     <label htmlFor="email-a">Correo Electronico</label>
-                                    <input id="email-a" type="email" name="correo_acudiente" value={Historial.correo_acudiente} onChange={handleChange} />
+                                    <input id="email-a" type="email" name="correo_acudiente" value={Historial.correo_acudiente} onChange={handleChange} readOnly/>
+                                    <p>Este dato no se puede actualizar</p>
                                 </div>
                                 <div>
                                     <label htmlFor="ncelular-a">Numero de celular</label>
-                                    <input id="ncelular-a" type="text" name="celular_acudiente" value={Historial.celular_acudiente} onChange={handleChange} />
+                                    <input id="ncelular-a" type="text" name="celular_acudiente" value={Historial.celular_acudiente} onChange={handleChange} readOnly/>
+                                    <p>Este dato no se puede actualizar</p>
                                 </div>
 
                             </div>

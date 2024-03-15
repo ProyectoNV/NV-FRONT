@@ -1,5 +1,4 @@
 import React from "react";
-import Actividad from "../Componentes/List_actividades";
 import { useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
@@ -20,18 +19,7 @@ export const Listas = () => {
             <div className="cont_card">
                 <h1> Ver Listas</h1>
                 <div className="cont_eliminar">
-                    {Actividad.map((act) => {
-                        return (
-                            <div class="card_d">
-                               
-                                <div class="contenido">
-                                    <h3>{act.nombre} </h3>
-                                    <p>{act.descripción}  </p>
-                                    <a style={{padding: "0"}}><Link to="/lista">Ver Lista</Link></a>
-                                </div>
-                            </div>
-                        )
-                    })}
+                   
                 </div>
             </div>
         </div> 

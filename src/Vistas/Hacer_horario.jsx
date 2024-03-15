@@ -82,7 +82,7 @@ export const Hacer_crono = () => {
     useEffect(() => {
         const optionsacti = async () => {
             try{
-                const getacti = await fetch('http://localhost:4000/horario/opsionesActividad');
+                const getacti = await fetch('http://localhost:4000/actividades/mostrar');
                 const dataacti = await getacti.json();
                 setActivities(dataacti);
                 console.log(dataacti);
