@@ -31,13 +31,13 @@ table {
   
   /* Estilos específicos para los botones de editar y eliminar */
   .editar {
-    background-color: #4caf50;
+    background-color: #fcb900;
     color: white;
     margin-bottom: 5px; /* Agregar un margen entre los botones */
   }
   
   .eliminar {
-    background-color: #f44336;
+    background-color: #8b0fff;
     color: white;
   }
   

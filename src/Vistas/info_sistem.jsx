@@ -1,10 +1,11 @@
 import React from "react";
-import { useState, useRef} from "react";
+import { useState, useRef, useEffect} from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Child from "../Imagenes/iconos/bx-child.svg";
 import Edit from "../Imagenes//iconos/bxs-edit-alt.svg";
 import Extension from "../Imagenes/iconos/bxs-extension.svg";
 import Gradu from "../Imagenes/iconos/bxs-graduation.svg";
+import axios from "axios";
 import '../css/styledash.css';
 
 export const Info = () => {
@@ -14,6 +15,26 @@ export const Info = () => {
 	const move_conte = (e) => {
 		setShowe(!showe)
 	}
+
+	const [listUpdated, setListUpdated] = useState(false);
+	const [listCantidad, setListCantidad] = useState ([])
+
+	useEffect(() => {
+        const cantidad = async () => {
+            try{
+				const getcantidad = await axios.get('http://localhost:4000/admin/verCantidades');
+                setListCantidad(getcantidad.data);
+            }catch(error){
+                console.log(error);
+            }
+        }
+		cantidad();
+		setListUpdated(false);
+    }, [listUpdated])
+
+	useEffect(() => {
+		console.log(listCantidad);
+	}, [listCantidad]);
 
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
@@ -34,7 +55,7 @@ export const Info = () => {
 					            Administradores
 				            </div>
 				            <div className="caja-cantidad">
-					            <p>1</p>
+					            <p>{listCantidad.Cantidad_administrador}</p>
 					            <small>Activo</small>
 				            </div>
 			            </article>
@@ -49,7 +70,7 @@ export const Info = () => {
 					            Docentes
 				            </div>
 				            <div className="caja-cantidad">
-					            <p>20</p>
+					            <p>{listCantidad.Cantidad_docente}</p>
 					            <small>Activo</small>
 				            </div>
 			            </article>
@@ -64,7 +85,7 @@ export const Info = () => {
 					            Alumnos
 				            </div>
 				            <div className="caja-cantidad">
-					            <p>110</p>
+					            <p>{listCantidad.Cantidad_alumnos}</p>
 					            <small>Activo</small>
 				            </div>
 			            </article>
@@ -78,7 +99,7 @@ export const Info = () => {
 					            Actividades
 				            </div>
 				            <div className="caja-cantidad">
-					            <p>19</p>
+					            <p>{listCantidad.Cantidad_actividades}</p>
 					            <small>Activo</small>
 				            </div>
 			            </article>
