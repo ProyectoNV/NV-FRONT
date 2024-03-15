@@ -70,7 +70,13 @@ export const SidebarDocente = ({ Move }) => {
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                             <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/Puntos">Asignar puntos y observaciones</Link></a>
+                                <a className="Barra-lateral_link"><Link to="/Puntos">Asignar puntos</Link></a>
+                            </div>
+                        </li>
+                        <li className="Barra-lateral_item">
+                            <div className="Barra-lateral_button">
+                            <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img"/>
+                                <a className="Barra-lateral_link"><Link to="/Observaciones">Observaciones</Link></a>
                             </div>
                         </li>
                     </ul>

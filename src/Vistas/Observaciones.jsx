@@ -10,18 +10,43 @@ export const Observaciones = () => {
     const move_conte = (e) => {
         setShowe(!showe)
     }
-    const [observacion, setObservacion] = useState([]);
-    
+    const iduser = sessionStorage.getItem('pruebasesion') && JSON.parse(sessionStorage.getItem('pruebasesion')).id;
 
+    const [observacion, setObservacion] = useState([]);
+    const [valorSeleccionado, setValorSeleccionado] = useState();
+    const [ActividadDocente, setActividadDocente] = useState([]);
+    
     useEffect(() => {
-        axios.get('http://localhost:4000/docente/listado/'+1)
-            .then(response => {
-                setObservacion(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        const actividad_docente = async () => {
+            try {
+                const respuesta = await axios.get('http://localhost:4000/docente/docenteactividad/' + iduser)
+                console.log(respuesta.data)
+                setActividadDocente(respuesta.data);
+            } catch (error) {
+                console.log(error);
+            };
+        }
+        actividad_docente()
     }, []);
+
+    const handleBuscar = async ()=>{
+        console.log(valorSeleccionado)
+        if(valorSeleccionado){
+            try {
+                const respuesta = await axios.get('http://localhost:4000/docente/listado/' + valorSeleccionado)
+                setObservacion(respuesta.data);
+            } catch (error) {
+                console.log(error);
+            };
+        }else{
+            setObservacion([])
+            Swal.fire({
+                text: "No ha seleccionado una actividad",
+                icon: "error"
+            })
+
+        }
+    }
 
 
     const [selectedObservacion, setSelectedObservacion] = useState({});
@@ -36,7 +61,7 @@ export const Observaciones = () => {
 
     const handleSubmitobservacion = async (id_alumno) => {
         const envio = { 
-            Actividad_id: 1, 
+            Actividad_id: valorSeleccionado, 
             id_alumno, 
             fecha_observacion: new Date().toISOString().slice(0, 10), // Formato: YYYY-MM-DD
             descripcion_observacion: selectedObservacion[id_alumno]
@@ -71,6 +96,19 @@ export const Observaciones = () => {
             <SidebarDocente Move={move_conte} />
             <div style={{ width: '100%' }}>
                 <h1 style={{ textAlign: 'center' }}> Listado de Estudiantes</h1><br />
+                
+                <div className="botonbuscar">
+                <select className='actividadesdoc' value={valorSeleccionado} onChange={(e) => setValorSeleccionado(e.target.value)}>
+                    <option value=''>Seleccionar</option>
+
+                    {ActividadDocente.map((actividad, index) => (
+                        <option key={index} value={actividad.Actividad_id}>
+                            {actividad.Nombre_actividad}
+                        </option>
+                    ))}
+                </select>
+                    <button onClick={handleBuscar} className="button_formu" type="button">Buscar</button>
+                </div>
                 <div className="container">
                     <table className='table_lista'>
                         <thead className='thead_lista'>

@@ -9,6 +9,11 @@
     cursor: pointer;
 }
 
+.actividadesdoc{
+    width: 200px;
+    height: 50px;
+    margin-right: 20px;
+}
 .btnBuscar {
     height: 34px;
     width: 32px;

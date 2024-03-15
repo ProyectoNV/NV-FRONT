@@ -14,13 +14,14 @@ export const Puntos = () => {
 
     const [asignacion, setAsignacion] = useState([]);
     const [puntosActividad, setpuntosActividad] = useState([]);
-    const [ActividadDocencte, setActividadDocente] = useState([]);
+    const [ActividadDocente, setActividadDocente] = useState([]);
+    const [valorSeleccionado, setValorSeleccionado] = useState();
 
 
     useEffect(() => {
         const actividad_docente = async () => {
             try {
-                const respuesta = await axios.get('http://localhost:4000/docente/docenteactividad/'+iduser)
+                const respuesta = await axios.get('http://localhost:4000/docente/docenteactividad/' + iduser)
                 console.log(respuesta.data)
                 setActividadDocente(respuesta.data);
             } catch (error) {
@@ -30,17 +31,25 @@ export const Puntos = () => {
         actividad_docente()
     }, []);
 
-    useEffect(() => {
-        console.log(ActividadDocencte)
-        axios.get('http://localhost:4000/docente/listado/' +1)
-            .then(response => {
-                setAsignacion(response.data);
+    
+    const handleBuscar = async ()=>{
+        console.log(valorSeleccionado)
+        if(valorSeleccionado){
+            try {
+                const respuesta = await axios.get('http://localhost:4000/docente/listado/' + valorSeleccionado)
+                setAsignacion(respuesta.data);
+            } catch (error) {
+                console.log(error);
+            };
+        }else{
+            setAsignacion([])
+            Swal.fire({
+                text: "No ha seleccionado una actividad",
+                icon: "error"
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
 
-    }, []);
+        }
+    }
 
 
     useEffect(() => {
@@ -64,7 +73,7 @@ export const Puntos = () => {
     };
 
     const handleSubmitpuntos = async (id_alumno) => {
-        const envio = { id_actividad: 1, id_alumno, puntos_id: selectedPuntos[id_alumno] }
+        const envio = { id_actividad:valorSeleccionado, id_alumno, puntos_id: selectedPuntos[id_alumno] }
         console.log(envio)
         //validar si existe el dato puntos_id
         if (envio.puntos_id) {
@@ -94,6 +103,19 @@ export const Puntos = () => {
             <SidebarDocente Move={move_conte} />
             <div style={{ width: '100%' }}>
                 <h1 style={{ textAlign: 'center' }}> Listado de Estudiantes</h1><br />
+                
+                <div className="botonbuscar">
+                <select className='actividadesdoc' value={valorSeleccionado} onChange={(e) => setValorSeleccionado(e.target.value)}>
+                    <option value=''>Seleccionar</option>
+
+                    {ActividadDocente.map((actividad, index) => (
+                        <option key={index} value={actividad.Actividad_id}>
+                            {actividad.Nombre_actividad}
+                        </option>
+                    ))}
+                </select>
+                    <button onClick={handleBuscar} className="button_formu" type="button">Buscar</button>
+                </div>
                 <div className="container">
                     <table className='table_lista'>
                         <thead className='thead_lista'>

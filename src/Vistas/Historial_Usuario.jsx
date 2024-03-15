@@ -74,6 +74,9 @@ export const Historial_user = () => {
 
 
         try {
+            console.log(Historial)
+            Historial.fecha_nacimiento = Historial.fecha_nacimiento.split('T')[0]
+            console.log(Historial)
             const respuesta = await axios.put(`http://localhost:4000/alumno/actualizaralumno`, Historial);
             if (respuesta.status === 200) {
 
@@ -224,7 +227,7 @@ export const Historial_user = () => {
                             </div>
                             <div>
                                 <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
-                                <input id="date_nacimiento" type="date" name="fecha_nacimiento" value={Historial.fecha_nacimiento.split('T')[0]} onChange={handleChange} />
+                                <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" value={Historial.fecha_nacimiento.split('T')[0]} onChange={handleChange} />
                             </div>
                         </div>
                         <div className="form-genero">
