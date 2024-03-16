@@ -115,6 +115,8 @@ export const Info_admin = () => {
 
 
         try {
+            console.log(infoUsuario)
+            infoUsuario.fecha_nacimiento = infoUsuario.fecha_nacimiento.split('T')[0]
             const respuesta = await axios.put(`http://localhost:4000/actilizar/InfoUser/${iduser}`, infoUsuario);
             if (respuesta.status === 200) {
                 Mostrar2();
@@ -122,7 +124,7 @@ export const Info_admin = () => {
         } catch (error) {
             Swal.fire({
                 title: "Error",
-                text: "Error al actualizar alumno",
+                text: "Error al actualizar administrador",
                 icon: "error"
             });
             console.error(`Error al actualizar alumno, ${error}`);

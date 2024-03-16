@@ -1,48 +1,16 @@
-import React from "react"
-import { useState, useRef} from "react";
+import React, { useState, useRef } from "react";
+import Swal from "sweetalert2";
+import axios from 'axios';
 import SidebarAdmi from "../Componentes/Dashboard_admi";
-import Verifi  from "../Imagenes/Quality Check_Outline.svg"
-import Check from "../Imagenes/Checklist_Line.svg";
-import axios from 'axios'
-import '../css/Formularios.css'
+import '../css/Formularios.css';
 
 export const Regis_Docente = () => {
 
-    var refModal = useRef();
-    var refModal2 = useRef();
-
-    const Mostrar = (e) => {
-        const myrefValue = refModal.current;
-        myrefValue.style.opacity= "1";
-        myrefValue.style.pointerEvents= "inherit";
-    };
-
-    const Mostrar2 = (e) => {
-        const myrefValue = refModal2.current;
-        myrefValue.style.opacity= "1";
-        myrefValue.style.pointerEvents= "inherit";
-    };
-
-    const Ocultar = (e) =>{
-        const myrefocultar = refModal.current;
-        myrefocultar.style.opacity= "0";
-        myrefocultar.style.pointerEvents= "none";
-    }
-
-    const Ocultar2 = (e) =>{
-        const myrefocultar = refModal.current;
-        myrefocultar.style.opacity= "0";
-        myrefocultar.style.pointerEvents= "none";
-        const myrefocultar2 = refModal2.current;
-        myrefocultar2.style.opacity= "0";
-        myrefocultar2.style.pointerEvents= "none";
-    }
-    
     var refmove = useRef();
-	const [showe, setShowe]= useState(false);
-	const move_conte = (e) => {
-		setShowe(!showe)
-	}
+    const [showe, setShowe] = useState(false);
+    const move_conte = (e) => {
+        setShowe(!showe)
+    }
 
     const [informacionDocente, setInformacionDocente] = useState({
         tipoDoc: "",
@@ -54,16 +22,16 @@ export const Regis_Docente = () => {
         correo: "",
         celular: ""
     });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInformacionDocente({ ...informacionDocente, [name]: value });
     };
-    
-    const handleSubmit =async (e)=>{
-        console.log(informacionDocente)
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:4000/admin/registrar_Docente",informacionDocente)
+            const response = await axios.post("http://localhost:4000/admin/registrar_Docente", informacionDocente);
             setInformacionDocente({
                 tipoDoc: "",
                 numeroId: "",
@@ -74,39 +42,30 @@ export const Regis_Docente = () => {
                 correo: "",
                 celular: ""
             });
-            console.log("Estado informacion" ,informacionDocente)
-            Mostrar2();
-        } catch (error) {  
-            console.error(`Error al enviar datos: ${error}`)
+            console.log("Estado informacion", informacionDocente);
+            Swal.fire("¡Docente registrado!", "El docente ha sido registrado correctamente.", "success");
+        } catch (error) {
+            console.error(`Error al enviar datos: ${error}`);
+            Swal.fire("Error", "Ocurrió un error al enviar los datos. Por favor, inténtalo de nuevo.", "error");
         }
-    }
+
+        if (informacionDocente.nombres.split(' ').length < 1 || informacionDocente.apellidos.split(' ').length < 2) {
+            Swal.fire({
+                title: "Caracteres insuficientes",
+                text: "Por favor, ingresa los nombres completos.",
+                icon: "error"
+            });
+            return;
+        }
+    };
+
     return(
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAdmi Move={move_conte}/>
-            <section className="modal_regis-d" ref={refModal}>
-                <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
-                    <h2 className="modal_tittle">¿Estas seguro de Registrar a esta persona?</h2>
-                    <p className="modal_paragraph">Los Datos de la persona se guardaran en el sistema</p>
-                    <form onSubmit={handleSubmit} className="content_modal_b">
-                        <a className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <button type="submit" className="modal_close_actu" id="Regis">Registrar</button>
-                    </form>
-                </div>
-            </section>
-            <section className="modal_confir_regi" ref={refModal2}>
-                <div className="modal_container">
-                    <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
-                    <img src={Check} className="modal_img"/>
-                    <h2 className="modal_tittle">¡Felicidades!</h2>
-                    <p className="modal_paragraph">Docente registrado correctamente</p>
-                </div>
-            </section>
             <div className="info-text">
 			  <h1>Registro de Docentes</h1>
               <div>
-                <form className="cont_info">
+                <form className="cont_info" onSubmit={handleSubmit}>
                     <legend className="info_title">Información Docente</legend>
                     <div className="info_form">
                         <div>
@@ -155,7 +114,7 @@ export const Regis_Docente = () => {
                             <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                         </div>
                     </div>
-                    <div class="btn"><a className="button_formu" type="submit" id="btn_regis" onClick={Mostrar}>Registrar</a></div>
+                    <div class="btn"><button className="button_formu" type="submit" id="btn_regis">Registrar</button></div>
                 </form>
               </div>
 			</div>

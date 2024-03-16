@@ -6,22 +6,13 @@ import Swal from "sweetalert2";
 import '../css/Lista.css';
 import axios from "axios";
 
-
-
-
 export const Regis_alum = () => {
-
-
 
     var refmove = useRef();
     const [showe, setShowe] = useState(false);
     const move_conte = (e) => {
         setShowe(!showe)
     }
-
-
-
-
     const [alumnos, setAlumnos] = useState({
         pkfk_tdoc: '',
         numero_id: '',

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import axios from "axios";
 import '../css/ListasAdmin.css';
+import Swal from "sweetalert2";
+
 
 const AdminListaDocentes = () => {
 
@@ -40,14 +42,23 @@ const AdminListaDocentes = () => {
   //Funcion de eliminar que va por axios
   const Eliminar = async (id) => {
     try {
-      console.log(id)
+      console.log(id);
       await axios.delete(`http://localhost:4000/admin/ver_docentes/${id}`);
       setTablaDocentes(tabladocentes.filter(item => item.id_usuario !== id));
-      console.log("Producto eliminado exitosamente.");
-      window.alert("Producto Eliminado ")
+      console.log("Docente eliminado exitosamente.");
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminacion Exitosa',
+        text: 'Docente eliminado exitosamente.',
+      });
       await VerDocentes();
     } catch (error) {
-      console.error("Error al eliminar el producto:", error);
+      console.error("Error al eliminar el docente:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al eliminar el docente',
+      });
     }
   }
 
@@ -73,10 +84,14 @@ const AdminListaDocentes = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(profesorSeleccionado.id_usuario)
+      console.log(profesorSeleccionado.id_usuario);
       const response = await axios.put(`http://localhost:4000/admin/ver_docentes/${profesorSeleccionado.id_usuario}`, nuevosDatos);
-      console.log("Producto actualizado exitosamente:", response.data);
-      window.alert("Docente Actualizado correctamente")
+      console.log(" Docente Actualizado exitosamente:", response.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Actualizacion exitosa',
+        text: 'Docente actualizado correctamente.',
+      });
       setTablaDocentes(tabladocentes.map(item =>
         (item.id_usuario === profesorSeleccionado.id_usuario ? response.data : item)
       ));
@@ -88,12 +103,16 @@ const AdminListaDocentes = () => {
         correo: "",
         celular: ""
       });
-      await VerDocentes()
+      await VerDocentes();
     } catch (error) {
-      console.error("Error al actualizar el producto:", error);
+      console.error("Error al actualizar el docente:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al actualizar el docente.',
+      });
     }
   };
-
   return (
     <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
       <SidebarAdmi Move={move_conte} />

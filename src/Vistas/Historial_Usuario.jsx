@@ -49,12 +49,20 @@ export const Historial_user = () => {
                 return;
             }
         }
+        
         setHistorial({ ...Historial, [e.target.name]: e.target.value });
     };
 
     // Función para enviar los datos actualizados del alumno al servidor
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (Historial.Nombres.trim().split(/\s+/).length < 1 || Historial.Apellidos.trim().split(/\s+/).length < 2 || Historial.nombre_acudiente.trim().split(/\s+/).length < 3) {            Swal.fire({
+                title: "Caracteres insuficientes",
+                text: "Por favor, ingresa los nombres completos.",
+                icon: "error"
+            });
+            return;
+        }
         if (!Historial.Nombres || !Historial.Apellidos || !Historial.correo || !Historial.celular || !Historial.fecha_nacimiento || !Historial.contrasena || !Historial.genero || !Historial.nombre_acudiente || !Historial.correo_acudiente) {
             Swal.fire({
                 title: "Campos requeridos",
@@ -71,7 +79,7 @@ export const Historial_user = () => {
             });
             return;
         }
-
+        
 
         try {
             console.log(Historial)
