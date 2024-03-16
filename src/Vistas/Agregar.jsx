@@ -34,7 +34,8 @@ const Agregar = () => {
     const [listUpdated, setListUpdated] = useState(false)
     const [formactividad, setformActividad] = useState ([])
     const [formadocente, setformadocente] = useState ([])
-
+    const [selectFormulario, setSelectFormulario] = useState('')
+    
     useEffect(() => {
         const mosAct = async () => {
             try{
@@ -98,10 +99,9 @@ const Agregar = () => {
         setFormularioActu({ ...formularioActu, [name]: value });
     };
 
-    const [selectFormulario, setSelectFormulario] = useState('')
+    
     const changeselect = (e) => {
         const {  value } = e.target;
-        console.log(value)
         setSelectFormulario(...selectFormulario, value );
     };
 
