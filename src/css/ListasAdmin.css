@@ -1,43 +1,79 @@
 /* Estilos para la tabla */
 table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  /* Estilos para las filas pares */
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  /* Estilos para los botones de acción */
-  button {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Estilos específicos para los botones de editar y eliminar */
-  .editar {
-    background-color: #fcb900;
-    color: white;
-    margin-bottom: 5px; /* Agregar un margen entre los botones */
-  }
-  
-  .eliminar {
-    background-color: #8b0fff;
-    color: white;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid  #8b0fff ;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #8b0fff;
+}
+ */
+tr:nth-child(even) {
+  background-color: #8b0fff;
+}
+
+
+button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editar {
+  background-color: #fcb900;
+  color: white;
+  margin-bottom: 5px; 
+}
+
+.eliminar {
+  background-color: #8b0fff;
+  color: white;
+}
+
+/* Estilos para el formulario */
+.form-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fcb900; 
+  box-sizing: border-box;
+  background: transparent ; 
+}
+
+.form-container input:focus {
+  border-bottom-color: #fcb900; 
+}
+
+.form-container button {
+  background-color: #8b0fff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #6a00cc;
+}
+
+.info-text h1 {
+  margin-bottom: 20px;
+}
