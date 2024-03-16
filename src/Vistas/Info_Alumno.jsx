@@ -122,6 +122,7 @@ export const Info_alumno = () => {
 
 
         try {
+            Historial.fecha_nacimiento = Historial.fecha_nacimiento.split('T')[0]
             const respuesta = await axios.put(`http://localhost:4000/alumno/actualizaralumno`, Historial);
             if (respuesta.status === 200) {
                 Mostrar2();

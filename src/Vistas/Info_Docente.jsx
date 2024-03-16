@@ -115,6 +115,7 @@ export const Info_Docente = () => {
 
 
         try {
+            infoUsuario.fecha_nacimiento = infoUsuario.fecha_nacimiento.split('T')[0]
             const respuesta = await axios.put(`http://localhost:4000/actilizar/InfoUser/${iduser}`, infoUsuario);
             if (respuesta.status === 200) {
                 Mostrar2();

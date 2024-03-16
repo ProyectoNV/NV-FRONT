@@ -110,7 +110,8 @@ export const Hacer_crono = () => {
         Dia_semana: "",
         Hora_inicio: "",
         Hora_fin: "",
-        Lugar: ""
+        Lugar: "",
+        estado: 1
     })
 
     const [horarioActividad, setHorarioActividad]=useState({
@@ -243,6 +244,7 @@ export const Hacer_crono = () => {
         }
         else{
             try {
+                console.log(horario)
                 const response = await fetch("http://localhost:4000/horario/agregarHorarios",{
                 method:"POST",
                 headers:{
