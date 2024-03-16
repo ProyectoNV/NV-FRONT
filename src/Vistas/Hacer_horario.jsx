@@ -16,7 +16,7 @@ export const Hacer_crono = () => {
 
     //Expresiones regulares para los inputs
     const expresiones = {
-        hora: /^([01][0-9]||2[0-3]):[0-5][0-9]:[0-5][0-9]+$/, 
+        hora: /^(0[6-9]|1[0-7]):[0-5][0-9]:[0-5][0-9]$/, 
         lugar: /^\S+$/
     }
 

@@ -63,19 +63,13 @@ export const SidebarAlum = ({Move}) => {
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faBookOpen} className="Barra-lateral_img"/> 
-                                <i className="Barra-lateral_link"><Link to="/Mis_Actividades">Mis Actividades</Link></i>
+                                <i className="Barra-lateral_link"><Link to="/reporte">Mis Actividades</Link></i>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
                                 <FontAwesomeIcon icon={faPenToSquare} className="Barra-lateral_img"/>
                                 <i className="Barra-lateral_link"><Link to="/inscribirse">Inscripciones</Link></i>
-                            </div>   
-                        </li>
-                        <li className="Barra-lateral_item">
-                            <div className="Barra-lateral_button">
-                                <FontAwesomeIcon icon={faFile} className="Barra-lateral_img"/> 
-                                <i className="Barra-lateral_link"><Link to="/reporte">Reportes</Link></i>
                             </div>   
                         </li>
                     </ul>

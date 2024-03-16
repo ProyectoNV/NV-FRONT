@@ -49,10 +49,13 @@ const Listas = () => {
                     ) : (
                         actuaEstado.map((actulist) => (
                             <div className="card_d" key={actulist.id_actividad}>
+                                <figure style={{backgroundColor:('#8b0fff')}}>
+                                    <img src={require(`../Imagenes/Biblioteca_Imagenes/${actulist.foto}.png`)}/>
+                                </figure>
                                 <div className="contenido">
                                     <h3>{actulist.Nombre_actividad}</h3>
                                     <p>{actulist.descripcion}</p>
-                                    <button id={actulist.id_actividad} onClick={() => VerLista(actulist.id_actividad)}>Ver Lista</button>
+                                    <a id={actulist.id_actividad} onClick={() => VerLista(actulist.id_actividad)}>Ver Lista</a>
                                 </div>
                             </div>
                         ))

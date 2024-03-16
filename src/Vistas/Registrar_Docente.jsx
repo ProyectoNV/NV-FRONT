@@ -75,7 +75,7 @@ export const Regis_Docente = () => {
                 celular: ""
             });
             console.log("Estado informacion" ,informacionDocente)
-            window.alert("Docente registrado correctamente")
+            Mostrar2();
         } catch (error) {  
             console.error(`Error al enviar datos: ${error}`)
         }
@@ -88,10 +88,10 @@ export const Regis_Docente = () => {
                     <img src={Verifi} class="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de Registrar a esta persona?</h2>
                     <p className="modal_paragraph">Los Datos de la persona se guardaran en el sistema</p>
-                    <div className="content_modal_b">
-                        <a href="#" class="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                        <a href="#" class="modal_close_actu" id="Regis" onClick={Mostrar2}>Registrar</a>
-                    </div>
+                    <form onSubmit={handleSubmit} className="content_modal_b">
+                        <a className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
+                        <button type="submit" className="modal_close_actu" id="Regis">Registrar</button>
+                    </form>
                 </div>
             </section>
             <section className="modal_confir_regi" ref={refModal2}>
@@ -100,13 +100,13 @@ export const Regis_Docente = () => {
                     <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
-                    <p className="modal_paragraph">La persona se ha registrado con exito</p>
+                    <p className="modal_paragraph">Docente registrado correctamente</p>
                 </div>
             </section>
             <div className="info-text">
 			  <h1>Registro de Docentes</h1>
               <div>
-                <form className="cont_info" onSubmit={handleSubmit}>
+                <form className="cont_info">
                     <legend className="info_title">Información Docente</legend>
                     <div className="info_form">
                         <div>
@@ -155,7 +155,7 @@ export const Regis_Docente = () => {
                             <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                         </div>
                     </div>
-                    <div class="btn"><button className="button_formu" type="submit" id="btn_regis" onClick={Mostrar}>Registrar</button></div>
+                    <div class="btn"><a className="button_formu" type="submit" id="btn_regis" onClick={Mostrar}>Registrar</a></div>
                 </form>
               </div>
 			</div>
