@@ -26,7 +26,7 @@ const AdminListaActividades = () => {
     anho_inicio: anoac,
     foto: "",
     descripcion: "",
-    Estadoactividad: 1
+    Estado_actividad: ""
   });
 
   useEffect(() => {
@@ -49,7 +49,9 @@ const AdminListaActividades = () => {
     setNuevosDatos({
       Nombre_actividad: actividad.Nombre_actividad,
       foto: actividad.foto,
-      descripcion: actividad.descripcion
+      anho_inicio: actividad.anho_inicio,
+      descripcion: actividad.descripcion,
+      Estado_actividad: actividad.Estado_actividad
     })
   };
 
@@ -77,10 +79,10 @@ const AdminListaActividades = () => {
       setNuevosDatos({
         id_actividad: "",
         Nombre_actividad: "",
-        anho_inicio: anoac,
+        anho_inicio: "",
         foto: "",
         descripcion: "",
-        Estadoactividad: 1
+        Estado_actividad: ""
       });
       await VerActividades();
     } catch (error) {
