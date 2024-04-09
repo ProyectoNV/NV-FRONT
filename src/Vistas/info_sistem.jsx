@@ -91,6 +91,7 @@ export const Info = () => {
 			            </article>
 					</div>
 					<div className="con-gen">
+						<a href="/admin/ver_actividades">
 						<article className="caja-num">
                             <div className="caja-icono">
 					            <img src={Extension}/>
@@ -103,6 +104,7 @@ export const Info = () => {
 					            <small>Activo</small>
 				            </div>
 			            </article>
+						</a>
 					</div>
                 </div>
 		    </div>
