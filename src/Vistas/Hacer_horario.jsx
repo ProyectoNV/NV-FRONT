@@ -127,16 +127,6 @@ export const Hacer_crono = () => {
         setHorario({...horario,[name]:value})
         const {id}=e.target;
         switch (id) {
-            case "lugar":
-                const myreflugar = reflugar.current;
-                if(expresiones.lugar.test(horario.Lugar)){
-                    myreflugar.style.opacity= '0';
-                    setValidadorlugar(true);
-                }else{
-                    myreflugar.style.opacity= '1';
-                    setValidadorlugar(false);
-                }
-            break;
             case "hinicio":
                 const myrefhoraI = refhoraI.current;
                 if(expresiones.hora.test(horario.Hora_inicio)){
@@ -401,7 +391,7 @@ export const Hacer_crono = () => {
                 </div>
             </section>
             <div className="info-text">
-			  <h1>Cronograma de actividades</h1>
+			  <h1>Agregar sección horario</h1>
               <div>
                 <form className="form_crono">
                     <legend className="crono_title">Asigna un horario</legend>
@@ -418,10 +408,22 @@ export const Hacer_crono = () => {
                                 <option value="sabado">Sabado</option>
                             </select>
                         </div>
-                        <div  className="input_horario">
-                            <label htmlFor="lugar">Ingrese el lugar</label>
-                            <input value={horario.Lugar} onChange={changeregisHoario} id="lugar" type="text" name="Lugar"/>
-                            <p ref={reflugar}>Ingrese el lugar sin espacios</p>
+                        <div  className="input_horario_select">
+                            <p style={{ height: "50px"}}>Seleccione el lugar</p>
+                            <select value={horario.Lugar} onChange={changeregisHoario} name="Lugar" id="lugar">
+                                <option value=""></option>
+                                <option value="Cancha F5">Cancha</option>
+                                <option value="Cancha F11">Cancha F11</option>
+                                <option value="Sala de Robotica">Sala de Robotica</option>
+                                <option value="Salon de danza">Salon de danza</option>
+                                <option value="Salon 1">Salon 1</option>
+                                <option value="Salon 2">Salon 2</option>
+                                <option value="Salon 3">Salon 3</option>
+                                <option value="Salon 4">Salon 4</option>
+                                <option value="Sala de Musica">Sala de Musica</option>
+                                <option value="Audiovisuales">Audiovisuales</option>
+                                <option value="Primer Piso Fundación">Primer Piso Fundación</option>
+                            </select>
                         </div>
                         <div  className="input_horario">
                             <label htmlFor="hinicio">Ingrese la hora de inicio</label>

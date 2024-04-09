@@ -115,7 +115,7 @@ export const Inscrip = () => {
         else if(activali>=5){
             Swal.fire({
                 title: "Lo sentimos",
-                text: "Ya formas parte de 5 acctividades actualmente",
+                text: "Ya formas parte de 5 actividades actualmente",
                 icon: "error"
             });
             Ocultar();

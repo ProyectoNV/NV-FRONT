@@ -41,7 +41,7 @@ export const Info = () => {
 			<SidebarAdmi Move={move_conte}/>
             <div>
 			    <div className="info-text">
-			        <h1>Información del sistema</h1><br></br>
+			        <h1>Bienvenidos a N.V Cordination</h1><br></br>
                     <p>Este es un sistema de información, orientado a la gestion de los datos que involucran a los usuarios y 
                     actividades dentro de la fundación Nueva vida para todos</p>
 			    </div>

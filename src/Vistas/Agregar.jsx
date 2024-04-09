@@ -278,7 +278,7 @@ const Agregar = () => {
                         </div>
                     </div>
                     <div className="con_agre">
-                        <h2 className="titlle_agre">Llena los datos de la actividad</h2>
+                        <h2 className="titlle_agre">Datos de la actividad</h2>
                         <div className="input-group">
                             <form onSubmit={fomulariSubmit}>
                                 <label htmlFor="name_act" className="label_agre">Nombre de la actividad:</label>
@@ -319,7 +319,7 @@ const Agregar = () => {
                     </div>
                 </div>
                 <div className="con_agre">
-                    <h2 className="titlle_agre">Llena los datos de la actividad</h2>
+                    <h2 className="titlle_agre">Datos de la actividad</h2>
                     <div className="input-group">
                         <form onSubmit={fomularioSubmit}>
                             <label htmlFor="name_act" className="label_agre">Nombre de la actividad:</label>
