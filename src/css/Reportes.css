@@ -1,17 +1,13 @@
-
-
 .table_reporte {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0 20px 20px;
 }
 
-  
-
 .table_reporte th, .table_reporte td {
   border: 1px solid #fcb900 ;
-  padding: 25px; 
-  text-align: left;
+  padding: 10px; 
+  text-align: center;
 }
 
 .table_reporte th {
