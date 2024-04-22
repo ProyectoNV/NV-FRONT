@@ -135,7 +135,7 @@ export const SidebarAdmi = ({Move}) => {
                             </div>
                             <ul className="Barra-lateral_show" ref={refHorario}>
                                 <li className="Barra-lateral_inside">
-                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/Agregar_cronograma">Hacer cronograma</Link></i>
+                                    <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/Agregar_cronograma">Gestionar horario</Link></i>
                                 </li>
                                 <li className="Barra-lateral_inside">
                                     <i className="Barra-lateral_link Barra-lateral_link--inside"><Link to="/horario">Ver horario</Link></i>

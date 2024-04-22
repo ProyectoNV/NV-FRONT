@@ -171,70 +171,6 @@ const Agregar = () => {
         setListUpdated(true);
     };
 
-   
-    // endpoin del PUT
-
-    const fomulariSubmit = async (e) => {
-        e.preventDefault(formularioActu);
-
-        // Validar si algún campo está vacío
-        if (!formularioActu.Nombre_actividad || !formularioActu.anho_inicio || !formularioActu.descripcion) {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Oops!',
-                text: 'Todos los campos son obligatorios. Por favor, completa todos los campos.'
-            });
-            return; // Detener el envío del formulario si hay campos vacíos
-        }
-
-        // Validar que el nombre de la actividad contenga solo letras
-        const nombre_actividadValido = /^[a-zA-Z]+$/.test(formularioActu.Nombre_actividad);
-        if (!nombre_actividadValido) {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Oops!',
-                text: 'El nombre de la actividad debe contener solo letras'
-            });
-            return;
-        }
-
-        try {
-             console.log(selectFormulario)
-            // solicitud a API 
-            const actuaactividad = await fetch("http://localhost:4000/actividades/actualizar/"+ selectFormulario, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formularioActu),
-            });
-
-            if (actuaactividad.ok) {
-                // Mostrar alerta de éxito con SweetAlert
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Felicidades!',
-                    text: 'La actividad ha actualizado con éxito'
-                });
-                // Limpiar el formulario después de agregar la actividad con éxito
-                setFormularioActu({
-                    Nombre_actividad: "",
-                    foto: "",
-                    descripcion: "",
-                    Estadoactividad: true
-                });
-            }
-        } catch (error) {
-            // Mostrar alerta de error con SweetAlert
-            Swal.fire({
-                icon: 'error',
-                title: '¡Oops!',
-                text: 'Error al agregar la actividad'
-            });
-            console.error('Error al agregar la actividad:', error);
-        }
-        setListUpdated(true);
-    };
 
     const docenteactividadSubmit=async (e)=>{
         e.preventDefault();
@@ -270,48 +206,6 @@ const Agregar = () => {
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
             <SidebarAdmi Move={move_conte} />
-            <section className="modal_regis-d" ref={refModal3}>
-                <div className="agregar_view">
-                    <div className="agre">
-                        <div className="info-text">
-                            <h1 className="h1_agre">Agregar actividad</h1><br></br>
-                        </div>
-                    </div>
-                    <div className="con_agre">
-                        <h2 className="titlle_agre">Llena los datos de la actividad</h2>
-                        <div className="input-group">
-                            <form onSubmit={fomulariSubmit}>
-                                <label htmlFor="name_act" className="label_agre">Nombre de la actividad:</label>
-                                <input type="text" value={formularioActu.Nombre_actividad} onChange={changeregisformularioActu} name="Nombre_actividad" placeholder="Nombre de la actividad" id="name_act" className="input_agre" />
-                                <label htmlFor="foto" className="label_agre">Imagen de referencia:</label>
-                                <select value={formularioActu.foto} onChange={changeregisformularioActu} id="foto" name="foto" className="select_agre">
-                                    <option value="">Seleccione el area que mas se relacione</option>
-                                    <option value="artes">Artes</option>
-                                    <option value="belleza">Belleza</option>
-                                    <option value="cine">Cine</option>
-                                    <option value="deportes">Deportes</option>
-                                    <option value="emprendimiento">Emprendimiento</option>
-                                    <option value="fotografia">Fotografia</option>
-                                    <option value="gastronomia">Gastronomia</option>
-                                    <option value="literatura">Literatura</option>
-                                    <option value="musica">Musica</option>
-                                    <option value="nado">Nado</option>
-                                    <option value="salud">Salud</option>
-                                    <option value="teatro">Teatro</option>
-                                    <option value="tecnologia">Tecnologia</option>
-                                    <option value="videojuegos">Videojuegos</option>
-                                </select>
-                                <label htmlFor="Des_act" className="label_agre">Descripción de la actividad:</label>
-                                <textarea value={formularioActu.descripcion} onChange={changeregisformularioActu} name="descripcion" className="text-area" cols="30" rows="8"></textarea><br></br>
-                                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                    <a className="modal_close_actu" id="close_modal_regis" onClick={Ocultar}>Cancelar</a>
-                                    <button type="submit" className="btn_agre" id="btn_regis">Actualizar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <div className="agregar_view">
                 <div className="agre">
                     <div className="info-text">
@@ -319,7 +213,7 @@ const Agregar = () => {
                     </div>
                 </div>
                 <div className="con_agre">
-                    <h2 className="titlle_agre">Llena los datos de la actividad</h2>
+                    <h2 className="titlle_agre">Datos de la actividad</h2>
                     <div className="input-group">
                         <form onSubmit={fomularioSubmit}>
                             <label htmlFor="name_act" className="label_agre">Nombre de la actividad:</label>
@@ -353,32 +247,6 @@ const Agregar = () => {
                         </form>
                     </div>
                 </div>
-            </div>
-
-            <div className="agregar_view">
-                <div className="agre">
-                    <div className="info-text">
-                        <h1 className="h1_agre">Actualizar actividad</h1><br></br>
-                    </div>
-                </div>
-                <div className="con_agre">
-                    <h2 className="titlle_agre">Escoge actividad </h2>
-                    <div className="input-group">
-                        <form>
-                            <label htmlFor="acti" className="label_agre">Actualizar actividad</label>
-                            <select onChange={changeselect} id="actividad" name="acti" className="select_agre">
-                                <option value="">Seleccione la actividad</option>
-                                {formactividad.map((actNum) =>(
-                                    <option key={actNum.id_actividad} value={actNum.id_actividad}> {actNum.Nombre_actividad}</option>
-                                ))}
-                            </select>
-                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                <a className="btn_agre" id="btn_regis" onClick={() => Mostrar()}>Actualizar actividad</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
             </div>
             <div className="agregar_view">
                 <div className="agre">

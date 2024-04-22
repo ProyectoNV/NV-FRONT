@@ -69,37 +69,37 @@ export const Regis_Docente = () => {
                     <legend className="info_title">Información Docente</legend>
                     <div className="info_form">
                         <div>
-                            <label for="pname">Nombres</label>
+                            <label htmlFor="pname">Nombres</label>
                             <input id="pname" type="text" name="nombres" onChange={handleChange} required/>
                         </div>
                         <div>
-                            <label for="psurname">Apellidos</label>
+                            <label htmlFor="psurname">Apellidos</label>
                             <input id="psurname" type="text" name="apellidos" onChange={handleChange} required/>
                         </div>
                         <div>
-                            <label for="tdocument">Tipo de documento</label>
+                            <label htmlFor="tdocument">Tipo de documento</label>
                             <input list="tdocument" name="tipoDoc"  onChange={handleChange} required/>
                             <datalist id="tdocument">
-                                <option selected value={"TI"}>T.I</option>
+                                <option  value={"TI"}>T.I</option>
                                 <option value={"CC"}>C.C</option>
                                 <option value={"RC"}>R.C</option>
                                 <option value={"CE"}>C.E</option>
                             </datalist>
                         </div>
                         <div>
-                            <label for="ndocument">Numero de documento</label>
+                            <label htmlFor="ndocument">Numero de documento</label>
                             <input id="document" type="text" name="numeroId" onChange={handleChange} required/>
                         </div>
                         <div>
-                            <label for="ncelular">Numero de celular</label>
+                            <label htmlFor="ncelular">Numero de celular</label>
                             <input id="celular" type="text" name="celular" onChange={handleChange} required/>
                         </div>
                         <div>
-                            <label for="email">Correo Electronico</label>
+                            <label htmlFor="email">Correo Electronico</label>
                             <input id="correo" type="email" name="correo" onChange={handleChange} required/>
                         </div>
                         <div>
-                            <label for="date_nacimiento">Fecha de nacimiento</label>
+                            <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
                             <input id="fecha_nacimiento" type="date" name="fechaNacimiento" onChange={handleChange} required/>
                         </div>
                     </div>
@@ -107,14 +107,14 @@ export const Regis_Docente = () => {
                         <p>Genero</p>
                         <div className="generos">
                             <input type="radio" name="genero" id="optionsRadios1" value="masculino" onChange={handleChange}/>
-                            <label for="optionsRadios1"><span className="radio-button"></span>Masculino</label>
+                            <label htmlFor="optionsRadios1"><span className="radio-button"></span>Masculino</label>
                         </div>
                         <div className="generos">
                             <input type="radio" name="genero" id="optionsRadios2" value="femenino" onChange={handleChange}/>
-                            <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
+                            <label htmlFor="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                         </div>
                     </div>
-                    <div class="btn"><button className="button_formu" type="submit" id="btn_regis">Registrar</button></div>
+                    <div className="btn"><button className="button_formu" type="submit" id="btn_regis">Registrar</button></div>
                 </form>
               </div>
 			</div>

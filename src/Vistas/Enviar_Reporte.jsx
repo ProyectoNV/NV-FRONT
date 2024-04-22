@@ -1,14 +1,31 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React, { useState, useEffect, useRef} from "react";
+>>>>>>> 421a59555236f64615481aaac88a65c1afa7454f
 import axios from 'axios';
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import Buscar from "../Imagenes/iconos/bx-search.svg";
 import '../css/Reportes.css'
 
 const Enviar_Reporte = () => {
+<<<<<<< HEAD
     const [datosEstudiante, setDatosEstudiante] = useState(null);
     const [numero_id, setNumero_id] = useState('');
     const [mostrarTablas, setMostrarTablas] = useState(false);
     
+=======
+
+    var refmove = useRef();
+    const [showe, setShowe] = useState(false);
+    const move_conte = (e) => {
+        setShowe(!showe)
+    }
+
+    const [reportes, setReportes] = useState([]);
+    const [numero_id, setnumero_id] = useState('');
+
+>>>>>>> 421a59555236f64615481aaac88a65c1afa7454f
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -39,8 +56,8 @@ const Enviar_Reporte = () => {
     };
 
     return (
-        <div className="contenert">
-            <SidebarAdmi />
+        <div className={`${showe ? 'space-toggle': null}`} ref={refmove}>
+            <SidebarAdmi Move={move_conte}/>
             <div className="info-text">
                 <h1>Reporte Alumno</h1>
                 <form onSubmit={handleSubmit}>
