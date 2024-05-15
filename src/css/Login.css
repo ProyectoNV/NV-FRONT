@@ -27,6 +27,16 @@
     padding: 10px;
     background:rgba(216, 90, 31, 0.212);
 }
+
+.form_login_r{
+    width: 750px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 3px 3px 18px whitesmoke;
+    padding: 10px;
+    background:rgba(216, 90, 31, 0.212);
+}
+
 .form_login img{
     display: block;
     max-width: 120px;
@@ -34,25 +44,48 @@
     margin: 0 auto;
     padding: 5px 0;
 }
-.form_login h1{
+.form_login h1,
+.form_login_r h1{
     text-align: center;
     font-size: 2em;
-    line-height: 10px;
+    line-height: 30px;
+    margin-bottom: 30px;
 }
+
+.label_regis{
+    margin: 10px  10px 20px 10px;
+    padding: 10px;
+}
+
 .inputLogin{
     display: block;
     margin: 0 auto;
     width: 85%;
     padding: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
     border:none;
     outline: none;
     background: #c6d9e0;
 }
+
+.inputLogin_select{
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border:none;
+    outline: none;
+    background: #c6d9e0;
+}
+
 .btn-iniciar{
     display: block;
-    height: 30px;
+    height: auto;
     width: 40%;
     margin: 0 auto;
     border-radius: 15px;
