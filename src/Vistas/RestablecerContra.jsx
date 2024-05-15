@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import '../css/Restablecer.css';
+import '../css/Login.css';
 import Swal from 'sweetalert2';
 
 const RestablecerContra = () => {
@@ -45,12 +45,14 @@ const RestablecerContra = () => {
   };
 
   return (
-    <div className='restablecer-container'>
-        <fieldset className="caja-restablecer">
-          <legend>Restablecer Contraseña</legend>
-          <form onSubmit={handleSubmit}>
-            <div className="inputs-restablecer">
+    <div className="fondo">
+    <div className="container-login">
+        <fieldset className="form_login">
+          <h1>Restablecer Contraseña</h1>
+          <form  onSubmit={handleSubmit}>
+            <div>
               <input
+                className="inputLogin"
                 type="email"
                 placeholder="Ingrese su correo"
                 value={correo}
@@ -58,6 +60,7 @@ const RestablecerContra = () => {
                 required
               />
               <input
+                className="inputLogin"
                 type="password"
                 placeholder="Nueva Contraseña"
                 value={nuevaContra}
@@ -65,24 +68,25 @@ const RestablecerContra = () => {
                 required
               />
               <input
+                className="inputLogin"
                 type="password"
                 placeholder="Confirmar Contraseña"
                 value={confirmacionContra}
                 onChange={(e) => setConfirmacionContra(e.target.value)}
                 required
               />
-              <button type="submit">Restablecer Contraseña</button>
+              <button type="submit" className="btn-iniciar">Restablecer Contraseña</button>
             </div>
             <div className="iniciar-sesion-link">
               <Link to="/">
-                <label>Iniciar sesion</label>
+                <label className="label-cursor">Iniciar sesion</label>
               </Link>
             </div>
           </form>
         </fieldset>
         {mensaje && <p>{mensaje}</p>}
     </div>
-
+    </div>
   );
 };
 

@@ -19,6 +19,7 @@ import Listas from "./Vistas/Ver_listas";
 import Regis_alum from "./Vistas/Registro_Alumno";
 import Regis_Docente from "./Vistas/Registrar_Docente";
 import AdminListaDocentes from "./Vistas/adminListaDocentes";
+import AdminListaActividades from "./Vistas/ListActividades";
 import Hacer_crono from "./Vistas/Hacer_horario";
 import Historial_user from "./Vistas/Historial_Usuario";
 import Enviar_Reporte from "./Vistas/Enviar_Reporte";
@@ -117,6 +118,7 @@ function App() {
         <Route path="/registrar_alumno" element={<SessionCerrada element={<Regis_alum/>}/>}></Route>
         <Route path="/admin/registrar_Docente" element={<SessionCerrada element={<Regis_Docente/>}/>}></Route>
         <Route path="/admin/ver_docentes" element={<SessionCerrada element={<AdminListaDocentes/>}/>}></Route>
+        <Route path="/admin/ver_actividades" element={<SessionCerrada element={<AdminListaActividades/>}/>}></Route>
         <Route path="/Enviar_Reportes" element={<SessionCerrada element={<Enviar_Reporte/>}/>}></Route>
         <Route path="/Informacion_Personal_Administrador" element={<SessionCerrada element={<Info_admin/>}/>}></Route>
         <Route path="/Historial_De_Usuario" element={<SessionCerrada element={<Historial_user/>}/>}></Route>

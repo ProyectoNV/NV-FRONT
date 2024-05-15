@@ -51,62 +51,64 @@ export const Registro = () => {
     }
 
     return (
-        <div className="contenedorregistro">
-            <form className="formulario_registro" onSubmit={VerificarCampos}>
-                <h1>Pre-Registro</h1>
-                <div className="registro-row">
-                    <div className="registro-col">
-                        <label htmlFor="tipo_identificación">Tipo ID</label>
-                        <select name="tipoId" className="RegistroInput" value={datosRegistros.tipoId} onChange={handleInputChange} required>
-                            <option value="" disabled selected>Seleccione su tipo de documento</option>
-                            <option value="RC">RC</option>
-                            <option value="TI">TI</option>
-                            <option value="CC">CC</option>
-                            <option value="CE">CE</option>
-                        </select>
+        <div className="fondo">
+            <div className="container-login">
+                <form className="form_login_r" onSubmit={VerificarCampos}>
+                    <h1>Pre-Registro</h1>
+                    <div className="registro-row">
+                        <div className="registro-col">
+                            <label htmlFor="tipo_identificación" className="label_regis">Tipo ID</label>
+                            <select name="tipoId" className="inputLogin_select" value={datosRegistros.tipoId} onChange={handleInputChange} required>
+                                <option value="" disabled selected>Seleccione su tipo de documento</option>
+                                <option value="RC">RC</option>
+                                <option value="TI">TI</option>
+                                <option value="CC">CC</option>
+                                <option value="CE">CE</option>
+                            </select>
+                        </div>
+                        <div className="registro-col">
+                            <label htmlFor="numeroId" className="label_regis">Número de Identificación</label>
+                            <input className="inputLogin" name="numeroId" type="text" placeholder="Ingrese su numero de identificación" pattern="[0-9]{6,}" title="Ingrese solo numeros sin puntos ni comas" value={datosRegistros.numeroId} onChange={handleInputChange} required/>
+                        </div>
                     </div>
-                    <div className="registro-col">
-                        <label htmlFor="numeroId">Número de Identificación</label>
-                        <input className="RegistroInput" name="numeroId" type="text" placeholder="Ingrese su numero de identificación" pattern="[0-9]{6,}" title="Ingrese solo numeros sin puntos ni comas" value={datosRegistros.numeroId} onChange={handleInputChange} required/>
+                    <div className="registro-row">
+                        <div className="registro-col">
+                            <label htmlFor="nombres" className="label_regis">Nombres</label>
+                            <input className="inputLogin" type="text" name="nombres" placeholder="Ingrese sus nombres" value={datosRegistros.nombres} onChange={handleInputChange} required/>
+                        </div>
+                        <div className="registro-col">
+                            <label htmlFor="apellidos" className="label_regis">Apellidos</label>
+                            <input className="inputLogin" type="text" name="apellidos" placeholder="Ingrese sus apellidos" value={datosRegistros.apellidos} onChange={handleInputChange} required/>
+                        </div>
                     </div>
-                </div>
-                <div className="registro-row">
-                    <div className="registro-col">
-                        <label htmlFor="nombres">Nombres</label>
-                        <input className="RegistroInput" type="text" name="nombres" placeholder="Ingrese sus nombres" value={datosRegistros.nombres} onChange={handleInputChange} required/>
+                    <div className="registro-row">
+                        <div className="registro-col">
+                            <label htmlFor="fecha" className="label_regis">Fecha de Nacimiento</label>
+                            <input className="inputLogin" name="fecha" type="date" value={datosRegistros.fecha} onChange={handleInputChange} required/>
+                        </div>
+                        <div className="registro-col">
+                            <label htmlFor="genero" className="label_regis">Género</label>
+                            <select name="genero" className="inputLogin_select" value={datosRegistros.genero} onChange={handleInputChange} required>
+                                <option value="" disabled selected>Seleccione su género</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Masculino">Masculino</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="registro-col">
-                        <label htmlFor="apellidos">Apellidos</label>
-                        <input className="RegistroInput" type="text" name="apellidos" placeholder="Ingrese sus apellidos" value={datosRegistros.apellidos} onChange={handleInputChange} required/>
+                    <div className="registro-row">
+                        <div className="registro-col">
+                            <label htmlFor="correo" className="label_regis">Correo Electrónico</label>
+                            <input className="inputLogin" type="email" name="correo" placeholder="Ingrese su correo" value={datosRegistros.correo} onChange={handleInputChange} required/>
+                        </div>
+                        <div className="registro-col">
+                            <label htmlFor="telefono" className="label_regis">Teléfono</label>
+                            <input className="inputLogin" type="tel" name="telefono" placeholder="Ingrese su teléfono" pattern="[0-9]*" value={datosRegistros.telefono} onChange={handleInputChange} required/>
+                        </div>
                     </div>
-                </div>
-                <div className="registro-row">
-                    <div className="registro-col">
-                        <label htmlFor="fecha">Fecha de Nacimiento</label>
-                        <input className="RegistroInput" name="fecha" type="date" value={datosRegistros.fecha} onChange={handleInputChange} required/>
-                    </div>
-                    <div className="registro-col">
-                        <label htmlFor="genero">Género</label>
-                        <select name="genero" className="RegistroInput" value={datosRegistros.genero} onChange={handleInputChange} required>
-                            <option value="" disabled selected>Seleccione su género</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Masculino">Masculino</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="registro-row">
-                    <div className="registro-col">
-                        <label htmlFor="correo">Correo Electrónico</label>
-                        <input className="RegistroInput" type="email" name="correo" placeholder="Ingrese su correo" value={datosRegistros.correo} onChange={handleInputChange} required/>
-                    </div>
-                    <div className="registro-col">
-                        <label htmlFor="telefono">Teléfono</label>
-                        <input className="RegistroInput" type="tel" name="telefono" placeholder="Ingrese su teléfono" pattern="[0-9]*" value={datosRegistros.telefono} onChange={handleInputChange} required/>
-                    </div>
-                </div>
-                <button className="btnRegistro" type="submit">Registrar</button>
-                <Link to="/" className="label-cursor">Iniciar sesión</Link>
-            </form>
+                    <button className="btn-iniciar" type="submit">Registrar</button>
+                    <Link to="/" className="label-cursor">Iniciar sesión</Link>
+                </form>
+            </div>
         </div>
     )
 }

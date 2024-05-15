@@ -45,7 +45,8 @@ button {
   margin-top: 20px;
 }
 
-.form-container input {
+.form-container input,
+.form-container select {
   width: 100%;
   padding: 10px 0;
   margin-bottom: 20px;
@@ -57,6 +58,10 @@ button {
 }
 
 .form-container input:focus {
+  border-bottom-color: #fcb900; 
+}
+
+.form-container select:focus {
   border-bottom-color: #fcb900; 
 }
 
