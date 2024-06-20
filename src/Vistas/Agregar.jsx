@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Swal from 'sweetalert2';
 import SidebarAdmi from "../Componentes/Dashboard_admi";
 import '../css/Agregar.css';
@@ -13,57 +13,55 @@ const Agregar = () => {
 
     const Mostrar = (e) => {
         const myrefValue = refModal3.current;
-        myrefValue.style.opacity= "1";
-        myrefValue.style.pointerEvents= "inherit";
+        myrefValue.style.opacity = "1";
+        myrefValue.style.pointerEvents = "inherit";
     };
 
-    const Ocultar = (e) =>{
+    const Ocultar = (e) => {
         const myrefocultar = refModal3.current;
-        myrefocultar.style.opacity= "0";
-        myrefocultar.style.pointerEvents= "none";
+        myrefocultar.style.opacity = "0";
+        myrefocultar.style.pointerEvents = "none";
     }
 
     const move_conte = () => {
         setShowe(!showe);
     }
 
-    const [docenteActividad, setDocenteActividad]=useState({
-        id_docente : "",
-        Actividad_id : ""
-    })
-    const [listUpdated, setListUpdated] = useState(false)
-    const [formactividad, setformActividad] = useState ([])
-    const [formadocente, setformadocente] = useState ([])
-    const [selectFormulario, setSelectFormulario] = useState('')
-    
+    const [docenteActividad, setDocenteActividad] = useState({
+        id_docente: "",
+        Actividad_id: ""
+    });
+    const [listUpdated, setListUpdated] = useState(false);
+    const [formactividad, setformActividad] = useState([]);
+    const [formadocente, setformadocente] = useState([]);
+    const [selectFormulario, setSelectFormulario] = useState('');
+
     useEffect(() => {
         const mosAct = async () => {
-            try{
+            try {
                 const getAct = await fetch('http://localhost:4000/actividades/mostrar');
-                const dataAct= await getAct.json();
+                const dataAct = await getAct.json();
                 setformActividad(dataAct);
                 console.log(dataAct);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
-            }       
+            }
         }
         const mosDoce = async () => {
-            try{
+            try {
                 const getdoce = await fetch('http://localhost:4000/admin/ver_docentes');
-                const datadoce= await getdoce.json();
+                const datadoce = await getdoce.json();
                 setformadocente(datadoce);
                 console.log(datadoce);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
-            }       
+            }
         }
         mosAct();
         mosDoce();
         setListUpdated(false);
-    }, [listUpdated])
+    }, [listUpdated]);
 
-
-// endpoint del POST
     let fechaactual = new Date();
     let anoac = fechaactual.getFullYear();
     const [formulario, setFormulario] = useState({
@@ -73,42 +71,24 @@ const Agregar = () => {
         descripcion: "",
         Estadoactividad: true
     });
-    const [formularioActu, setFormularioActu] = useState({
-        Nombre_actividad: "",
-        anho_inicio: anoac,
-        foto: "",
-        descripcion: "",
-        Estadoactividad: true
-    });
 
-    const changeregisDocenteActividad=(e)=>{
-        const {name,value}=e.target;
-        setDocenteActividad({...docenteActividad,[name]:value})
-
+    const changeregisDocenteActividad = (e) => {
+        const { name, value } = e.target;
+        setDocenteActividad({ ...docenteActividad, [name]: value });
     }
 
     const changeregisformulario = (e) => {
         const { name, value } = e.target;
-        console.log(value)
         setFormulario({ ...formulario, [name]: value });
     };
 
-    const changeregisformularioActu = (e) => {
-        const { name, value } = e.target;
-        console.log(value)
-        setFormularioActu({ ...formularioActu, [name]: value });
-    };
-
-    
     const changeselect = (e) => {
-        const {  value } = e.target;
-        setSelectFormulario(...selectFormulario, value );
+        const { value } = e.target;
+        setSelectFormulario(...selectFormulario, value);
     };
-
-    
 
     const fomularioSubmit = async (e) => {
-        e.preventDefault(formulario);
+        e.preventDefault();
 
         // Validar si algún campo está vacío
         if (!formulario.Nombre_actividad || !formulario.anho_inicio || !formulario.descripcion) {
@@ -121,20 +101,31 @@ const Agregar = () => {
         }
 
         // Validar que el nombre de la actividad contenga solo letras
-     
-    const nombre_actividadValido = /^[a-zA-Z\s]+$/.test(formulario.Nombre_actividad);
+        const nombre_actividadValido = /^[a-zA-Z\s]+$/.test(formulario.Nombre_actividad);
         if (!nombre_actividadValido) {
             Swal.fire({
-            icon: 'error',
-            title: '¡Oops!',
-         text: 'El nombre de la actividad debe contener solo letras y espacios en blanco'
-    });
-    return;
-}
+                icon: 'error',
+                title: '¡Oops!',
+                text: 'El nombre de la actividad debe contener solo letras y espacios en blanco'
+            });
+            return;
+        }
 
+        // Validar que el nombre de la actividad no esté duplicado (insensible a mayúsculas/minúsculas)
+        const nombreExistente = formactividad.some(
+            (act) => act.Nombre_actividad.toLowerCase() === formulario.Nombre_actividad.toLowerCase()
+        );
+
+        if (nombreExistente) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Oops!',
+                text: 'El nombre de la actividad ya existe. Por favor, elige un nombre diferente.'
+            });
+            return;
+        }
 
         try {
-            // console.log(formulario)
             // solicitud a API 
             const response = await fetch("http://localhost:4000/actividades/registrar", {
                 method: 'POST',
@@ -154,6 +145,7 @@ const Agregar = () => {
                 // Limpiar el formulario después de agregar la actividad con éxito
                 setFormulario({
                     Nombre_actividad: "",
+                    anho_inicio: anoac, // Reiniciar el año actual también
                     foto: "",
                     descripcion: "",
                     Estadoactividad: true
@@ -171,37 +163,33 @@ const Agregar = () => {
         setListUpdated(true);
     };
 
-
-    const docenteactividadSubmit=async (e)=>{
+    const docenteactividadSubmit = async (e) => {
         e.preventDefault();
-        console.log(docenteActividad)
+        console.log(docenteActividad);
         try {
-            const response = await fetch("http://localhost:4000/actividades/insertarDocente",{
-                method:"POST",
-                headers:{
-                    'Content-Type':"application/json"
+            const response = await fetch("http://localhost:4000/actividades/insertarDocente", {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
                 },
                 body: JSON.stringify(docenteActividad)
             });
 
-            
-            if(response.ok){
+            if (response.ok) {
                 Swal.fire({
                     icon: 'success',
                     title: '¡Felicidades!',
                     text: 'La actividad ha asignado con éxito'
                 });
-            }else{
-                throw new Error("Error al asignar actividad")
+            } else {
+                throw new Error("Error al asignar actividad");
             }
 
         } catch (error) {
-            console.error("Error al asignar actividad: ",error)
-
+            console.error("Error al asignar actividad: ", error);
         }
-        setListUpdated(true)
+        setListUpdated(true);
     }
-
 
     return (
         <div className={`contenert ${showe ? 'space-toggle' : null}`} ref={refmove}>
@@ -261,14 +249,14 @@ const Agregar = () => {
                             <label htmlFor="acti" className="label_agre">Actividades</label>
                             <select onChange={changeregisDocenteActividad} id="actividad" name="Actividad_id" className="select_agre">
                                 <option value="">Seleccione la actividad</option>
-                                {formactividad.map((actNum) =>(
-                                    <option key={actNum.id_actividad} value={actNum.id_actividad}> {actNum.Nombre_actividad}</option>
+                                {formactividad.map((actNum) => (
+                                    <option key={actNum.id_actividad} value={actNum.id_actividad}>{actNum.Nombre_actividad}</option>
                                 ))}
                             </select>
                             <label htmlFor="acti" className="label_agre">Docentes</label>
                             <select onChange={changeregisDocenteActividad} id="actividad" name="id_docente" className="select_agre">
                                 <option value="">Seleccione la actividad</option>
-                                {formadocente.map((docNum) =>(
+                                {formadocente.map((docNum) => (
                                     <option key={docNum.id_usuario} value={docNum.id_usuario}>{docNum.Nombres} {docNum.Apellidos}</option>
                                 ))}
                             </select>
@@ -278,7 +266,7 @@ const Agregar = () => {
                         </form>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     );
