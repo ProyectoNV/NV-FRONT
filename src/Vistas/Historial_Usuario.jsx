@@ -6,14 +6,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 export const Historial_user = () => {
-
-    var refmove = useRef();
+    const refmove = useRef();
     const [showe, setShowe] = useState(false);
-    const move_conte = (e) => {
-        setShowe(!showe)
-    }
+    const move_conte = () => {
+        setShowe(!showe);
+    };
 
-    // Estado para almacenar los datos del alumno
     const [Historial, setHistorial] = useState({
         pkfk_tdoc: '',
         numero_id: '',
@@ -23,47 +21,41 @@ export const Historial_user = () => {
         genero: '',
         correo: '',
         celular: '',
-        estado:'',
+        estado: '',
         nombre_acudiente: '',
         correo_acudiente: '',
         celular_acudiente: ''
     });
 
-    // Función para manejar cambios en los campos del formulario
     const handleChange = (e) => {
-        
         const { name, value } = e.target;
 
-        // Validación para el campo "numero_id", "celular" y "celular_acudiente" (solo números)
         if (name === 'numero_id' || name === 'celular' || name === 'celular_acudiente') {
-            // Si el valor no es vacío y no contiene solo números, no se actualiza el estado
             if (value !== '' && !/^\d+$/.test(value)) {
                 return;
             }
         }
 
-        // Validación para los campos que no deben contener números
-        if (name === 'Nombres' || name === 'Apellidos' || name === 'nombre_acudiente' || name === 'apellido_acudiente') {
-            // Si el valor contiene números, no se actualiza el estado
+        if (name === 'Nombres' || name === 'Apellidos' || name === 'nombre_acudiente') {
             if (/\d/.test(value)) {
                 return;
             }
         }
-        
-        setHistorial({ ...Historial, [e.target.name]: e.target.value });
+
+        setHistorial({ ...Historial, [name]: value });
     };
 
-    // Función para enviar los datos actualizados del alumno al servidor
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (Historial.Nombres.trim().split(/\s+/).length < 1 || Historial.Apellidos.trim().split(/\s+/).length < 2 || Historial.nombre_acudiente.trim().split(/\s+/).length < 3) {            Swal.fire({
+        if (Historial.Nombres.trim().split(/\s+/).length < 1 || Historial.Apellidos.trim().split(/\s+/).length < 2 || Historial.nombre_acudiente.trim().split(/\s+/).length < 3) {
+            Swal.fire({
                 title: "Caracteres insuficientes",
                 text: "Por favor, ingresa los nombres completos.",
                 icon: "error"
             });
             return;
         }
-        if (!Historial.Nombres || !Historial.Apellidos || !Historial.correo || !Historial.celular || !Historial.fecha_nacimiento || !Historial.contrasena || !Historial.genero || !Historial.nombre_acudiente || !Historial.correo_acudiente) {
+        if (!Historial.Nombres || !Historial.Apellidos || !Historial.correo || !Historial.celular || !Historial.fecha_nacimiento || !Historial.genero || !Historial.nombre_acudiente || !Historial.correo_acudiente) {
             Swal.fire({
                 title: "Campos requeridos",
                 text: "Por favor, completa todos los campos.",
@@ -79,32 +71,24 @@ export const Historial_user = () => {
             });
             return;
         }
-        
 
         try {
-            console.log(Historial)
-            Historial.fecha_nacimiento = Historial.fecha_nacimiento.split('T')[0]
-            console.log(Historial)
-            const respuesta = await axios.put(`http://localhost:4000/alumno/actualizaralumno`, Historial);
+            const respuesta = await axios.put("http://localhost:4000/alumno/actualizaralumno", Historial);
             if (respuesta.status === 200) {
-
-                setHistorial(
-                    {
-                        pkfk_tdoc: '',
-                        numero_id: '',
-                        Nombres: '',
-                        Apellidos: '',
-                        fecha_nacimiento: '',
-                        genero: '',
-                        correo: '',
-                        celular: '',
-                        estado:'',
-                        nombre_acudiente: '',
-                        correo_acudiente: '',
-                        celular_acudiente: ''
-                    }
-
-                )
+                setHistorial({
+                    pkfk_tdoc: '',
+                    numero_id: '',
+                    Nombres: '',
+                    Apellidos: '',
+                    fecha_nacimiento: '',
+                    genero: '',
+                    correo: '',
+                    celular: '',
+                    estado: '',
+                    nombre_acudiente: '',
+                    correo_acudiente: '',
+                    celular_acudiente: ''
+                });
                 Swal.fire({
                     text: "Actualización exitosa",
                     icon: "success"
@@ -116,34 +100,30 @@ export const Historial_user = () => {
                 text: "Error al actualizar alumno",
                 icon: "error"
             });
-            console.error(`Error al actualizar alumno, ${error}`);
+            console.error(`Error al actualizar alumno: ${error}`);
         }
     };
 
-    const handleEstado = async ()=>{
+    const handleEstado = async () => {
         try {
-        {/**si el estado es igual a 0 entonces cambia a 1 y si es 1 cambia a 0 */}
-            const respuesta = await axios.put(`http://localhost:4000/alumno/actualizarestado/${Historial.numero_id}`,
-             {estado: (Historial.estado) === 0 ? 1 : 0 });
+            const respuesta = await axios.put(`http://localhost:4000/alumno/actualizarestado/${Historial.numero_id}`, {
+                estado: Historial.estado === 0 ? 1 : 0
+            });
             if (respuesta.status === 200) {
-
-                setHistorial(
-                    {
-                        pkfk_tdoc: '',
-                        numero_id: '',
-                        Nombres: '',
-                        Apellidos: '',
-                        fecha_nacimiento: '',
-                        genero: '',
-                        correo: '',
-                        celular: '',
-                        estado:'',
-                        nombre_acudiente: '',
-                        correo_acudiente: '',
-                        celular_acudiente: ''
-                    }
-
-                )
+                setHistorial({
+                    pkfk_tdoc: '',
+                    numero_id: '',
+                    Nombres: '',
+                    Apellidos: '',
+                    fecha_nacimiento: '',
+                    genero: '',
+                    correo: '',
+                    celular: '',
+                    estado: '',
+                    nombre_acudiente: '',
+                    correo_acudiente: '',
+                    celular_acudiente: ''
+                });
                 Swal.fire({
                     text: "Actualización exitosa",
                     icon: "success"
@@ -155,12 +135,10 @@ export const Historial_user = () => {
                 text: "Error al actualizar alumno",
                 icon: "error"
             });
-            console.error(`Error al actualizar alumno, ${error}`);
+            console.error(`Error al actualizar alumno: ${error}`);
         }
+    };
 
-    }
-
-    // Función para buscar los datos del alumno en el servidor basado en el número de identificación ingresado
     const handleBuscar = async () => {
         try {
             const respuesta = await axios.get(`http://localhost:4000/alumno/consulta/${Historial.numero_id}`);
@@ -179,14 +157,13 @@ export const Historial_user = () => {
                 text: "Error al obtener datos del alumno",
                 icon: "error"
             });
-            console.error(`Error al obtener datos del alumno, ${error}`);
+            console.error(`Error al obtener datos del alumno: ${error}`);
         }
     };
 
-
     return (
-        <div className={`${showe ? 'space-toggle': null}}`} ref={refmove}>
-            <SidebarAdmi Move={move_conte}/>
+        <div className={`${showe ? 'space-toggle' : ''}`} ref={refmove}>
+            <SidebarAdmi Move={move_conte} />
             <div className="info-text">
                 <h1>Historial de Usuario</h1>
                 <div className="buscar">
@@ -212,35 +189,35 @@ export const Historial_user = () => {
                             </div>
                             <div>
                                 <label htmlFor="tdocument">Tipo de documento</label>
-                                <input list="tdocument" name="pkfk_tdoc" value={Historial.pkfk_tdoc} onChange={handleChange} />
-                                <datalist id="tdocument">
+                                <input id="tdocument" list="tdocument-list" name="pkfk_tdoc" value={Historial.pkfk_tdoc} onChange={handleChange} />
+                                <datalist id="tdocument-list">
                                     <option value="TI">T.I</option>
                                     <option value="CC">C.C</option>
-                                    <option value="RC"> R.C</option>
+                                    <option value="RC">R.C</option>
                                     <option value="CE">C.E</option>
                                 </datalist>
                             </div>
 
                             <div>
-                                <label htmlFor="ndocument">Numero de documento</label>
+                                <label htmlFor="ndocument">Número de documento</label>
                                 <input id="ndocument" type="text" name="numero_id" value={Historial.numero_id} onChange={handleChange} />
                             </div>
                             <div>
-                                <label htmlFor="ncelular">Numero de celular</label>
+                                <label htmlFor="ncelular">Número de celular</label>
                                 <input id="ncelular" type="text" name="celular" value={Historial.celular} onChange={handleChange} />
                             </div>
                             <div>
-                                <label htmlFor="email">Correo Electronico</label>
+                                <label htmlFor="email">Correo Electrónico</label>
                                 <input id="email" type="email" name="correo" value={Historial.correo} onChange={handleChange} />
                             </div>
                             <div>
-                                <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
+                                <label htmlFor="fecha_nacimiento">Fecha de nacimiento</label>
                                 <input id="fecha_nacimiento" type="date" name="fecha_nacimiento" value={Historial.fecha_nacimiento.split('T')[0]} onChange={handleChange} />
                             </div>
                         </div>
                         <div className="form-genero">
-                            <p>Genero</p>
-                            <div className="generos" >
+                            <p>Género</p>
+                            <div className="generos">
                                 <input checked={Historial.genero === 'masculino'} type="radio" name="genero" id="optionsRadios1" value="masculino" onChange={handleChange} />
                                 <label htmlFor="optionsRadios1"><span className="radio-button"></span>Masculino</label>
                             </div>
@@ -250,10 +227,8 @@ export const Historial_user = () => {
                             </div>
                         </div>
 
-
-                        {/* Informacion Acudiente */}
+                        {/* Información Acudiente */}
                         <div>
-                            {/* <form className="cont_info" > */}
                             <legend className="info_title">Información Acudiente</legend>
                             <div className="info_form">
                                 <div>
@@ -262,34 +237,32 @@ export const Historial_user = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email-a">Correo Electronico</label>
+                                    <label htmlFor="email-a">Correo Electrónico</label>
                                     <input id="email-a" type="email" name="correo_acudiente" value={Historial.correo_acudiente} onChange={handleChange} />
                                 </div>
                                 <div>
-                                    <label htmlFor="ncelular-a">Numero de celular</label>
+                                    <label htmlFor="ncelular-a">Número de celular</label>
                                     <input id="ncelular-a" type="text" name="celular_acudiente" value={Historial.celular_acudiente} onChange={handleChange} />
                                 </div>
                                 <div>
-                                    <label htmlFor="esta">Estado</label>
-                                    {/**Si el estado es igual a 0 tomara el primer valor que es inactivo de lo contrario tomara que es activo */}
-                                    <input id="estados" type="text" name="estado" value={Historial.estado === 0 ? 'inactivo': 'activo'} onChange={handleChange} readOnly/>
+                                    <label htmlFor="estado">Estado</label>
+                                    <input id="estado" type="text" name="estado" value={Historial.estado === 0 ? 'inactivo' : 'activo'} onChange={handleChange} readOnly />
                                 </div>
-
                             </div>
                             <div className="botones">
-                                <div className="btn marginboton"><button className="button_formu" type="submit" >Actualizar</button></div>
-                                <div className="btn"><input type="button" className="button_formu" onClick={handleEstado} value="Cambiar estado "></input></div>
+                                <div className="btn marginboton">
+                                    <button className="button_formu" type="submit">Actualizar</button>
+                                </div>
+                                <div className="btn">
+                                    <input type="button" className="button_formu" onClick={handleEstado} value="Cambiar estado" />
+                                </div>
                             </div>
                         </div>
-
                     </form>
-                </div>
-                <div>
-
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Historial_user
+export default Historial_user;
