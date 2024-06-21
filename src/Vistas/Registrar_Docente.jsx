@@ -31,7 +31,7 @@ export const Regis_Docente = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:4000/admin/registrar_Docente", informacionDocente);
+            await axios.post("http://localhost:4000/admin/registrar_Docente", informacionDocente);
             setInformacionDocente({
                 tipoDoc: "",
                 numeroId: "",
