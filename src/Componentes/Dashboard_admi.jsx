@@ -154,6 +154,12 @@ export const SidebarAdmi = ({Move}) => {
                                 <i className="Barra-lateral_link"><Link to="/Enviar_Reportes">Reportes</Link></i>
                             </div>   
                         </li>
+                        <li className="Barra-lateral_item">
+                            <div className="Barra-lateral_button">
+                                <img src={Reportimg} className="Barra-lateral_img"/>
+                                <i className="Barra-lateral_link"><Link to="/Solicitudes">Solicitudes</Link></i>
+                            </div>   
+                        </li>
                     </ul>
                 </nav>
             </section>

@@ -137,7 +137,7 @@ export const Info_admin = () => {
             <SidebarAdmi Move={move_conte}/>
             <section className="modal_regis-d" ref={refModal}>
                 <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
+                    <img src={Verifi} className="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de actualizar tus datos</h2>
                     <p className="modal_paragraph">Una vez aceptes la información se guardara automaticamente</p>
                     <form onSubmit={ActuUserSubmit} className="content_modal_b">
@@ -149,7 +149,7 @@ export const Info_admin = () => {
             <section className="modal_confir_regi" ref={refModal2}>
                 <div className="modal_container">
                     <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
+                    <label htmlFor="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
                     <p className="modal_paragraph">La información se ha actualizado con exito</p>
@@ -162,37 +162,37 @@ export const Info_admin = () => {
                         <legend className="info_title">Información Personal</legend>
                         <div className="info_form">
                             <div>
-                                <label for="pname">Nombres</label>
+                                <label htmlFor="pname">Nombres</label>
                                 <input id="pname" type="text" onChange={handleChange} name="Nombres" value={infoUsuario.Nombres}/>
                             </div>
                             <div>
-                                <label for="psurname">Apellidos</label>
+                                <label htmlFor="psurname">Apellidos</label>
                                 <input id="psurname" type="text" onChange={handleChange} name="Apellidos" value={infoUsuario.Apellidos}/>
                             </div>
                             <div>
-                                <label for="tdocument">Tipo de documento</label>
+                                <label htmlFor="tdocument">Tipo de documento</label>
                                 <input list="tdocument" onChange={handleChange} value={infoUsuario.pkfk_tdoc} name="pkfk_tdoc"/>
                                 <datalist id="tdocument">
-                                    <option selected>T.I</option>
-                                    <option>C.C</option>
-                                    <option>R.C</option>
-                                    <option>C.E</option>
+                                    <option value="T.I" />
+                                    <option value="C.C" />
+                                    <option value="R.C" />
+                                    <option value="C.E" />
                                 </datalist>
                             </div>
                             <div>
-                                <label for="ndocument">Numero de documento</label>
+                                <label htmlFor="ndocument">Numero de documento</label>
                                 <input id="ndocument" onChange={handleChange} type="text" name="numero_id" value={infoUsuario.numero_id}/>
                             </div>
                             <div>
-                                <label for="ncelular">Numero de celular</label>
+                                <label htmlFor="ncelular">Numero de celular</label>
                                 <input id="ncelular" onChange={handleChange} type="text" name="celular" value={infoUsuario.celular}/>
                             </div>
                             <div>
-                                <label for="email">Correo Electronico</label>
+                                <label htmlFor="email">Correo Electronico</label>
                                 <input id="email" type="email" onChange={handleChange} name="correo" value={infoUsuario.correo}/>
                             </div>
                             <div>
-                                <label for="date_nacimiento">Fecha de nacimiento</label>
+                                <label htmlFor="date_nacimiento">Fecha de nacimiento</label>
                                 <input id="date_nacimiento" type="date" onChange={handleChange} name="fecha_nacimiento" value={infoUsuario.fecha_nacimiento.split('T')[0]}/>
                             </div>
                         </div>
@@ -200,14 +200,14 @@ export const Info_admin = () => {
                             <p>Genero</p>
                             <div className="generos">
                                 <input checked={infoUsuario.genero === 'masculino'} type="radio" onChange={handleChange} name="genero" value="masculino" id="optionsRadios1"/>
-                                <label for="optionsRadios1"><span className="radio-button"></span>Masculino</label>
+                                <label htmlFor="optionsRadios1"><span className="radio-button"></span>Masculino</label>
                             </div>
                             <div className="generos">
                                 <input checked={infoUsuario.genero === 'femenino'} type="radio" onChange={handleChange} name="genero" value="femenino" id="optionsRadios2"/>
-                                <label for="optionsRadios2"><span className="radio-button"></span>Femenino</label>
+                                <label htmlFor="optionsRadios2"><span className="radio-button"></span>Femenino</label>
                             </div>
                         </div>
-                        <div class="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
+                        <div className="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
                     </form>
                 </div>
 			</div>

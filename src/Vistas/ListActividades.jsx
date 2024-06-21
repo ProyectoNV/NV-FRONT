@@ -99,7 +99,7 @@ const AdminListaActividades = () => {
       <SidebarAdmi Move={move_conte} />
       
       <div className="info-text">
-        <h1>Listado de Docentes</h1>
+        <h1>Listado de Actividades</h1>
         <table>
           <thead>
             <tr>

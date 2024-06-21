@@ -134,7 +134,7 @@ const AdminListaDocentes = () => {
           </thead>
           <tbody>
             {tabladocentes.map((docente) => (
-              <tr key={docente.id}>
+              <tr key={docente.id_usuario}>
                 <td>{docente.id_usuario}</td>
                 <td>{docente.pkfk_tdoc}</td>
                 <td>{docente.numero_id}</td>

@@ -1,10 +1,9 @@
-import React from "react";
-import { useState, useRef } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "../Imagenes/iconos/bx-menu.svg";
 import User from "../Imagenes/user.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen, faRightFromBracket,faClipboardCheck,faRectangleList, faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen, faRightFromBracket, faClipboardCheck, faRectangleList, faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 import '../css/sidebar.css';
 
@@ -41,50 +40,49 @@ export const SidebarDocente = ({ Move }) => {
                     </div>
                     <div className="sideBar-UserInfo">
                         <figure className="sidebar-photo">
-                            <img src={User} alt="Userphoto" /><br></br>
+                            <img src={User} alt="Userphoto" /><br />
                             <p>{!!username ? username : 'null'}</p>
-                            <a className="btn_img"><i className="fa-solid icons_side"><Link to="/Informacion_Personal_Docente"><FontAwesomeIcon icon={faUserPen} /></Link></i></a>
-                            <a className="btn_img" onClick={cerrarsession}><i className="fa-solid"><Link to="/"><FontAwesomeIcon icon={faRightFromBracket} /></Link></i></a>
+                            <i className="btn_img"><i className="fa-solid"><Link to="/Informacion_Personal_Docente"><FontAwesomeIcon icon={faUserPen}/></Link></i></i>
+                            <i className="btn_img" onClick={cerrarsession}><i className="fa-solid"><FontAwesomeIcon icon={faRightFromBracket}/></i></i>
                         </figure>
                     </div>
 
                     <ul className="Barra-lateral">
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
-                                <img src={Menu} className="Barra-lateral_img" />
-                                <a href="#!" className="Barra-lateral_link"><Link to="/Menu_Docente">Menu</Link></a>
+                                <img src={Menu} className="Barra-lateral_img" alt="Menu" />
+                                <Link to="/Menu_Docente" className="Barra-lateral_link">Menu</Link>
                             </div>
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
-                                <FontAwesomeIcon icon={faCalendar} className="Barra-lateral_img"/> 
-                                <i className="Barra-lateral_link"><Link to="/CronogramaDocente">Ver Horario</Link></i>
+                                <FontAwesomeIcon icon={faCalendar} className="Barra-lateral_img" />
+                                <Link to="/CronogramaDocente" className="Barra-lateral_link">Ver Horario</Link>
                             </div>   
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
-                                <FontAwesomeIcon icon={faRectangleList} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/Asistencia">Registro de Asitencia </Link></a>
+                                <FontAwesomeIcon icon={faRectangleList} className="Barra-lateral_img" />
+                                <Link to="/Asistencia" className="Barra-lateral_link">Registro de Asitencia</Link>
                             </div>               
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
-                            <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/Puntos">Asignar puntos</Link></a>
+                                <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img" />
+                                <Link to="/Puntos" className="Barra-lateral_link">Asignar puntos</Link>
                             </div>
                         </li>
                         <li className="Barra-lateral_item">
                             <div className="Barra-lateral_button">
-                            <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img"/>
-                                <a className="Barra-lateral_link"><Link to="/Observaciones">Observaciones</Link></a>
+                                <FontAwesomeIcon icon={faClipboardCheck} className="Barra-lateral_img" />
+                                <Link to="/Observaciones" className="Barra-lateral_link">Observaciones</Link>
                             </div>
                         </li>
                     </ul>
                 </nav>
             </section>
         </main>
-    )
-
+    );
 }
 
-export default SidebarDocente
+export default SidebarDocente;

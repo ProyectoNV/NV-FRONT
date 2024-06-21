@@ -142,7 +142,7 @@ export const Info_alumno = () => {
             <SidebarAlum Move={move_conte}/>
             <section className="modal_regis-d" ref={refModal}>
                 <div className="modal_container">
-                    <img src={Verifi} class="modal_img"/>
+                    <img src={Verifi} className="modal_img"/>
                     <h2 className="modal_tittle">¿Estas seguro de actualizar tus datos</h2>
                     <p className="modal_paragraph">Una vez aceptes la información se guardara automaticamente</p>
                     <form onSubmit={handleSubmit} className="content_modal_b">
@@ -154,7 +154,7 @@ export const Info_alumno = () => {
             <section className="modal_confir_regi" ref={refModal2}>
                 <div className="modal_container">
                     <input type="checkbox" id="cerrar"/>
-                    <label for="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
+                    <label htmlFor="cerrar" id="btn-cerrar" onClick={Ocultar2}>X</label>
                     <img src={Check} className="modal_img"/>
                     <h2 className="modal_tittle">¡Felicidades!</h2>
                     <p className="modal_paragraph">La información se ha actualizado con exito</p>
@@ -248,7 +248,7 @@ export const Info_alumno = () => {
 
                             </div>
                             <div className="botones">
-                                <div class="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
+                                <div className="btn_actu"><a className="button_formu" type="submit" id="btn_actu-u" onClick={Mostrar}>Actualizar</a></div>
                             </div>
                         </div>
 

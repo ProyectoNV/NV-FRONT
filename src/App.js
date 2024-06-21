@@ -27,6 +27,7 @@ import Horario from "./Vistas/Horario";
 import CronoAlum from "./Vistas/Horario_alum";
 import CronoDoc from "./Vistas/Horario_docente";
 import RestablecerContra from "./Vistas/RestablecerContra";
+import AceptarRegistros from "./Vistas/AceptarRegistros";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -122,6 +123,7 @@ function App() {
         <Route path="/Enviar_Reportes" element={<SessionCerrada element={<Enviar_Reporte/>}/>}></Route>
         <Route path="/Informacion_Personal_Administrador" element={<SessionCerrada element={<Info_admin/>}/>}></Route>
         <Route path="/Historial_De_Usuario" element={<SessionCerrada element={<Historial_user/>}/>}></Route>
+        <Route path="/Solicitudes" element={<SessionCerrada element={<AceptarRegistros/>}/>}></Route>
 
         <Route path="/Menu_Docente" element={<SessionCerrada element={<Menudoc/>}/>}></Route>
         <Route path="/Asistencia" element={<SessionCerrada element={<Asistencia/>}/>}></Route>
